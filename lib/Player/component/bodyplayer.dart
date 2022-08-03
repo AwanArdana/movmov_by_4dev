@@ -7,12 +7,15 @@ import 'package:http/http.dart' as http;
 import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
 
+import '../../constants.dart';
+
 class BodyPlayer extends StatelessWidget{
-  BodyPlayer({Key key, this.list, this.listEpisode, this.ep_id}):super(key: key);
+  BodyPlayer({Key key, this.list, this.listEpisode, this.ep_id, this.listGenre}):super(key: key);
 
   final List list;
   final String ep_id;
   final List listEpisode;
+  final List listGenre;
 
   Future<List> getGenres() async{
     final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
@@ -120,7 +123,7 @@ class BodyPlayer extends StatelessWidget{
                           )
                         ),
                         child: Text(
-                            "Genre"
+                            "${listGenre[0]['gen_title']}"
                         ),
                       ),
                       Container(
@@ -135,7 +138,7 @@ class BodyPlayer extends StatelessWidget{
                             )
                         ),
                         child: Text(
-                            "Genre"
+                            "${listGenre[1]['gen_title']}"
                         ),
                       ),
                       Container(
@@ -150,7 +153,7 @@ class BodyPlayer extends StatelessWidget{
                             )
                         ),
                         child: Text(
-                            "Genre"
+                            "${listGenre[2]['gen_title']}"
                         ),
                       ),
 
@@ -188,7 +191,7 @@ class BodyPlayer extends StatelessWidget{
                         ),
                         color: kSecondaryColor,
                         onPressed: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode_id: "${listEpisode[index]['episode_id']}", listEpisode: listEpisode,)));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode_id: "${listEpisode[index]['episode_id']}", listEpisode: listEpisode, listGenre: listGenre,)));
                         },
                         child: cekEpisodeSekarang(index,"${list[0]["episode"]}")
                         // child: Text(

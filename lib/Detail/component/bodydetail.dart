@@ -2,15 +2,12 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movmov/Detail/component/titlewithdetail.dart';
 import 'package:movmov/Player/player_screen.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 import 'package:movmov/Detail/component/headerdetail.dart';
 import 'package:movmov/constants.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'DetailReadMore.dart';
 import 'cover_with_title.dart';
@@ -62,7 +59,7 @@ class BodyDetail extends StatelessWidget{
               if(snapshot.hasError) print(snapshot.error);
 
               return snapshot.hasData
-                  ?  Detail(list: list, size: size, Mov_id: Mov_id, listGenre: snapshot.data,)
+                  ? new Detail(list: list, size: size, Mov_id: Mov_id, listGenre: snapshot.data,)
                   // :  new Center(child: new CircularProgressIndicator(),);
                   : Detail(list: list, size: size, Mov_id: Mov_id,listGenre: [],);
             },
@@ -141,7 +138,7 @@ class Detail extends StatelessWidget{
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => PlayerScreen(Episode_id: "${snapshot.data[index]['episode_id']}", listEpisode: snapshot.data,),
+                                            builder: (context) => new PlayerScreen(Episode_id: "${snapshot.data[index]['episode_id']}", listEpisode: snapshot.data, listGenre: listGenre,),
                                           )
                                       );
                                     },

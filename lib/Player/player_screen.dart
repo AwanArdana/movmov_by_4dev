@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:movmov/Player/component/bodyplayer.dart';
 import 'package:http/http.dart' as http;
 
 class PlayerScreen extends StatelessWidget{
-  PlayerScreen({Key key, this.Episode_id, this.listEpisode}): super(key: key);
+  PlayerScreen({Key key, this.Episode_id, this.listEpisode, this.listGenre}): super(key: key);
 
   final String Episode_id;
   final List listEpisode;
+  final List listGenre;
 
   Future<List> getDataPlayer() async{
     final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovplayer.php?id="+Episode_id));
@@ -25,7 +25,7 @@ class PlayerScreen extends StatelessWidget{
           if(snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? new BodyPlayer(list: snapshot.data, listEpisode: listEpisode, ep_id: Episode_id,)
+              ? new BodyPlayer(list: snapshot.data, listEpisode: listEpisode, ep_id: Episode_id, listGenre: listGenre != null ? listGenre : [],)
               : new Center(child: new CircularProgressIndicator(),);
         },
       )
