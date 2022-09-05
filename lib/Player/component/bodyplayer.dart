@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
 import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
 
@@ -17,10 +14,10 @@ class BodyPlayer extends StatelessWidget{
   final List listEpisode;
   final List listGenre;
 
-  Future<List> getGenres() async{
-    final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
-    return json.decode(response.body);
-  }
+  // Future<List> getGenres() async{
+  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
+  //   return json.decode(response.body);
+  // }
 
 
 

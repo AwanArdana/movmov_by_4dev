@@ -1,11 +1,11 @@
-import 'dart:convert';
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
 import 'package:simple_shadow/simple_shadow.dart';
-import 'package:http/http.dart' as http;
 
 class CoverWithTitle extends StatelessWidget{
   const CoverWithTitle({
@@ -117,6 +117,27 @@ class CoverWithTitle extends StatelessWidget{
             //   ),
             // ),
 
+            child: new FloatingActionButton(
+              backgroundColor: Colors.transparent,
+              child: SimpleShadow(
+                  child: SvgPicture.asset(
+                    "assets/icons/play-button-svgrepo-com.svg",
+                    color: Colors.white,
+                  ),
+                  opacity: 1,
+                  color: Colors.white,
+                  offset: Offset(0,0),
+                  sigma: 10,
+                ),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => new PlayerScreen(Episode_id: "1", )
+                  )
+                );
+              },
+            ),
             // child: SimpleShadow(
             //   child: SvgPicture.asset(
             //     "assets/icons/play-button-svgrepo-com.svg",
@@ -128,21 +149,22 @@ class CoverWithTitle extends StatelessWidget{
             //   sigma: 10,
             // ),
 
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(33),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.15),
-                  ),
-                  child: SvgPicture.asset(
-                    "assets/icons/play-button-svgrepo-com.svg",
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            )
+
+            // child: ClipRRect(
+            //   borderRadius: BorderRadius.circular(33),
+            //   child: BackdropFilter(
+            //     filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+            //     child: Container(
+            //       decoration: BoxDecoration(
+            //         color: Colors.black.withOpacity(0.15),
+            //       ),
+            //       child: SvgPicture.asset(
+            //         "assets/icons/play-button-svgrepo-com.svg",
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // )
 
 
           )

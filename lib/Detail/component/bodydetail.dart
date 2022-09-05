@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:movmov/Detail/component/titlewithdetail.dart';
 import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/Detail/component/headerdetail.dart';
 import 'package:movmov/constants.dart';
-import 'package:http/http.dart' as http;
+import 'package:movmov/fungsi_kirim_web_service.dart';
 
 
 import 'DetailReadMore.dart';
@@ -18,10 +17,10 @@ class BodyDetail extends StatelessWidget{
   final List list;
   final String Mov_id;
 
-  Future<List> getGenres() async{
-    final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + Mov_id));
-    return json.decode(response.body);
-  }
+  // Future<List> getGenres() async{
+  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + Mov_id));
+  //   return json.decode(response.body);
+  // }
 
 
 
@@ -54,7 +53,8 @@ class BodyDetail extends StatelessWidget{
 
           ),*/
           new FutureBuilder<List>(
-            future: getGenres(),
+            // future: getGenres(Mov_id),
+            future: getDataGlobal("getmovgenre.php?id=", Mov_id),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
@@ -84,10 +84,10 @@ class Detail extends StatelessWidget{
   final Size size;
   final String Mov_id;
 
-  Future<List> getEpisode() async{
-    final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovepisode.php?id=" + Mov_id));
-    return json.decode(response.body);
-  }
+  // Future<List> getEpisode() async{
+  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovepisode.php?id=" + Mov_id));
+  //   return json.decode(response.body);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,8 @@ class Detail extends StatelessWidget{
           DetailWithReadMore(Detail: "${list[0]['mov_deskripsi']}",),
 
           new FutureBuilder<List>(
-            future: getEpisode(),
+            // future: getEpisode(Mov_id),
+            future: getDataGlobal("getmovepisode.php?id=", Mov_id),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 

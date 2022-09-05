@@ -11,3 +11,5 @@ const kShadowColor = Color(0xFF000000);
 const kSecondaryColor = Color(0xFF556de3);
 
 const double kDefaultPadding = 20.0;
+
+const String webservice = "https://awanapp.000webhostapp.com/";

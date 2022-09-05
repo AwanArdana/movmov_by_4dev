@@ -1,23 +1,21 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:movmov/CRUD/adddata.dart';
-import 'package:http/http.dart' as http;
 import 'package:movmov/Home/component/header_with_searchbox.dart';
 import 'package:movmov/Home/component/newupdate.dart';
 import 'package:movmov/Home/component/recomends.dart';
 import 'package:movmov/Home/component/title_with_more_btn.dart';
+import 'package:movmov/fungsi_kirim_web_service.dart';
 
 class Body extends StatelessWidget{
-  Future<List> getData() async {
-    final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovdata.php"));
-    return json.decode(response.body);
-  }
+  // Future<List> getData() async {
+  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovdata.php"));
+  //   return json.decode(response.body);
+  // }
   
-  Future<List> getDataNewUpdate() async{
-    final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovnewupdate.php"));
-    return json.decode(response.body);
-  }
+  // Future<List> getDataNewUpdate() async{
+  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovnewupdate.php"));
+  //   return json.decode(response.body);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,8 @@ class Body extends StatelessWidget{
             press: (){},
           ),
           new FutureBuilder<List>(
-            future: getData(),
+            // future: getData(),
+            future: getDataGlobal("getmovdata.php", ""),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
@@ -48,7 +47,8 @@ class Body extends StatelessWidget{
             press: (){},
           ),
           new FutureBuilder<List>(
-            future: getDataNewUpdate(),
+            // future: getDataNewUpdate(),
+            future: getDataGlobal("getmovnewupdate.php", ""),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
