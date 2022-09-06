@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movmov/Home/home_screen.dart';
+import 'package:movmov/Login/login_screen.dart';
 import './constants.dart';
 import 'Home/home_screen.dart';
 
@@ -12,10 +13,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  Future<List> getData() async{
-    final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovdata.php"));
-    return json.decode(response.body);
-  }
+  // Future<List> getData() async{
+  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovdata.php"));
+  //   return json.decode(response.body);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor, ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
 
     );
   }
