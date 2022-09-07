@@ -13,3 +13,4 @@ const kSecondaryColor = Color(0xFF556de3);
 const double kDefaultPadding = 20.0;
 
 const String webservice = "https://awanapp.000webhostapp.com/";
+const String webserviceGetData = "https://awanapp.000webhostapp.com/getDataGlobal.php?query=";

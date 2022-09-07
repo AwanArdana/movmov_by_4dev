@@ -33,7 +33,8 @@ class Body extends StatelessWidget{
           ),
           new FutureBuilder<List>(
             // future: getData(),
-            future: getDataGlobal("getmovdata.php", ""),
+            // future: getDataGlobal("getmovdata.php", ""),
+            future: SQLEksek("SELECT * FROM movie"),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
@@ -48,7 +49,8 @@ class Body extends StatelessWidget{
           ),
           new FutureBuilder<List>(
             // future: getDataNewUpdate(),
-            future: getDataGlobal("getmovnewupdate.php", ""),
+            // future: getDataGlobal("getmovnewupdate.php", ""),
+            future: SQLEksek("SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, e.tgl from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY `e`.`tgl` DESC"),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 

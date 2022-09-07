@@ -19,7 +19,8 @@ class PlayerScreen extends StatelessWidget{
     return Scaffold(
       body: new FutureBuilder<List>(
         // future: getDataPlayer(),
-        future: getDataGlobal("getmovplayer.php?id=", Episode_id),
+        // future: getDataGlobal("getmovplayer.php?id=", Episode_id),
+        future: SQLEksek("SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, m.mov_deskripsi, e.mov_cloud_link from movie m, episode e WHERE m.mov_id=e.mov_id and e.episode_id=" + Episode_id),
         builder: (context, snapshot){
           if(snapshot.hasError) print(snapshot.error);
 

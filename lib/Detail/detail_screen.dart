@@ -20,7 +20,8 @@ class DetailScreen extends StatelessWidget{
     return Scaffold(
       body: new FutureBuilder<List>(
         // future: getData(),
-        future: getDataGlobal("getmovdetail.php?id=", Mov_id),
+        // future: getDataGlobal("getmovdetail.php?id=", Mov_id),
+        future: SQLEksek("SELECT * from movie WHERE mov_id=" + Mov_id),
         builder: (context, snapshot){
           if(snapshot.hasError) print(snapshot.error);
 

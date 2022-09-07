@@ -54,7 +54,8 @@ class BodyDetail extends StatelessWidget{
           ),*/
           new FutureBuilder<List>(
             // future: getGenres(Mov_id),
-            future: getDataGlobal("getmovgenre.php?id=", Mov_id),
+            // future: getDataGlobal("getmovgenre.php?id=", Mov_id),
+            future: SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + Mov_id),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
@@ -106,7 +107,8 @@ class Detail extends StatelessWidget{
 
           new FutureBuilder<List>(
             // future: getEpisode(Mov_id),
-            future: getDataGlobal("getmovepisode.php?id=", Mov_id),
+            // future: getDataGlobal("getmovepisode.php?id=", Mov_id),
+            future: SQLEksek("SELECT e.episode_id, e.episode from episode e WHERE e.mov_id=" + Mov_id),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
