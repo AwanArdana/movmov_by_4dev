@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: LoginScreen(),
+      routes: {
+        '/login': (context) => LoginScreen(),
+      },
 
     );
   }

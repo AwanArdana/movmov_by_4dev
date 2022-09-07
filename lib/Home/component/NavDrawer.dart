@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movmov/Login/comnponent/loginbody.dart';
 import 'package:movmov/constants.dart';
 
 class NavDrawer extends StatelessWidget{
@@ -48,7 +49,9 @@ class NavDrawer extends StatelessWidget{
                 ListTile(
                   leading: Icon(Icons.exit_to_app, color: Colors.white,),
                   title: Text('Logout'),
-                  onTap: () => {Navigator.of(context).pop()},
+                  // onTap: () => {Navigator.popAndPushNamed(context, '/login')},
+                  // onTap: () {Navigator.pop(context,'/login');},
+                  onTap: (){Navigator.popUntil(context, (route) => route.isFirst);},
                 ),
               ],
             ),
