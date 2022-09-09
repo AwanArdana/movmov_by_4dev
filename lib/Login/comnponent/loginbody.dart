@@ -138,14 +138,14 @@ class _LoginBody extends State<LoginBody>{
                         });
 
                       }else{
-                        // Fluttertoast.showToast(
-                        //   msg: "This is Center Short Toast",
-                        //   toastLength: Toast.LENGTH_SHORT,
-                        // );
+                        Fluttertoast.showToast(
+                          msg: "Username or Password not Correct",
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
 
-                        Scaffold.of(context).showSnackBar(new SnackBar(
-                          content: new Text("Username or Password not Correct"),
-                        ));
+                        // Scaffold.of(context).showSnackBar(new SnackBar(
+                        //   content: new Text("Username or Password not Correct"),
+                        // ));
                         setState(() {
                           saving = false;
                         });
@@ -153,14 +153,22 @@ class _LoginBody extends State<LoginBody>{
                         // Center(child: new CircularProgressIndicator(),);
                       }
                     }else{
-                      Scaffold.of(context).showSnackBar(new SnackBar(
-                        content: new Text("Password is Empty"),
-                      ));
+                      Fluttertoast.showToast(
+                        msg: "Password is Empty",
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
+                      // Scaffold.of(context).showSnackBar(new SnackBar(
+                      //   content: new Text("Password is Empty"),
+                      // ));
                     }
                   }else{
-                    Scaffold.of(context).showSnackBar(new SnackBar(
-                      content: new Text("Username is Empty"),
-                    ));
+                    Fluttertoast.showToast(
+                      msg: "Username is Empty",
+                      toastLength: Toast.LENGTH_SHORT,
+                    );
+                    // Scaffold.of(context).showSnackBar(new SnackBar(
+                    //   content: new Text("Username is Empty"),
+                    // ));
                   }
                 },
 
