@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movmov/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +17,21 @@ class SignUpBody extends StatelessWidget{
   TextEditingController controllerPassword = new TextEditingController();
   TextEditingController controllerPasswordConfirm = new TextEditingController();
 
+
+  void cekAkun(BuildContext context)async{
+    String query = "SELECT * FROM akun WHERE username='" + controllerUsername.text + "'";
+    final response = await http.get(Uri.parse(webserviceGetData + query));
+    List list = json.decode(response.body);
+    if(list.isNotEmpty){
+      Fluttertoast.showToast(
+        msg: "Username has used.",
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }else{
+      RegisterData();
+      Navigator.pop(context);
+    }
+  }
 
   void RegisterData(){
     var url = "https://awanapp.000webhostapp.com/registerakun.php";
@@ -163,10 +181,12 @@ class SignUpBody extends StatelessWidget{
                     // }
                     if(controllerUsername.text.isNotEmpty && controllerPassword.text.isNotEmpty && controllerPasswordConfirm.text.isNotEmpty){
                       if(controllerPassword.text == controllerPasswordConfirm.text){
-                        RegisterData();
-                        Navigator.pop(context);
+                        // RegisterData();
+                        cekAkun(context);
+                        // Navigator.pop(context);
                         // return true;
                       }else{
+                        Fluttertoast.showToast(msg: "Password Confirm not Correct");
                         // return false;
                       }
                     }
