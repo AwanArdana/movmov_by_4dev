@@ -125,6 +125,8 @@ class _LoginBody extends State<LoginBody>{
                       final response = await http.get(Uri.parse(webserviceGetData + query));
                       List list = json.decode(response.body);
                       if (list.isNotEmpty){
+                        Holder.JenisAkun = list[0]["kodeJenisAkun"];
+                        Holder.namaAkun = list[0]["username"];
                         new Future.delayed(new Duration(seconds: 1), (){
                           setState(() {
                             saving = false;

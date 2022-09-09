@@ -3,6 +3,17 @@ import 'package:movmov/Login/comnponent/loginbody.dart';
 import 'package:movmov/constants.dart';
 
 class NavDrawer extends StatelessWidget{
+
+  Widget _insertData(){
+    if(Holder.JenisAkun == "0"){
+      return ListTile(
+        leading: Icon(Icons.input, color: Colors.white,),
+        title: Text('Insert Data'),
+        onTap: () => {},
+      );
+    }else return SizedBox.shrink();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -13,7 +24,7 @@ class NavDrawer extends StatelessWidget{
           new Container(
             child: new DrawerHeader(
               child: Text(
-                'Side menu',
+                Holder.namaAkun,
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               decoration: BoxDecoration(
@@ -26,11 +37,12 @@ class NavDrawer extends StatelessWidget{
           new Container(
             child: new Column(
               children: [
-                ListTile(
-                  leading: Icon(Icons.input, color: Colors.white,),
-                  title: Text('Welcome'),
-                  onTap: () => {},
-                ),
+                // ListTile(
+                //   leading: Icon(Icons.input, color: Colors.white,),
+                //   title: Text('Insert Data'),
+                //   onTap: () => {},
+                // ),
+                _insertData(),
                 ListTile(
                   leading: Icon(Icons.verified_user, color: Colors.white,),
                   title: Text('Profile'),
