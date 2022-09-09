@@ -25,14 +25,14 @@ class SignUpBody extends StatelessWidget{
     });
   }
 
-  bool cekConfirmPassword(){
-    if(controllerPassword.text == controllerPasswordConfirm.text){
-      // RegisterData();
-      return true;
-    }else{
-      return false;
-    }
-  }
+  // bool cekConfirmPassword(){
+  //   if(controllerPassword.text == controllerPasswordConfirm.text){
+  //     // RegisterData();
+  //     return true;
+  //   }else{
+  //     return false;
+  //   }
+  // }
 
 
   @override
