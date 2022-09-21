@@ -66,9 +66,9 @@ class _AddDataState extends State<AddData>{
 
                 new Padding(padding: const EdgeInsets.all(10.0)),
 
-                new RaisedButton(
+                new ElevatedButton(
                   child: new Text("ADD DATA"),
-                  color: Colors.blueAccent,
+                  // color: Colors.blueAccent,
                   onPressed: (){
                     addData();
                     Navigator.of(context).push(

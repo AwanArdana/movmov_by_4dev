@@ -36,6 +36,8 @@ dependencies:
   fluttertoast: ^8.0.9
 
   flutter_launcher_icons: ^0.8.1
+  flutter_secure_storage: ^5.0.2
+  shared_preferences: ^2.0.15
 
 flutter_icons:
   image_path: "assets/logo/215188.png"

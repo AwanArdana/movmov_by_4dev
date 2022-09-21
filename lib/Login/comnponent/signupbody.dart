@@ -58,6 +58,7 @@ class SignUpBody extends StatelessWidget{
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kBackgroundColor,
         elevation: 0,
         title: Text(""),
       ),
@@ -167,34 +168,51 @@ class SignUpBody extends StatelessWidget{
             Container(
               //login button
                 margin: EdgeInsets.only(top: 5),
-                child: FlatButton(
-                  minWidth: size.width * 0.8,
+                child: SizedBox(
                   height: 50,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(29)
-                  ),
-                  color: kSecondaryColor,
-                  onPressed: (){
-                    // cekConfirmPassword();
-                    // if(cekConfirmPassword()){
-                    //   Navigator.pop(context);
-                    // }
-                    if(controllerUsername.text.isNotEmpty && controllerPassword.text.isNotEmpty && controllerPasswordConfirm.text.isNotEmpty){
-                      if(controllerPassword.text == controllerPasswordConfirm.text){
-                        // RegisterData();
-                        cekAkun(context);
-                        // Navigator.pop(context);
-                        // return true;
-                      }else{
-                        Fluttertoast.showToast(msg: "Password Confirm not Correct");
-                        // return false;
+                  width: size.width * 0.8,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (Set<MaterialState> states){
+                            if(states.contains(MaterialState.pressed)) return kSecondaryColor.withOpacity(0.5);
+                            return kSecondaryColor;
+                          }
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(29),
+                        )
+                      )
+                    ),
+                    // minWidth: size.width * 0.8,
+                    // height: 50,
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(29)
+                    // ),
+                    // color: kSecondaryColor,
+                    onPressed: (){
+                      // cekConfirmPassword();
+                      // if(cekConfirmPassword()){
+                      //   Navigator.pop(context);
+                      // }
+                      if(controllerUsername.text.isNotEmpty && controllerPassword.text.isNotEmpty && controllerPasswordConfirm.text.isNotEmpty){
+                        if(controllerPassword.text == controllerPasswordConfirm.text){
+                          // RegisterData();
+                          cekAkun(context);
+                          // Navigator.pop(context);
+                          // return true;
+                        }else{
+                          Fluttertoast.showToast(msg: "Password Confirm not Correct");
+                          // return false;
+                        }
                       }
-                    }
 
-                  },
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(color: Colors.white),
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 )
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movmov/constants.dart';
 import 'component/body.dart';
 import 'component/NavDrawer.dart';
 
@@ -10,6 +11,7 @@ class HomeScreen extends StatelessWidget{
       drawer: NavDrawer(),
       // appBar: buildAppBar(),
       appBar: AppBar(
+        backgroundColor: kBackgroundColor,
         elevation: 0,
         title: Text(''),
       ),

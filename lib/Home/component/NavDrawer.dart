@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:movmov/Admin/admin_screen.dart';
 import 'package:movmov/Login/comnponent/loginbody.dart';
+import 'package:movmov/Login/login_screen.dart';
 import 'package:movmov/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavDrawer extends StatelessWidget{
 
-  Widget _insertData(){
+  final storage = new FlutterSecureStorage();
+
+  Widget _insertData(BuildContext context){
+
     if(Holder.JenisAkun == "0"){
       return ListTile(
         leading: Icon(Icons.input, color: Colors.white,),
         title: Text('Insert Data'),
-        onTap: () => {},
+        onTap: () => {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+              builder: (BuildContext context)=> new AdminScreen(),
+            )
+          )
+        },
       );
     }else return SizedBox.shrink();
   }
@@ -42,7 +55,7 @@ class NavDrawer extends StatelessWidget{
                 //   title: Text('Insert Data'),
                 //   onTap: () => {},
                 // ),
-                _insertData(),
+                _insertData(context),
                 ListTile(
                   leading: Icon(Icons.verified_user, color: Colors.white,),
                   title: Text('Profile'),
@@ -63,7 +76,16 @@ class NavDrawer extends StatelessWidget{
                   title: Text('Logout'),
                   // onTap: () => {Navigator.popAndPushNamed(context, '/login')},
                   // onTap: () {Navigator.pop(context,'/login');},
-                  onTap: (){Navigator.popUntil(context, (route) => route.isFirst);},
+                  // onTap: (){Navigator.popUntil(context, (route) => route.isFirst);},
+                  onTap: () async {
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => LoginScreen()
+                    ));
+                    // SharedPreferences prefs = await SharedPreferences.getInstance();
+                    // prefs?.setBool("isLoggedIn", false);
+                    await storage.delete(key: "Username");
+                    await storage.delete(key: "Password");
+                  },
                 ),
               ],
             ),

@@ -182,11 +182,11 @@ class BodyPlayer extends StatelessWidget{
 
                       Spacer(),
 
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)
-                        ),
-                        color: kSecondaryColor,
+                      TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //   borderRadius: BorderRadius.circular(20)
+                        // ),
+                        // color: kSecondaryColor,
                         onPressed: (){
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode_id: "${listEpisode[index]['episode_id']}", listEpisode: listEpisode, listGenre: listGenre,)));
                         },

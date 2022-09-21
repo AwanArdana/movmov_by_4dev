@@ -24,31 +24,31 @@ class NewUpdate extends StatelessWidget{
 
                 },
               ),
-              NewUpdateCard(
-                image: "https://awanapp.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
-                title: "${list[1]['mov_title']}",
-                episode: "${list[1]['episode']}",
-                press: (){},
-              )
+              // NewUpdateCard(
+              //   image: "https://awanapp.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
+              //   title: "${list[1]['mov_title']}",
+              //   episode: "${list[1]['episode']}",
+              //   press: (){},
+              // )
             ],
           ),
 
-          Row(
-            children: [
-              NewUpdateCard(
-                image: "https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
-                title: "${list[2]['mov_title']}",
-                episode: "${list[2]['episode']}",
-                press: (){},
-              ),
-              NewUpdateCard(
-                image: "https://awanapp.000webhostapp.com/cover/${list[3]['mov_cover_id']}",
-                title: "${list[3]['mov_title']}",
-                episode: "${list[3]['episode']}",
-                press: (){},
-              )
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     NewUpdateCard(
+          //       image: "https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
+          //       title: "${list[2]['mov_title']}",
+          //       episode: "${list[2]['episode']}",
+          //       press: (){},
+          //     ),
+          //     NewUpdateCard(
+          //       image: "https://awanapp.000webhostapp.com/cover/${list[3]['mov_cover_id']}",
+          //       title: "${list[3]['mov_title']}",
+          //       episode: "${list[3]['episode']}",
+          //       press: (){},
+          //     )
+          //   ],
+          // ),
         ],
       ),
     );

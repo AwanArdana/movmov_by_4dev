@@ -47,25 +47,25 @@ class RecomendsPage extends StatelessWidget{
               );
             },
           ),
-          RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
-            title: "${list[1]['mov_title']}",
-            year: "${list[1]['mov_year']}",
-            press: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailScreen(Mov_id: "${list[1]['mov_id']}",),
-                  )
-              );
-            },
-          ),
-          RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
-            title: "${list[2]['mov_title']}",
-            year: "${list[2]['mov_year']}",
-            press: (){},
-          )
+          // RecomendCard(
+          //   image:"https://awanapp.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
+          //   title: "${list[1]['mov_title']}",
+          //   year: "${list[1]['mov_year']}",
+          //   press: (){
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => DetailScreen(Mov_id: "${list[1]['mov_id']}",),
+          //         )
+          //     );
+          //   },
+          // ),
+          // RecomendCard(
+          //   image:"https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
+          //   title: "${list[2]['mov_title']}",
+          //   year: "${list[2]['mov_year']}",
+          //   press: (){},
+          // )
 
           // RecomendCard(
           //   image: "https://drive.google.com/uc?export=view&id=10LnmkYfOvvpyXEt7YAEt9Gmmpw5OKJRH",

@@ -131,12 +131,24 @@ class Detail extends StatelessWidget{
                                   ),
                                   Spacer(),
 
-                                  FlatButton(
-
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.resolveWith(
+                                          (Set<MaterialState> states){
+                                            if(states.contains(MaterialState.pressed)) return kSecondaryColor.withOpacity(0.5);
+                                            return kSecondaryColor;
+                                          }
+                                      ),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                        )
+                                      )
                                     ),
-                                    color: kSecondaryColor,
+                                    // shape: RoundedRectangleBorder(
+                                    //   borderRadius: BorderRadius.circular(20)
+                                    // ),
+                                    // color: kSecondaryColor,
                                     onPressed: (){
                                       Navigator.push(
                                           context,
