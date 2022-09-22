@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:movmov/constants.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class InputEpisode extends StatelessWidget{
   @override
@@ -14,7 +19,7 @@ class InputEpisode extends StatelessWidget{
       ),
       // body: BodyIndutEpisode(size: MediaQuery.of(context).size,),
       body: new FutureBuilder<List>(
-        future: SQLEksek("SELECT mov_id, mov_title FROM movie"),
+        future: SQLEksek("SELECT mov_title FROM movie"),
         builder: (context, snapshot){
           if(snapshot.hasError) print(snapshot.error);
 
@@ -41,6 +46,9 @@ class BodyInputEpisode extends StatefulWidget{
 
 class _BodyInputEpisode extends State<BodyInputEpisode>{
   String selectedValue;
+  String selectedID;
+  TextEditingController controllerEpisode = new TextEditingController();
+  TextEditingController controllerLink = new TextEditingController();
 
   List copylist(List listawal){
     List<String> listakhir = [];
@@ -88,8 +96,9 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
                     )).toList(),
                     value: selectedValue,
                     onChanged: (value){
-                      setState(() {
+                      setState((){
                         selectedValue = value as String;
+                        cekMovId();
                       });
                     },
 
@@ -111,6 +120,7 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
                 )
               ),
               child: TextFormField(
+                controller: controllerEpisode,
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
                   hintText: "Episode",
@@ -133,17 +143,83 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
                   )
               ),
               child: TextFormField(
+                controller: controllerLink,
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
-                  hintText: "Episode",
+                  hintText: "Link",
                   hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
                   border: InputBorder.none,
                 ),
               ),
-            )
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              child: SizedBox(
+                height: 50,
+                width: widget.size.width * 0.8,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (Set<MaterialState> states){
+                          if(states.contains(MaterialState.pressed)) return kSecondaryColor.withOpacity(0.5);
+                          return kSecondaryColor;
+                        }
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(29),
+                      )
+                    )
+                  ),
+                  onPressed: () {
+                    cekInput(context);
+                  },
+                  child: Text(
+                    "Input",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
           ],
         )
     );
+  }
+
+  Future<void> cekMovId() async {
+    String query = "SELECT mov_id FROM movie WHERE mov_title = '"+selectedValue+"'";
+    // List list = SQLEksek(query) as List;
+    final response = await http.get(Uri.parse(webserviceGetData + query));
+    List list = json.decode(response.body);
+    if(list.isNotEmpty){
+      selectedID = list[0]["mov_id"];
+      print("Mov id" + selectedID);
+    }
+  }
+
+  void cekInput(BuildContext context){
+    if(selectedValue != null && selectedID != null){
+      if(controllerEpisode.text != ""){
+        if(controllerLink.text != ""){
+          print("cek Oke");
+          var now = new DateTime.now();
+          var formatter = new DateFormat('yyyy-MM-dd');
+          String formattedDate = formatter.format(now);
+          String query = "INSERT INTO episode (mov_id,episode, mov_cloud_link, tgl) VALUES ('"+selectedID+"', '"+controllerEpisode.text+"', '"+controllerLink.text+"', '"+formattedDate+"')";
+          print("query insert " + query);
+          // http.post(webserviceGetData)
+          SQLEksekInsert(query);
+          Navigator.pop(context);
+        }else{
+          Fluttertoast.showToast(msg: "Link is Empty", toastLength: Toast.LENGTH_SHORT);
+        }
+      }else{
+        Fluttertoast.showToast(msg: "Episode is Empty", toastLength: Toast.LENGTH_SHORT);
+      }
+    }else{
+      Fluttertoast.showToast(msg: "Select movie", toastLength: Toast.LENGTH_SHORT);
+    }
   }
 
 }

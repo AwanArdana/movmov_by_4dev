@@ -14,6 +14,7 @@ const double kDefaultPadding = 20.0;
 
 const String webservice = "https://awanapp.000webhostapp.com/";
 const String webserviceGetData = "https://awanapp.000webhostapp.com/getDataGlobal.php?query=";
+const String webservivePostData = "https://awanapp.000webhostapp.com/postDataGlobal.php";
 
 class Holder{
   static String JenisAkun = "";

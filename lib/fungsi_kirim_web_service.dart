@@ -15,3 +15,9 @@ Future<List> SQLEksek(String query) async {
   final response = await http.get(Uri.parse(webserviceGetData + query));
   return json.decode(response.body);
 }
+
+Future<List> SQLEksekInsert(String query) async{
+  http.post(Uri.parse(webservivePostData), body: {
+    "query": query,
+  });
+}
