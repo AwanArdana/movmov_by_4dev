@@ -99,6 +99,7 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
             ),
 
             Container(
+              //Episode
               margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
               decoration: BoxDecoration(
@@ -108,6 +109,28 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
                   color: Colors.white,
                   width: 2,
                 )
+              ),
+              child: TextFormField(
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  hintText: "Episode",
+                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+
+            Container(
+              //Link
+              margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+              decoration: BoxDecoration(
+                  color: kBackgroundColor,
+                  borderRadius: BorderRadius.circular(29),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  )
               ),
               child: TextFormField(
                 cursorColor: Colors.white,
