@@ -9,12 +9,13 @@ import 'package:simple_shadow/simple_shadow.dart';
 
 class CoverWithTitle extends StatelessWidget{
   const CoverWithTitle({
-    Key key, this.size, this.title, this.coverId, this.listGenre, this.mov_id
+    Key key, this.size, this.title, this.coverId, this.listGenre, this.mov_id, this.listEpisode
   }) : super(key: key);
 
   final String title, coverId;
   final Size size;
   final List listGenre;
+  final List listEpisode;
   final String mov_id;
 
 
@@ -134,7 +135,7 @@ class CoverWithTitle extends StatelessWidget{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => new PlayerScreen(Episode_id: "1", listGenre: listGenre, listEpisode: [], mov_id: mov_id,)
+                    builder: (context) => new PlayerScreen(Episode_id: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id,)
                   )
                 );
               },
