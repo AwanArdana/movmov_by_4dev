@@ -8,12 +8,13 @@ import 'package:movmov/constants.dart';
 import '../../constants.dart';
 
 class BodyPlayer extends StatelessWidget{
-  BodyPlayer({Key key, this.list, this.listEpisode, this.ep_id, this.listGenre}):super(key: key);
+  BodyPlayer({Key key, this.list, this.listEpisode, this.ep_id, this.listGenre, this.mov_id}):super(key: key);
 
   final List list;
   final String ep_id;
   final List listEpisode;
   final List listGenre;
+  final String mov_id;
 
   // Future<List> getGenres() async{
   //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
@@ -211,7 +212,7 @@ class BodyPlayer extends StatelessWidget{
                         // ),
                         // color: kSecondaryColor,
                         onPressed: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode_id: "${listEpisode[index]['episode_id']}", listEpisode: listEpisode, listGenre: listGenre,)));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode_id: "${listEpisode[index]['episode_id']}", listEpisode: listEpisode, listGenre: listGenre, mov_id: mov_id,)));
                         },
                         child: cekEpisodeSekarang(index,"${list[0]["episode"]}")
                         // child: Text(

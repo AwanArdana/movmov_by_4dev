@@ -101,6 +101,7 @@ class Detail extends StatelessWidget{
             title: "${list[0]['mov_title']}",
             coverId: "${list[0]['mov_cover_id']}",
             listGenre: listGenre,
+            mov_id: Mov_id,
           ),
 
           DetailWithReadMore(Detail: "${list[0]['mov_deskripsi']}",),
@@ -153,7 +154,7 @@ class Detail extends StatelessWidget{
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => new PlayerScreen(Episode_id: "${snapshot.data[index]['episode_id']}", listEpisode: snapshot.data, listGenre: listGenre,),
+                                            builder: (context) => new PlayerScreen(Episode_id: "${snapshot.data[index]['episode_id']}", listEpisode: snapshot.data, listGenre: listGenre, mov_id: Mov_id,),
                                           )
                                       );
                                     },

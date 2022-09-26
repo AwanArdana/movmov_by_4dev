@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movmov/CRUD/adddata.dart';
 import 'package:movmov/Home/component/header_with_searchbox.dart';
 import 'package:movmov/Home/component/newupdate.dart';
 import 'package:movmov/Home/component/recomends.dart';
@@ -60,15 +59,15 @@ class Body extends StatelessWidget{
             },
           ),
 
-          new FloatingActionButton(
-            child: new Icon(Icons.add),
-            onPressed: ()=>Navigator.of(context).push(
-              new MaterialPageRoute(
-                builder: (BuildContext context)=> new AddData(),
-              )
-
-             ),
-          ),
+          // new FloatingActionButton(
+          //   child: new Icon(Icons.add),
+          //   onPressed: ()=>Navigator.of(context).push(
+          //     new MaterialPageRoute(
+          //       // builder: (BuildContext context)=> new AddData(),
+          //     )
+          //
+          //    ),
+          // ),
           //       floatingActionButton: new FloatingActionButton(
 //         child: new Icon(Icons.add),
 //         onPressed: ()=>Navigator.of(context).push(
