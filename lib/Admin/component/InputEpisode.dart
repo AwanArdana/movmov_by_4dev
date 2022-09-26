@@ -204,11 +204,18 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
     if(selectedValue != null && selectedID != null){
       if(controllerEpisode.text != ""){
         if(controllerLink.text != ""){
+          String link = controllerLink.text;
+          link = link.replaceAll("https://mega.nz/file/", "");
+          //final original = 'Hello World';
+          // final find = 'World';
+          // final replaceWith = 'Home';
+          // final newString = original.replaceAll(find, replaceWith);
+          
           print("cek Oke");
           var now = new DateTime.now();
           var formatter = new DateFormat('yyyy-MM-dd');
           String formattedDate = formatter.format(now);
-          String query = "INSERT INTO episode (mov_id,episode, mov_cloud_link, tgl) VALUES ('"+selectedID+"', '"+controllerEpisode.text+"', '"+controllerLink.text+"', '"+formattedDate+"')";
+          String query = "INSERT INTO episode (mov_id,episode, mov_cloud_link, tgl) VALUES ('"+selectedID+"', '"+controllerEpisode.text+"', '"+link+"', '"+formattedDate+"')";
           print("query insert " + query);
           // http.post(webserviceGetData)
           SQLEksekInsert(query);
