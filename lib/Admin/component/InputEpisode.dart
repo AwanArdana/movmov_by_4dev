@@ -60,130 +60,132 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              //mov id || mov title
-              margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-              decoration: BoxDecoration(
-                  color: kBackgroundColor,
-                  borderRadius: BorderRadius.circular(29),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                  )
-              ),
-              child: DropdownButtonHideUnderline(
-                child: SizedBox(
-                  width: widget.size.width,
-                  child: DropdownButton(
-                    hint: Text(
-                      '-Select-',
-                      style: TextStyle(
-                        // fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                    items: copylist(widget.list).map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    )).toList(),
-                    value: selectedValue,
-                    onChanged: (value){
-                      setState((){
-                        selectedValue = value as String;
-                        cekMovId();
-                      });
-                    },
-
-                  ),
-                ),
-              ),
-            ),
-
-            Container(
-              //Episode
-              margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-              decoration: BoxDecoration(
-                color: kBackgroundColor,
-                borderRadius: BorderRadius.circular(29),
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
-                )
-              ),
-              child: TextFormField(
-                controller: controllerEpisode,
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText: "Episode",
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-
-            Container(
-              //Link
-              margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-              decoration: BoxDecoration(
-                  color: kBackgroundColor,
-                  borderRadius: BorderRadius.circular(29),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                  )
-              ),
-              child: TextFormField(
-                controller: controllerLink,
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText: "Link",
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(top: 5),
-              child: SizedBox(
-                height: 50,
-                width: widget.size.width * 0.8,
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith(
-                        (Set<MaterialState> states){
-                          if(states.contains(MaterialState.pressed)) return kSecondaryColor.withOpacity(0.5);
-                          return kSecondaryColor;
-                        }
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(29),
-                      )
+    return SingleChildScrollView(
+      child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                //mov id || mov title
+                margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                decoration: BoxDecoration(
+                    color: kBackgroundColor,
+                    borderRadius: BorderRadius.circular(29),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
                     )
-                  ),
-                  onPressed: () {
-                    cekInput(context);
-                  },
-                  child: Text(
-                    "Input",
-                    style: TextStyle(color: Colors.white),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: SizedBox(
+                    width: widget.size.width,
+                    child: DropdownButton(
+                      hint: Text(
+                        '-Select-',
+                        style: TextStyle(
+                          // fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                      items: copylist(widget.list).map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      )).toList(),
+                      value: selectedValue,
+                      onChanged: (value){
+                        setState((){
+                          selectedValue = value as String;
+                          cekMovId();
+                        });
+                      },
+
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        )
+
+              Container(
+                //Episode
+                margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                decoration: BoxDecoration(
+                  color: kBackgroundColor,
+                  borderRadius: BorderRadius.circular(29),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  )
+                ),
+                child: TextFormField(
+                  controller: controllerEpisode,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: "Episode",
+                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+
+              Container(
+                //Link
+                margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.1, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                decoration: BoxDecoration(
+                    color: kBackgroundColor,
+                    borderRadius: BorderRadius.circular(29),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    )
+                ),
+                child: TextFormField(
+                  controller: controllerLink,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: "Link",
+                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: SizedBox(
+                  height: 50,
+                  width: widget.size.width * 0.8,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (Set<MaterialState> states){
+                            if(states.contains(MaterialState.pressed)) return kSecondaryColor.withOpacity(0.5);
+                            return kSecondaryColor;
+                          }
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(29),
+                        )
+                      )
+                    ),
+                    onPressed: () {
+                      cekInput(context);
+                    },
+                    child: Text(
+                      "Input",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+      ),
     );
   }
 
