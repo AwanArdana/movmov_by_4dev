@@ -135,7 +135,7 @@ class CoverWithTitle extends StatelessWidget{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => new PlayerScreen(Episode_id: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id,)
+                    builder: (context) => new PlayerScreen(Episode: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id,)
                   )
                 );
               },

@@ -152,7 +152,7 @@ class Detail extends StatelessWidget{
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => new PlayerScreen(Episode_id: "${snapshot.data[index]['episode_id']}", listEpisode: snapshot.data, listGenre: listGenre, mov_id: Mov_id,),
+                                        builder: (context) => new PlayerScreen(Episode: "${snapshot.data[index]['episode']}", listEpisode: snapshot.data, listGenre: listGenre, mov_id: Mov_id,),
                                       )
                                   );
                                 },
