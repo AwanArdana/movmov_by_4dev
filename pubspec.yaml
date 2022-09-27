@@ -39,6 +39,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   shared_preferences: ^2.0.15
   intl: ^0.16.1
+  google_mobile_ads: ^1.2.0
 
 flutter_icons:
   image_path: "assets/logo/215188.png"
