@@ -128,6 +128,7 @@ class _LoginBody extends State<LoginBody>{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Spacer(),
           Container(
             //title login
             margin: EdgeInsets.only(bottom: 20),
@@ -323,6 +324,10 @@ class _LoginBody extends State<LoginBody>{
                 ),
               )
           ),
+
+          Spacer(),
+
+          Text(versiapk),
         ],
       ),
     );

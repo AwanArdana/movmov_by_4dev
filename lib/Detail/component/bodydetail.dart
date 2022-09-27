@@ -93,6 +93,7 @@ class Detail extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
+      //list episode
       future: SQLEksek("SELECT e.episode_id, e.episode from episode e WHERE e.mov_id=" + Mov_id),
       builder: (context, snapshot){
         if (snapshot.hasError) print(snapshot.error);

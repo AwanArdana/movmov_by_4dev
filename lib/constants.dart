@@ -18,6 +18,8 @@ const String webservivePostData = "https://awanapp.000webhostapp.com/postDataGlo
 
 const List<String> listTanggal = ['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'];
 
+const String versiapk = "0.0.1";
+
 class Holder{
   static String JenisAkun = "";
   static String namaAkun = "";
