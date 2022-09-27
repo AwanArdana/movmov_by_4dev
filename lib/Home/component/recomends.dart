@@ -22,18 +22,6 @@ class RecomendsPage extends StatelessWidget{
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          // RecomendCard(
-          //   image: "https://drive.google.com/uc?export=view&id=${list[0]['mov_cover_id']}",
-          //   title: "${list[0]['mov_title']}",
-          //   year: "${list[0]['mov_year']}",
-          //   press: (){},
-          // ),
-          // RecomendCard(
-          //   image: "https://drive.google.com/uc?export=view&id=${list[1]['mov_cover_id']}",
-          //   title: "${list[1]['mov_title']}",
-          //   year: "${list[1]['mov_year']}",
-          //   press: (){},
-          // ),
           RecomendCard(
             image:"https://awanapp.000webhostapp.com/cover/${list[0]['mov_cover_id']}",
             title: "${list[0]['mov_title']}",
@@ -60,25 +48,6 @@ class RecomendsPage extends StatelessWidget{
               );
             },
           ),
-          // RecomendCard(
-          //   image:"https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
-          //   title: "${list[2]['mov_title']}",
-          //   year: "${list[2]['mov_year']}",
-          //   press: (){},
-          // )
-
-          // RecomendCard(
-          //   image: "https://drive.google.com/uc?export=view&id=10LnmkYfOvvpyXEt7YAEt9Gmmpw5OKJRH",
-          //   title: "OnePiece",
-          //   year: "2018",
-          //   press: (){},
-          // ),
-          // RecomendCard(
-          //   image: "https://drive.google.com/uc?export=view&id=10LnmkYfOvvpyXEt7YAEt9Gmmpw5OKJRH",
-          //   title: "OnePiece",
-          //   year: "2018",
-          //   press: (){},
-          // ),
         ],
       ),
     );

@@ -6,15 +6,7 @@ import 'package:movmov/Home/component/title_with_more_btn.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 
 class Body extends StatelessWidget{
-  // Future<List> getData() async {
-  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovdata.php"));
-  //   return json.decode(response.body);
-  // }
-  
-  // Future<List> getDataNewUpdate() async{
-  //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovnewupdate.php"));
-  //   return json.decode(response.body);
-  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +41,7 @@ class Body extends StatelessWidget{
           new FutureBuilder<List>(
             // future: getDataNewUpdate(),
             // future: getDataGlobal("getmovnewupdate.php", ""),
-            future: SQLEksek("SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, e.tgl from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY `e`.`tgl` DESC"),
+            future: SQLEksek("SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, e.tgl, m.mov_id from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY `e`.`tgl` DESC"),
             builder: (context, snapshot){
               if(snapshot.hasError) print(snapshot.error);
 
@@ -58,36 +50,6 @@ class Body extends StatelessWidget{
                   : new Center(child: new CircularProgressIndicator(),);
             },
           ),
-
-          // new FloatingActionButton(
-          //   child: new Icon(Icons.add),
-          //   onPressed: ()=>Navigator.of(context).push(
-          //     new MaterialPageRoute(
-          //       // builder: (BuildContext context)=> new AddData(),
-          //     )
-          //
-          //    ),
-          // ),
-          //       floatingActionButton: new FloatingActionButton(
-//         child: new Icon(Icons.add),
-//         onPressed: ()=>Navigator.of(context).push(
-//             new MaterialPageRoute(
-//               builder: (BuildContext context)=> new AddData(),
-//             )
-//         ),
-//       ),
-          // Container(
-          //   width: size.width * 0.8,
-          //   height: 185,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(10),
-          //   ),
-          //   child: Column(
-          //     children: <Widget>[
-          //       new Image.network("https://drive.google.com/uc?export=view&id=10LnmkYfOvvpyXEt7YAEt9Gmmpw5OKJRH"),
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );

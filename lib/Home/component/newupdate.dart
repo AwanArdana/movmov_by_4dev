@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
+import 'package:http/http.dart' as http;
 
 class NewUpdate extends StatelessWidget{
   const NewUpdate({
@@ -21,37 +24,87 @@ class NewUpdate extends StatelessWidget{
                 title: "${list[0]['mov_title']}",
                 episode: "${list[0]['episode']}",
                 press: (){
-
+                  moveToPlayer(0, context);
                 },
               ),
               NewUpdateCard(
                 image: "https://awanapp.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
                 title: "${list[1]['mov_title']}",
                 episode: "${list[1]['episode']}",
-                press: (){},
+                press: (){
+                  moveToPlayer(1, context);
+                },
               )
             ],
           ),
 
-          // Row(
-          //   children: [
-          //     NewUpdateCard(
-          //       image: "https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
-          //       title: "${list[2]['mov_title']}",
-          //       episode: "${list[2]['episode']}",
-          //       press: (){},
-          //     ),
-          //     NewUpdateCard(
-          //       image: "https://awanapp.000webhostapp.com/cover/${list[3]['mov_cover_id']}",
-          //       title: "${list[3]['mov_title']}",
-          //       episode: "${list[3]['episode']}",
-          //       press: (){},
-          //     )
-          //   ],
-          // ),
+          Row(
+            children: [
+              NewUpdateCard(
+                image: "https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
+                title: "${list[2]['mov_title']}",
+                episode: "${list[2]['episode']}",
+                press: (){
+                  moveToPlayer(2, context);
+                },
+              ),
+              NewUpdateCard(
+                image: "https://awanapp.000webhostapp.com/cover/${list[3]['mov_cover_id']}",
+                title: "${list[3]['mov_title']}",
+                episode: "${list[3]['episode']}",
+                press: (){
+                  moveToPlayer(3, context);
+                },
+              )
+            ],
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> moveToPlayer(int listKe, BuildContext context) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_){
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("loading...", style: TextStyle(
+                      color: Colors.black
+                  ),)
+                ],
+              ),
+            ),
+          );
+        }
+    );
+    String queryListGenres = "SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + "${list[listKe]['mov_id']}";
+    final response = await http.get(Uri.parse(webserviceGetData + queryListGenres));
+    List listGenres = json.decode(response.body);
+    if(listGenres.isNotEmpty){
+      String queryListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + "${list[listKe]['mov_id']}";
+      final responseepisode = await http.get(Uri.parse(webserviceGetData + queryListEpisode));
+      List listEpisode = json.decode(responseepisode.body);
+      if(listEpisode.isNotEmpty){
+        Navigator.of(context).pop();
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => new PlayerScreen(Episode: "${list[listKe]['episode']}", mov_id: "${list[listKe]['mov_id']}", listEpisode: listEpisode, listGenre: listGenres,),
+        ));
+      }
+
+    }
+    // Navigator.of(context).pop();
+
   }
 
 }
@@ -107,7 +160,7 @@ class NewUpdateCard extends StatelessWidget{
                           style: Theme.of(context).textTheme.button,
                         ),
                         TextSpan(
-                          text: "$episode".toUpperCase(),
+                          text: "Episode "+"$episode".toUpperCase(),
                           style: TextStyle(
                             color: kTextColor.withOpacity(0.5),
                           )
