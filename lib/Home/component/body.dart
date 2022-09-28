@@ -3,6 +3,7 @@ import 'package:movmov/Home/component/header_with_searchbox.dart';
 import 'package:movmov/Home/component/newupdate.dart';
 import 'package:movmov/Home/component/recomends.dart';
 import 'package:movmov/Home/component/title_with_more_btn.dart';
+import 'package:movmov/More/more_screen.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 
 class Body extends StatelessWidget{
@@ -20,7 +21,14 @@ class Body extends StatelessWidget{
           HeaderWithSearchBox(size: size),
           TitleWithMoreBtn(
             title: "Recomended",
-            press: (){},
+            press: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MoreScreen(query: "SELECT * FROM movie", type: "recomends",)
+                  )
+              );
+            },
           ),
           new FutureBuilder<List>(
             // future: getData(),
@@ -36,7 +44,14 @@ class Body extends StatelessWidget{
           ),
           TitleWithMoreBtn(
             title: "New Update",
-            press: (){},
+            press: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MoreScreen(query: "SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, e.tgl, m.mov_id from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY `e`.`tgl` DESC", type: "newupdate",)
+                  )
+              );
+            },
           ),
           new FutureBuilder<List>(
             // future: getDataNewUpdate(),

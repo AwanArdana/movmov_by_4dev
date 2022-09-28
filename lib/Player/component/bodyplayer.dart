@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:movmov/Ads/ad_helper.dart';
 import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
 
 import '../../constants.dart';
 
-class BodyPlayer extends StatelessWidget{
+class BodyPlayer extends StatefulWidget{
   BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.listGenre, this.mov_id}):super(key: key);
 
   final List list;
@@ -20,13 +22,22 @@ class BodyPlayer extends StatelessWidget{
   //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
   //   return json.decode(response.body);
   // }
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    // TODO: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
+  }
+
+  @override
+  _BodyPlayer createState() => _BodyPlayer();
 
 
+}
 
+class _BodyPlayer extends State<BodyPlayer>{
   InAppWebViewGroupOptions _options = InAppWebViewGroupOptions(
-    android: AndroidInAppWebViewOptions(
-      useHybridComposition: true,
-    )
+      android: AndroidInAppWebViewOptions(
+        useHybridComposition: true,
+      )
   );
   InAppWebViewController webView;
 
@@ -34,17 +45,56 @@ class BodyPlayer extends StatelessWidget{
   // String Url = list[0]["mov_cloud_link"];
   bool status = true;
 
+  BannerAd _bannerAd;
+
+  cekEpisodeSekarang(int index, String episode){
+    String ep1 = widget.listEpisode[index]['episode'];
+    String stxt = "Play";
+    if(episode == ep1){
+      stxt = "Now Playing";
+    }
+    Text txt = Text(stxt, style: TextStyle(color: Colors.white),);
+    return txt;
+  }
+
+  @override
+  void initState(){
+    BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: AdRequest(),
+        size: AdSize.banner,
+        listener: BannerAdListener(
+            onAdLoaded: (ad){
+              setState(() {
+                _bannerAd = ad as BannerAd;
+              });
+            },
+            onAdFailedToLoad: (ad, err){
+              print("Failed to load a banner ad: ${err.message}");
+              ad.dispose();
+            }
+        )
+    ).load();
+  }
+
+  @override
+  void dispose(){
+    // TODO: Dispose a BannerAd object
+    _bannerAd.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           HeaderPlayer(
             size: size,
-            title: "${list[0]["mov_title"]}",
-            episode: "${list[0]["episode"]}",
+            title: "${widget.list[0]["mov_title"]}",
+            episode: "${widget.list[0]["episode"]}",
           ),
 
           Container(
@@ -62,9 +112,9 @@ class BodyPlayer extends StatelessWidget{
             child: Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                    // url: Uri.parse(Url)
+                  // url: Uri.parse(Url)
                   // url: Uri.parse("https://drive.google.com/file/d/"+"${list[0]["mov_cloud_link"]}"+"/preview")
-                  url: Uri.parse("https://mega.nz/embed/"+ "${list[0]["mov_cloud_link"]}")
+                    url: Uri.parse("https://mega.nz/embed/"+ "${widget.list[0]["mov_cloud_link"]}")
                 ),
                 initialOptions: _options,
 
@@ -113,7 +163,7 @@ class BodyPlayer extends StatelessWidget{
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "${list[0]["mov_title"]}",
+                    "${widget.list[0]["mov_title"]}",
                     style: TextStyle(
                       color: kTextColor,
                       fontSize: 24,
@@ -124,7 +174,7 @@ class BodyPlayer extends StatelessWidget{
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "4,5"
+                      "4,5"
                   ),
                 ),
                 Container(
@@ -136,15 +186,15 @@ class BodyPlayer extends StatelessWidget{
                         margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
                         padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
                         decoration: BoxDecoration(
-                          color: kSecondaryColor,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1,
-                          )
+                            color: kSecondaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 1,
+                            )
                         ),
                         child: Text(
-                            "${listGenre[0]['gen_title']}"
+                            "${widget.listGenre[0]['gen_title']}"
                         ),
                       ),
                       Container(
@@ -159,7 +209,7 @@ class BodyPlayer extends StatelessWidget{
                             )
                         ),
                         child: Text(
-                            "${listGenre[1]['gen_title']}"
+                            "${widget.listGenre[1]['gen_title']}"
                         ),
                       ),
                       Container(
@@ -174,7 +224,7 @@ class BodyPlayer extends StatelessWidget{
                             )
                         ),
                         child: Text(
-                            "${listGenre[2]['gen_title']}"
+                            "${widget.listGenre[2]['gen_title']}"
                         ),
                       ),
 
@@ -185,14 +235,22 @@ class BodyPlayer extends StatelessWidget{
             ),
           ),
 
-          new ReadMoreDetail(Detail: "${list[0]["mov_deskripsi"]}",),
+          new ReadMoreDetail(Detail: "${widget.list[0]["mov_deskripsi"]}",),
+
+          //ads disini
+          if(_bannerAd != null)
+            Container(
+              width: _bannerAd.size.width.toDouble(),
+              height: _bannerAd.size.width.toDouble() * 0.3,
+              child: AdWidget(ad: _bannerAd,),
+            ),
 
           new Container(
             child: new ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               padding: const EdgeInsets.all(8),
-              itemCount: listEpisode.length,
+              itemCount: widget.listEpisode.length,
               itemBuilder: (BuildContext context, int index){
                 return Container(
                   padding: const EdgeInsets.all(8),
@@ -201,7 +259,7 @@ class BodyPlayer extends StatelessWidget{
                   child: Row(
                     children: [
                       Text(
-                        'Episode ${listEpisode[index]['episode']}'
+                          'Episode ${widget.listEpisode[index]['episode']}'
                       ),
 
                       Spacer(),
@@ -211,10 +269,10 @@ class BodyPlayer extends StatelessWidget{
                         //   borderRadius: BorderRadius.circular(20)
                         // ),
                         // color: kSecondaryColor,
-                        onPressed: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${listEpisode[index]['episode']}", listEpisode: listEpisode, listGenre: listGenre, mov_id: mov_id,)));
-                        },
-                        child: cekEpisodeSekarang(index,"${list[0]["episode"]}")
+                          onPressed: (){
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id,)));
+                          },
+                          child: cekEpisodeSekarang(index,"${widget.list[0]["episode"]}")
                         // child: Text(
                         //   "Play",
                         //   style: TextStyle(color: Colors.white),
@@ -231,16 +289,6 @@ class BodyPlayer extends StatelessWidget{
         ],
       ),
     );
-  }
-
-  cekEpisodeSekarang(int index, String episode){
-    String ep1 = listEpisode[index]['episode'];
-    String stxt = "Play";
-    if(episode == ep1){
-      stxt = "Now Playing";
-    }
-    Text txt = Text(stxt, style: TextStyle(color: Colors.white),);
-    return txt;
   }
 
 }
