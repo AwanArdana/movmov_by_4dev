@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movmov/More/more_screen.dart';
 import 'package:movmov/constants.dart';
 
 
@@ -11,8 +12,11 @@ class HeaderWithSearchBox extends StatelessWidget{
 
   final Size size;
 
+
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController controllerSearch = new TextEditingController();
     return Container(
       margin: EdgeInsets.only(bottom: kDefaultPadding * 2.5),
       //
@@ -73,8 +77,8 @@ class HeaderWithSearchBox extends StatelessWidget{
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: TextField(
-                        onChanged: (value){},
+                      child: TextFormField(
+                        controller: controllerSearch,
                         decoration: InputDecoration(
                           hintText: "Search",
                           hintStyle: TextStyle(
@@ -87,10 +91,22 @@ class HeaderWithSearchBox extends StatelessWidget{
                         ),
                       ),
                     ),
-                    SvgPicture.asset(
-                      "assets/icons/search.svg",
-                      color: Colors.white,
+                    IconButton(
+                      padding: EdgeInsets.only(left: 30),
+                      onPressed: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MoreScreen(query: "SELECT * FROM movie WHERE mov_title like '%"+controllerSearch.text+"%'", type: "recomends",)
+                            )
+                        );
+                      },
+                      icon: SvgPicture.asset(
+                        "assets/icons/search.svg",
+                        color: Colors.white,
+                      ),
                     ),
+
                   ],
                 ),
               )
