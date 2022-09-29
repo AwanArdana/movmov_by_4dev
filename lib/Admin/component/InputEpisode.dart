@@ -213,7 +213,7 @@ class _BodyInputEpisode extends State<BodyInputEpisode>{
           
           print("cek Oke");
           var now = new DateTime.now();
-          var formatter = new DateFormat('yyyy-MM-dd');
+          var formatter = new DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
           String formattedDate = formatter.format(now);
           String query = "INSERT INTO episode (mov_id,episode, mov_cloud_link, tgl) VALUES ('"+selectedID+"', '"+controllerEpisode.text+"', '"+link+"', '"+formattedDate+"')";
           print("query insert " + query);
