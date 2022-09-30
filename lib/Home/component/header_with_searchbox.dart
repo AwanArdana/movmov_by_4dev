@@ -97,7 +97,7 @@ class HeaderWithSearchBox extends StatelessWidget{
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MoreScreen(query: "SELECT * FROM movie WHERE mov_title like '%"+controllerSearch.text+"%'", type: "recomends",)
+                                builder: (context) => MoreScreen(query: "SELECT * FROM movie WHERE mov_title like '%"+controllerSearch.text+"%'", type: "search",)
                             )
                         );
                       },
