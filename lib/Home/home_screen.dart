@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movmov/Admin/component/InputEpisode.dart';
 import 'package:movmov/constants.dart';
 import 'component/body.dart';
 import 'component/NavDrawer.dart';
 
-class HomeScreen extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: NavDrawer(),
-      // appBar: buildAppBar(),
-      appBar: AppBar(
-        backgroundColor: kBackgroundColor,
-        elevation: 0,
-        title: Text(''),
-      ),
-      body: Body(),
-    );
-  }
+class HomeScreen extends StatefulWidget{
 
   AppBar buildAppBar(){
     return AppBar(
@@ -28,6 +16,74 @@ class HomeScreen extends StatelessWidget{
       ),
     );
   }
+
+  @override
+  _HomeScreen createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen>{
+
+  //BottomNavigationBar
+  int _selectedIndex = 0;
+  PageController controllerPage = PageController();
+
+  void _onItemTapped(int index){
+    setState(() {
+      _selectedIndex = index;
+    });
+    controllerPage.jumpToPage(index);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      drawer: NavDrawer(),
+      // appBar: buildAppBar(),
+      appBar: AppBar(
+        backgroundColor: kBackgroundColor,
+        elevation: 0,
+        title: Text(''),
+      ),
+      // body: Body(),
+      body: PageView(
+        scrollDirection: Axis.horizontal,
+
+        controller: controllerPage,
+        children: <Widget>[
+          Body(),
+          Body(),
+          Body(),
+        ],
+        onPageChanged: (page){
+          setState(() {
+            _selectedIndex = page;
+          });
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time),
+            label: 'History',
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: kSecondaryColor,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
 }
 
 // class _HomeState extends State<Home> {
