@@ -34,7 +34,7 @@ class SignUpBody extends StatelessWidget{
   }
 
   void RegisterData(){
-    var url = "https://awanapp.000webhostapp.com/registerakun.php";
+    Uri url = Uri.parse("https://awanapp.000webhostapp.com/registerakun.php");
 
     http.post(url, body: {
       "username": controllerUsername.text,

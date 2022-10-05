@@ -13,6 +13,7 @@ import 'package:movmov/constants.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class LoginBody extends StatefulWidget{
   @override
@@ -27,6 +28,21 @@ class _LoginBody extends State<LoginBody>{
   TextEditingController controllerUsername = new TextEditingController();
   TextEditingController controllerPassword = new TextEditingController();
 
+  String version = "";
+
+  void main() {
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo){
+      String appName = packageInfo.appName;
+      String packageName = packageInfo.packageName;
+      Holder.versiapk = packageInfo.version;
+      String buildNumber = packageInfo.buildNumber;
+      print(appName +" "+ packageName +" "+ version +" "+ buildNumber);
+      setState(() {
+
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -36,12 +52,10 @@ class _LoginBody extends State<LoginBody>{
 
   @override
   void initState() {
+    main();
     // TODO: implement initState
     super.initState();
     startTimer();
-
-
-
   }
 
 
@@ -327,7 +341,7 @@ class _LoginBody extends State<LoginBody>{
 
           Spacer(),
 
-          Text(versiapk),
+          Text(Holder.versiapk),
         ],
       ),
     );
