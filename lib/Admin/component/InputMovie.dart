@@ -82,28 +82,32 @@ class _BodyInputMovie extends State<BodyInputMovie>{
 
 
               try{
-                // String query = "INSERT INTO "
-                //     "movie (mov_title, mov_year, mov_cover_id, mov_deskripsi) "
-                //     "VALUES ('"+controllerMovTitle.text+"', '"+selectedYear+"', '"+controllerCoverLink.text+"', '"+controllerDescription.text+"')";
-                //
-                // print("query insert movie " + query);
-                // SQLEksekInsert(query);
+                String query = "INSERT INTO "
+                    "movie (mov_title, mov_year, mov_cover_id, mov_deskripsi) "
+                    "VALUES ('"+controllerMovTitle.text+"', '"+selectedYear+"', '"+controllerCoverLink.text+"', '"+controllerDescription.text+"')";
+
+                print("query insert movie " + query);
+                SQLEksekInsert(query);
 
                 // SQLEksek("SELECT mov_id FROM movie WHERE mov_title = '"+controllerMovTitle.text+"'");
                 // List list = SQLEksek("SELECT mov_id FROM movie WHERE mov_title = '"+controllerMovTitle.text+"'");
                 // Future<List> list = SQLEksek("SELECT mov_id FROM movie WHERE mov_title = '"+controllerMovTitle.text+"'");
-                final response = await http.get(Uri.parse(webserviceGetData + "SELECT mov_id FROM movie WHERE mov_title = '"+controllerMovTitle.text+"'"));
+                String querycariID = "SELECT mov_id FROM movie WHERE mov_title = '"+controllerMovTitle.text+"'";
+                final response = await http.get(Uri.parse(webserviceGetData + querycariID));
                 List list = json.decode(response.body);
                 String movIdBaru;
                 if(list.isNotEmpty){
                   movIdBaru = list[0]["mov_id"];
                   print("Mov id baru " + movIdBaru);
+
+                  for(int i = 0; i < selectedGenresID.length; i++){
+                    String qInsertGenre = "INSERT INTO movie_genres (mov_id, gen_id) VALUES ('"+movIdBaru+"', '"+selectedGenresID[i]+"')";
+                    print(qInsertGenre + "");
+                    SQLEksekInsert(qInsertGenre);
+                  }
                 }
 
-                for(int i = 0; i < selectedGenresID.length; i++){
-                  String qInsertGenre = "INSERT INTO movie_genres (mov_id, gen_id) VALUES ('"+movIdBaru+"', '"+selectedGenresID[i]+"')";
-                  SQLEksekInsert(qInsertGenre);
-                }
+
 
                 Navigator.pop(context);
               }on Exception catch (_) {
