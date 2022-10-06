@@ -109,45 +109,49 @@ class _BodyPlayer extends State<BodyPlayer>{
                   )
                 ]
             ),
-            child: Expanded(
-              child: InAppWebView(
-                initialUrlRequest: URLRequest(
-                  // url: Uri.parse(Url)
-                  // url: Uri.parse("https://drive.google.com/file/d/"+"${list[0]["mov_cloud_link"]}"+"/preview")
-                    url: Uri.parse("https://mega.nz/embed/"+ "${widget.list[0]["mov_cloud_link"]}")
-                ),
-                initialOptions: _options,
+            child: Column(
+              children: [
+                Expanded(
+                  child: InAppWebView(
+                    initialUrlRequest: URLRequest(
+                      // url: Uri.parse(Url)
+                      // url: Uri.parse("https://drive.google.com/file/d/"+"${list[0]["mov_cloud_link"]}"+"/preview")
+                        url: Uri.parse("https://mega.nz/embed/"+ "${widget.list[0]["mov_cloud_link"]}")
+                    ),
+                    initialOptions: _options,
 
-                onWebViewCreated: (InAppWebViewController controller){
-                  webView = controller;
-                },
-                onLoadStart: (InAppWebViewController controller, Url){
-                  status = false;
-                  print("mainkan");
-                },
-                onLoadStop: (InAppWebViewController controller, Url){
-                  status = true;
-                },
-                onEnterFullscreen: (controller) async {
-                  print("miring");
-                  // DeviceOrientation.landscapeRight;
-                  // await SystemChrome.setPreferredOrientations([
-                  // DeviceOrientation.landscapeRight
-                  // ]);
-                  await SystemChrome.setPreferredOrientations([
-                    DeviceOrientation.landscapeRight,
-                    DeviceOrientation.landscapeLeft,
-                  ]);
-                },
-                // onEnterFullscreen: (InAppWebViewController controller){
-                //   webView = controller;
-                //   print("Miring");
-                //   DeviceOrientation.landscapeRight;
-                // },
-                // onEnterFullscreen: (webV){
-                //   DeviceOrientation.landscapeRight;
-                // },
-              ),
+                    onWebViewCreated: (InAppWebViewController controller){
+                      webView = controller;
+                    },
+                    onLoadStart: (InAppWebViewController controller, Url){
+                      status = false;
+                      print("mainkan");
+                    },
+                    onLoadStop: (InAppWebViewController controller, Url){
+                      status = true;
+                    },
+                    onEnterFullscreen: (controller) async {
+                      print("miring");
+                      // DeviceOrientation.landscapeRight;
+                      // await SystemChrome.setPreferredOrientations([
+                      // DeviceOrientation.landscapeRight
+                      // ]);
+                      await SystemChrome.setPreferredOrientations([
+                        DeviceOrientation.landscapeRight,
+                        DeviceOrientation.landscapeLeft,
+                      ]);
+                    },
+                    // onEnterFullscreen: (InAppWebViewController controller){
+                    //   webView = controller;
+                    //   print("Miring");
+                    //   DeviceOrientation.landscapeRight;
+                    // },
+                    // onEnterFullscreen: (webV){
+                    //   DeviceOrientation.landscapeRight;
+                    // },
+                  ),
+                ),
+              ],
             ),
           ),
 
