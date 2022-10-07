@@ -22,7 +22,7 @@ class CoverWithTitle extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height * 0.5,
+      height: size.height * 0.6,
       width: size.width,
       // alignment: Alignment.bottomCenter,
 

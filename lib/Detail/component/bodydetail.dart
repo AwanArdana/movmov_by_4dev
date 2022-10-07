@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:movmov/Detail/component/titlewithdetail.dart';
 import 'package:movmov/Player/player_screen.dart';
-import 'package:movmov/Detail/component/headerdetail.dart';
 import 'package:movmov/constants.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 
@@ -23,24 +22,26 @@ class BodyDetail extends StatelessWidget{
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          HeaderDetail(size: size),
-          new FutureBuilder<List>(
-            //list genres
-            future: SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + Mov_id),
-            builder: (context, snapshot){
-              if(snapshot.hasError) print(snapshot.error);
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            // HeaderDetail(size: size),
+            new FutureBuilder<List>(
+              //list genres
+              future: SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + Mov_id),
+              builder: (context, snapshot){
+                if(snapshot.hasError) print(snapshot.error);
 
-              return snapshot.hasData
-                  ? new Detail(list: list, size: size, Mov_id: Mov_id, listGenre: snapshot.data,)
-                  :  new Center(child: new CircularProgressIndicator(),);
-                  // : Detail(list: list, size: size, Mov_id: Mov_id,listGenre: [],);
-            },
-          ),
+                return snapshot.hasData
+                    ? new Detail(list: list, size: size, Mov_id: Mov_id, listGenre: snapshot.data,)
+                    :  new Center(child: new CircularProgressIndicator(),);
+                    // : Detail(list: list, size: size, Mov_id: Mov_id,listGenre: [],);
+              },
+            ),
 
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -63,10 +64,9 @@ class Detail extends StatefulWidget{
   //   return json.decode(response.body);
   // }
 
-  Future<InitializationStatus> _initGoogleMobileAds() {
-    // TODO: Initialize Google Mobile Ads SDK
-    return MobileAds.instance.initialize();
-  }
+  // Future<InitializationStatus> _initGoogleMobileAds() {
+  //   return MobileAds.instance.initialize();
+  // }
 
   // @override
   // Widget build(BuildContext context) {
