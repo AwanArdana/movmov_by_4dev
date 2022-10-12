@@ -124,6 +124,7 @@ class _LoginBody extends State<LoginBody>{
     if(list.isNotEmpty){
       Holder.JenisAkun = list[0]["kodeJenisAkun"];
       Holder.namaAkun = list[0]["username"];
+      Holder.id_akun = list[0]["id_akun"];
 
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => HomeScreen()
@@ -259,6 +260,7 @@ class _LoginBody extends State<LoginBody>{
 
                           Holder.JenisAkun = list[0]["kodeJenisAkun"];
                           Holder.namaAkun = list[0]["username"];
+                          Holder.id_akun = list[0]["id_akun"];
                           new Future.delayed(new Duration(seconds: 1), (){
                             setState(() {
                               saving = false;

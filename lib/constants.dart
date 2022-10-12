@@ -23,5 +23,6 @@ const List<String> listTanggal = ['2010','2011','2012','2013','2014','2015','201
 class Holder{
   static String JenisAkun = "";
   static String namaAkun = "";
+  static String id_akun = "";
   static String versiapk = "";
 }

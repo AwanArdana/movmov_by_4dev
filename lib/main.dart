@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:async';
 import 'dart:convert';
 
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child){
+        return ScrollConfiguration(behavior: MyBehavior(), child: child);
+      },
       debugShowCheckedModeBanner: false,
       title: 'MOV MOV',
       theme: ThemeData(
@@ -36,6 +40,14 @@ class MyApp extends StatelessWidget {
       },
 
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior{
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }
 

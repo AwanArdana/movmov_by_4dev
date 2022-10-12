@@ -37,18 +37,7 @@ class HeaderWithSearchBox extends StatelessWidget{
             //       bottomRight: Radius.circular(36),
             //     )
             // ),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  "MOV MOV!",
-                  style: Theme.of(context).textTheme.headline5.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold
-                  ),
-                ),
-                Spacer(),
-                Image.asset("assets/picture/logo.png"),
-              ],
-            ),
+            child: Center(child: Image.asset("assets/picture/MOV LOGO 2.png", width: size.width * 0.6,)),
           ),
           Positioned(
               bottom: 0,

@@ -44,7 +44,7 @@ dependencies:
   package_info_plus: ^1.0.6
 
 flutter_icons:
-  image_path: "assets/logo/215188.png"
+  image_path: "assets/logo/iconLogo.png"
   android: true
   # optionally, as transparency is not allowed on app store
   # remove_alpha_ios: true

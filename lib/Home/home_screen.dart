@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movmov/Admin/component/InputEpisode.dart';
+import 'package:movmov/Favorite/favorite_screen.dart';
 import 'package:movmov/constants.dart';
 import 'component/body.dart';
 import 'component/NavDrawer.dart';
@@ -53,7 +54,7 @@ class _HomeScreen extends State<HomeScreen>{
         controller: controllerPage,
         children: <Widget>[
           Body(),
-          Body(),
+          FavoriteScreen(),
           Body(),
         ],
         onPageChanged: (page){
@@ -79,6 +80,8 @@ class _HomeScreen extends State<HomeScreen>{
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: kSecondaryColor,
+        unselectedItemColor: Colors.white,
+        selectedIconTheme: IconThemeData(color: kSecondaryColor),
         onTap: _onItemTapped,
       ),
     );
