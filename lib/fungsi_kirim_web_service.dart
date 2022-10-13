@@ -12,7 +12,7 @@ Future<List> getDataGlobal(String API, String parameter) async{
 
 Future<List> SQLEksek(String query) async {
   //getData menurut SQL
-  print("SQLEksek " + query);
+  // print("SQLEksek " + query);
   final response = await http.get(Uri.parse(webserviceGetData + query));
   return json.decode(response.body);
 }
