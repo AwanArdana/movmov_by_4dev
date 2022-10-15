@@ -5,6 +5,7 @@ import 'package:movmov/Favorite/component/cardFavorite.dart';
 import 'package:http/http.dart' as http;
 import 'package:movmov/constants.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BodyFavorite extends StatefulWidget{
 
@@ -21,6 +22,26 @@ class _BodyFavorite extends State<BodyFavorite>{
 
   List listMov = [];
   String movID = "";
+
+  RefreshController _refreshController = RefreshController(
+    initialRefresh: false
+  );
+
+  void _onRefresh() async{
+    await Future.delayed(Duration(milliseconds: 1000));
+    setState(() {
+
+    });
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    await Future.delayed(Duration(milliseconds: 1000));
+    setState(() {
+
+    });
+    _refreshController.loadComplete();
+  }
 
   @override
   void initState() {
@@ -77,24 +98,29 @@ class _BodyFavorite extends State<BodyFavorite>{
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        _CardFavorite(context, size)
+    return SmartRefresher(
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      controller: _refreshController,
+      child: Column(
+        children: [
+          _CardFavorite(context, size)
 
-        // new CardFavorite(
-        //   size: size,
-        //   listMov: listMov,
-        // )
-        // new FutureBuilder<List>(
-        //   future: SQLEksek("SELECT * FROM movie WHERE mov_id IN ("+movID+")"),
-        //   builder: (context, snapshot){
-        //     if(snapshot.hasError) print(snapshot.error);
-        //     return snapshot.hasData
-        //         ? new CardFavorite(size: size, listMov: snapshot.data,)
-        //         : new Center(child: Text("FAVOOOO"),);
-        //   },
-        // )
-      ],
+          // new CardFavorite(
+          //   size: size,
+          //   listMov: listMov,
+          // )
+          // new FutureBuilder<List>(
+          //   future: SQLEksek("SELECT * FROM movie WHERE mov_id IN ("+movID+")"),
+          //   builder: (context, snapshot){
+          //     if(snapshot.hasError) print(snapshot.error);
+          //     return snapshot.hasData
+          //         ? new CardFavorite(size: size, listMov: snapshot.data,)
+          //         : new Center(child: Text("FAVOOOO"),);
+          //   },
+          // )
+        ],
+      ),
     );
   }
 

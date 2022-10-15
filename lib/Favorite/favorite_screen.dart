@@ -11,44 +11,39 @@ class FavoriteScreen extends StatefulWidget{
 }
 
 class _FavoriteScreen extends State<FavoriteScreen>{
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
-
-  void _onRefresh() async{
-    await Future.delayed(Duration(milliseconds: 1000));
-    setState(() {
-
-    });
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async{
-    await Future.delayed(Duration(milliseconds: 1000));
-    setState(() {
-
-    });
-    _refreshController.loadComplete();
-  }
+  // RefreshController _refreshController = RefreshController(initialRefresh: false);
+  //
+  // void _onRefresh() async{
+  //   await Future.delayed(Duration(milliseconds: 1000));
+  //   setState(() {
+  //
+  //   });
+  //   _refreshController.refreshCompleted();
+  // }
+  //
+  // void _onLoading() async{
+  //   await Future.delayed(Duration(milliseconds: 1000));
+  //   setState(() {
+  //
+  //   });
+  //   _refreshController.loadComplete();
+  // }
 
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
     //   // body: BodyFavorite(),
     // );
-    return SmartRefresher(
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      controller: _refreshController,
-      child: Center(
-        child: FutureBuilder<List>(
-          future: SQLEksek("SELECT * FROM fav_perakun WHERE id_akun = '"+Holder.id_akun+"'"),
-          builder: (context, snapshot){
-            if(snapshot.hasError) print(snapshot.error);
+    return Center(
+      child: FutureBuilder<List>(
+        future: SQLEksek("SELECT * FROM fav_perakun WHERE id_akun = '"+Holder.id_akun+"'"),
+        builder: (context, snapshot){
+          if(snapshot.hasError) print(snapshot.error);
 
-            return snapshot.hasData
-                ? new BodyFavorite(listFav: snapshot.data,)
-                : new Center(child: new CircularProgressIndicator(),);
-          },
-        ),
+          return snapshot.hasData
+              ? new BodyFavorite(listFav: snapshot.data,)
+              : new Center(child: new CircularProgressIndicator(),);
+        },
       ),
     );
   }
