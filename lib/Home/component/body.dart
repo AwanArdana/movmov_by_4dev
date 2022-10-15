@@ -50,7 +50,7 @@ class _Body extends State<Body>{
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MoreScreen(query: "SELECT * FROM movie", type: "recomends",)
+                        builder: (context) => MoreScreen(query: "SELECT m.*, COUNT(f.mov_id) AS total FROM movie m, fav_perakun f WHERE m.mov_id = f.mov_id GROUP BY m.mov_id ORDER BY total DESC LIMIT 2", type: "recomends",)
                     )
                 );
               },
@@ -58,7 +58,7 @@ class _Body extends State<Body>{
             new FutureBuilder<List>(
               // future: getData(),
               // future: getDataGlobal("getmovdata.php", ""),
-              future: SQLEksek("SELECT * FROM movie"),
+              future: SQLEksek("SELECT m.*, COUNT(f.mov_id) AS total FROM movie m, fav_perakun f WHERE m.mov_id = f.mov_id GROUP BY m.mov_id ORDER BY total DESC LIMIT 3"),
               builder: (context, snapshot){
                 if(snapshot.hasError) print(snapshot.error);
 

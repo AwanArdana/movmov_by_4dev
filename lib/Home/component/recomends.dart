@@ -48,6 +48,19 @@ class RecomendsPage extends StatelessWidget{
               );
             },
           ),
+          RecomendCard(
+            image:"https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
+            title: "${list[2]['mov_title']}",
+            year: "${list[2]['mov_year']}",
+            press: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailScreen(Mov_id: "${list[2]['mov_id']}",),
+                  )
+              );
+            },
+          ),
         ],
       ),
     );
