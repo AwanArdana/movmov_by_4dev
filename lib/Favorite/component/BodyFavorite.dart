@@ -102,24 +102,8 @@ class _BodyFavorite extends State<BodyFavorite>{
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       controller: _refreshController,
-      child: Column(
-        children: [
-          _CardFavorite(context, size)
-
-          // new CardFavorite(
-          //   size: size,
-          //   listMov: listMov,
-          // )
-          // new FutureBuilder<List>(
-          //   future: SQLEksek("SELECT * FROM movie WHERE mov_id IN ("+movID+")"),
-          //   builder: (context, snapshot){
-          //     if(snapshot.hasError) print(snapshot.error);
-          //     return snapshot.hasData
-          //         ? new CardFavorite(size: size, listMov: snapshot.data,)
-          //         : new Center(child: Text("FAVOOOO"),);
-          //   },
-          // )
-        ],
+      child: SingleChildScrollView(
+          child: _CardFavorite(context, size)
       ),
     );
   }
