@@ -5,18 +5,27 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movmov/constants.dart';
 import 'package:http/http.dart' as http;
 
-class SignUpBody extends StatelessWidget{
+class SignUpBody extends StatefulWidget{
+  @override
+  State<SignUpBody> createState() => _SignUpBodyState();
+}
+
+class _SignUpBodyState extends State<SignUpBody> {
   // final Size size;
-
-
-  // const SignUpBody({Key key, this.size}) : super(key: key);
-
-
-  // TextEditingController controllerId = new TextEditingController();
   TextEditingController controllerUsername = new TextEditingController();
+
   TextEditingController controllerPassword = new TextEditingController();
+
   TextEditingController controllerPasswordConfirm = new TextEditingController();
 
+  //show or hide password
+  bool passwordVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = false;
+  }
 
   void cekAkun(BuildContext context)async{
     String query = "SELECT * FROM akun WHERE username='" + controllerUsername.text + "'";
@@ -44,15 +53,6 @@ class SignUpBody extends StatelessWidget{
   }
 
   // bool cekConfirmPassword(){
-  //   if(controllerPassword.text == controllerPasswordConfirm.text){
-  //     // RegisterData();
-  //     return true;
-  //   }else{
-  //     return false;
-  //   }
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -121,7 +121,7 @@ class SignUpBody extends StatelessWidget{
               child: TextFormField(
                 controller: controllerPassword,
                 textInputAction: TextInputAction.done,
-                obscureText: true,
+                obscureText: !passwordVisible,
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
                   hintText: "Password",
@@ -129,6 +129,17 @@ class SignUpBody extends StatelessWidget{
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(0),
                     child: Icon(Icons.lock, color: Colors.white,),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible?Icons.visibility:Icons.visibility_off,
+                      color: Colors.white.withOpacity(0.3),
+                    ),
+                    onPressed: (){
+                      setState(() {
+                        passwordVisible = !passwordVisible;
+                      });
+                    },
                   ),
                   border: InputBorder.none,
                 ),
@@ -151,7 +162,7 @@ class SignUpBody extends StatelessWidget{
               child: TextFormField(
                 controller: controllerPasswordConfirm,
                 textInputAction: TextInputAction.done,
-                obscureText: true,
+                obscureText: !passwordVisible,
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
                   hintText: "Password Confirm",
@@ -159,6 +170,17 @@ class SignUpBody extends StatelessWidget{
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(0),
                     child: Icon(Icons.lock, color: Colors.white,),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible?Icons.visibility:Icons.visibility_off,
+                      color: Colors.white.withOpacity(0.3),
+                    ),
+                    onPressed: (){
+                      setState(() {
+                        passwordVisible = !passwordVisible;
+                      });
+                    },
                   ),
                   border: InputBorder.none,
                 ),
@@ -221,5 +243,4 @@ class SignUpBody extends StatelessWidget{
       ),
     );
   }
-
 }

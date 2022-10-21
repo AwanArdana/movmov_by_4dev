@@ -30,6 +30,9 @@ class _LoginBody extends State<LoginBody>{
 
   String version = "";
 
+  //show or hide password
+  bool passwordVisible;
+
   void main() {
     PackageInfo.fromPlatform().then((PackageInfo packageInfo){
       String appName = packageInfo.appName;
@@ -56,6 +59,8 @@ class _LoginBody extends State<LoginBody>{
     // TODO: implement initState
     super.initState();
     startTimer();
+    passwordVisible = false;
+    // SQLConnBaru("");
   }
 
 
@@ -199,7 +204,7 @@ class _LoginBody extends State<LoginBody>{
             child: TextFormField(
               controller: controllerPassword,
               textInputAction: TextInputAction.done,
-              obscureText: true,
+              obscureText: !passwordVisible,
               cursorColor: Colors.white,
               decoration: InputDecoration(
                 hintText: "Password",
@@ -207,6 +212,17 @@ class _LoginBody extends State<LoginBody>{
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(0),
                   child: Icon(Icons.lock, color: Colors.white,),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    passwordVisible?Icons.visibility:Icons.visibility_off,
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                  onPressed: (){
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
+                  },
                 ),
                 border: InputBorder.none,
               ),
