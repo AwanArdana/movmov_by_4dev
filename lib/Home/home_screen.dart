@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movmov/Admin/component/InputEpisode.dart';
 import 'package:movmov/Favorite/favorite_screen.dart';
+import 'package:movmov/History/history_screen.dart';
 import 'package:movmov/constants.dart';
 import 'component/body.dart';
 import 'component/NavDrawer.dart';
@@ -55,7 +56,7 @@ class _HomeScreen extends State<HomeScreen>{
         children: <Widget>[
           Body(),
           FavoriteScreen(),
-          Body(),
+          HistoryScreen(),
         ],
         onPageChanged: (page){
           setState(() {

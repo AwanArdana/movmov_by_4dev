@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 import 'package:movmov/Ads/ad_helper.dart';
 import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
+import 'package:movmov/fungsiUmum.dart';
+import 'package:movmov/fungsi_kirim_web_service.dart';
+import 'package:http/http.dart' as http;
 
 import '../../constants.dart';
 
@@ -85,6 +91,34 @@ class _BodyPlayer extends State<BodyPlayer>{
     super.dispose();
   }
 
+  Future<void> SaveHistory() async {
+    try{
+      //  movID/episode/akun 000001/0001/00001
+      String historyID = makeNewCode(widget.mov_id, 6) + "/" + makeNewCode(widget.ep, 4) + "/" + makeNewCode(Holder.id_akun, 5);
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+      String formattedDate = formatter.format(now);
+
+      String qSelect = "SELECT * FROM history WHERE history_id = '"+historyID+"'";
+      final response = await http.get(Uri.parse(webserviceGetData + qSelect));
+      List list = json.decode(response.body);
+      if(list.isNotEmpty){
+        String qUpdateHistory = "UPDATE history SET tglNonton = '"+formattedDate+"' WHERE history_id = '"+historyID+"'";
+        print(qUpdateHistory);
+        SQLEksekInsert(qUpdateHistory);
+      }else{
+        String qInsertHistory = "INSERT INTO history (history_id, mov_id, episode, akun_id, tglNonton) "
+            "VALUES ('"+historyID+"','"+widget.mov_id+"','"+widget.ep+"', '"+Holder.id_akun+"', '"+formattedDate+"')";
+        print(qInsertHistory);
+        SQLEksekInsert(qInsertHistory);
+      }
+
+
+    }on Exception catch(e){
+      print("" + e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -126,6 +160,7 @@ class _BodyPlayer extends State<BodyPlayer>{
                     onLoadStart: (InAppWebViewController controller, Url){
                       status = false;
                       print("mainkan");
+                      SaveHistory();
                     },
                     onLoadStop: (InAppWebViewController controller, Url){
                       status = true;

@@ -56,7 +56,7 @@ class _BodyFavorite extends State<BodyFavorite>{
     }
     print("getMovIDLIST " +getMovIDLIST );
 
-    String query = "SELECT * FROM movie WHERE mov_id IN ("+getMovIDLIST+")";
+    String query = "SELECT * FROM movie WHERE mov_id IN ("+getMovIDLIST+") limit 10";
     print("query" + query);
     final response = await http.get(Uri.parse(webserviceGetData + query));
 
@@ -73,6 +73,7 @@ class _BodyFavorite extends State<BodyFavorite>{
       return ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
+        primary: false,
         itemCount: listMov.length,
         itemBuilder: (BuildContext context, int index){
           return CardFavorite(

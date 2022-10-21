@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:movmov/Detail/detail_screen.dart';
+import 'package:movmov/Player/player_screen.dart';
 import 'package:movmov/constants.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 
-class CardFavorite extends StatefulWidget{
+class CardHistory extends StatefulWidget{
   final Size size;
   final String coverLink;
   final String MovTitle;
-  final String year;
+  final String episode;
   final String MovID;
 
-  const CardFavorite({Key key, this.size, this.coverLink, this.MovTitle, this.year, this.MovID}) : super(key: key);
+  const CardHistory({Key key, this.size, this.coverLink, this.MovTitle, this.episode, this.MovID}) : super(key: key);
 
   @override
-  State<CardFavorite> createState() => _CardFavoriteState();
+  State<CardHistory> createState() => _CardHistoryState();
 }
 
-class _CardFavoriteState extends State<CardFavorite> {
+class _CardHistoryState extends State<CardHistory> {
   List listGenres = [];
 
   @override
@@ -36,9 +36,48 @@ class _CardFavoriteState extends State<CardFavorite> {
   Widget _Genres(){
     if(listGenres.isNotEmpty){
       return Text("${listGenres[0]['gen_title']} - ${listGenres[1]['gen_title']} - ${listGenres[2]['gen_title']}");
+      // new Text("ada");
     }else{
       return Text("");
     }
+  }
+
+  Future<void> moveToPlayer(BuildContext context) async{
+    showDialog(
+        context: context,
+        builder: (_){
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const[
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "Loading...",
+                    style: TextStyle(
+                      color: Colors.black
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+    );
+    String qListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + widget.MovID;
+    List listepisode = await SQLEksek(qListEpisode);
+    Navigator.of(context).pop();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => new PlayerScreen(Episode: widget.episode, mov_id: widget.MovID, listEpisode: listepisode, listGenre: listGenres,)
+        )
+    );
   }
 
   @override
@@ -49,40 +88,29 @@ class _CardFavoriteState extends State<CardFavorite> {
       padding: EdgeInsets.only(bottom: kDefaultPadding, left: kDefaultPadding),
       child: GestureDetector(
         onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailScreen(Mov_id: widget.MovID,),
-            )
-          );
+          moveToPlayer(context);
         },
         child: Row(
           children: <Widget>[
-
             Container(
               width: widget.size.width * 0.4,
               child: AspectRatio(
                 aspectRatio: 100/80,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      // image: new DecorationImage(
-                      //   fit: BoxFit.fitWidth,
-                      //   alignment: FractionalOffset.topCenter,
-                      //   image: new NetworkImage(coverLink),
-                      // ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            color: kShadowColor,
-                          )
-                        ]
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(widget.coverLink, fit: BoxFit.cover, alignment: FractionalOffset.topCenter,),
-                    ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: kShadowColor,
+                      )
+                    ]
                   ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(widget.coverLink, fit: BoxFit.cover, alignment: FractionalOffset.topCenter,),
+                  ),
+                ),
               ),
             ),
 
@@ -94,9 +122,13 @@ class _CardFavoriteState extends State<CardFavorite> {
                 children: [
                   Text(
                     widget.MovTitle,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold
+                    ),
                   ),
-                  Text(widget.year),
+                  Text(
+                    "Eps. " + widget.episode
+                  ),
 
                   Spacer(),
 
@@ -115,8 +147,7 @@ class _CardFavoriteState extends State<CardFavorite> {
 
                 ],
               ),
-            ),
-
+            )
           ],
         ),
       ),
