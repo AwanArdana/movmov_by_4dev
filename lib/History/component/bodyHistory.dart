@@ -57,18 +57,18 @@ class _BodyHistory extends State<BodyHistory>{
   }
 
   Future<void> getMov() async{
-    String getMovIDList = "";
-    for(int i = 0; i < widget.listHistory.length; i++){
-      getMovIDList += getMovIDList == ""? "${widget.listHistory[i]['mov_id']}": "," + "${widget.listHistory[i]['mov_id']}";
-    }
-    print("getMovIDList " + getMovIDList);
-
-    String query = "SELECT e.episode_id, e.episode, m.mov_title, m.mov_id, m.mov_cover_id FROM movie m, episode e WHERE m.mov_id=e.mov_id AND m.mov_id IN("+getMovIDList+") limit 50";
+    // String getMovIDList = "";
+    // for(int i = 0; i < widget.listHistory.length; i++){
+    //   getMovIDList += getMovIDList == ""? "${widget.listHistory[i]['mov_id']}": "," + "${widget.listHistory[i]['mov_id']}";
+    // }
+    // print("getMovIDList " + getMovIDList);
+    //gethistory
+    String query = "SELECT m.*, e.episode, h.tglNonton from episode e, movie m, history h WHERE e.mov_id=m.mov_id AND h.episode_id=e.episode_id AND h.akun_id = '"+Holder.id_akun+"' order by h.tglNonton DESC limit 50";
     print("query " + query);
     final response = await http.get(Uri.parse(webserviceGetData + query));
 
     setState(() {
-      episode_id = getMovIDList;
+      // episode_id = getMovIDList;
       listMov = json.decode(response.body);
       print("object " + "setstate ULANG");
     });
@@ -126,7 +126,7 @@ class _BodyHistory extends State<BodyHistory>{
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         primary: false,
-        itemCount: jumlahData,
+        itemCount: (listMov.length > jumlahData?jumlahData:listMov.length),
         itemBuilder: (BuildContext context, int index){
           return CardHistory(
             coverLink: "https://awanapp.000webhostapp.com/cover/${listMov[index]['mov_cover_id']}",

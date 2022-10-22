@@ -16,13 +16,14 @@ import 'package:http/http.dart' as http;
 import '../../constants.dart';
 
 class BodyPlayer extends StatefulWidget{
-  BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.listGenre, this.mov_id}):super(key: key);
+  BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.listGenre, this.mov_id, this.ep_id}):super(key: key);
 
   final List list;
   final String ep;
   final List listEpisode;
   final List listGenre;
   final String mov_id;
+  final String ep_id;
 
   // Future<List> getGenres() async{
   //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
@@ -94,7 +95,7 @@ class _BodyPlayer extends State<BodyPlayer>{
   Future<void> SaveHistory() async {
     try{
       //  movID/episode/akun 000001/0001/00001
-      String historyID = makeNewCode(widget.mov_id, 6) + "/" + makeNewCode(widget.ep, 4) + "/" + makeNewCode(Holder.id_akun, 5);
+      String historyID = makeNewCode(widget.mov_id, 6) + "/" + makeNewCode(widget.ep_id, 4) + "/" + makeNewCode(Holder.id_akun, 5);
       var now = new DateTime.now();
       var formatter = new DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
       String formattedDate = formatter.format(now);
@@ -107,8 +108,8 @@ class _BodyPlayer extends State<BodyPlayer>{
         print(qUpdateHistory);
         SQLEksekInsert(qUpdateHistory);
       }else{
-        String qInsertHistory = "INSERT INTO history (history_id, mov_id, episode, akun_id, tglNonton) "
-            "VALUES ('"+historyID+"','"+widget.mov_id+"','"+widget.ep+"', '"+Holder.id_akun+"', '"+formattedDate+"')";
+        String qInsertHistory = "INSERT INTO history (history_id, mov_id, episode_id, akun_id, tglNonton) "
+            "VALUES ('"+historyID+"','"+widget.mov_id+"','"+widget.ep_id+"', '"+Holder.id_akun+"', '"+formattedDate+"')";
         print(qInsertHistory);
         SQLEksekInsert(qInsertHistory);
       }

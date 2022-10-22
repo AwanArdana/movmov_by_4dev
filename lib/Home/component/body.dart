@@ -4,6 +4,7 @@ import 'package:movmov/Home/component/newupdate.dart';
 import 'package:movmov/Home/component/recomends.dart';
 import 'package:movmov/Home/component/title_with_more_btn.dart';
 import 'package:movmov/More/more_screen.dart';
+import 'package:movmov/constants.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -39,6 +40,7 @@ class _Body extends State<Body>{
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       controller: _refreshController,
+      header: WaterDropMaterialHeader(backgroundColor: kSecondaryColor,),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[

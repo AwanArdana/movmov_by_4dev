@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movmov/Favorite/component/cardFavorite.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +23,7 @@ class _BodyFavorite extends State<BodyFavorite>{
 
   List listMov = [];
   String movID = "";
+  int jumlahData = 5;
 
   RefreshController _refreshController = RefreshController(
     initialRefresh: false
@@ -37,10 +39,16 @@ class _BodyFavorite extends State<BodyFavorite>{
 
   void _onLoading() async{
     await Future.delayed(Duration(milliseconds: 1000));
+    if(mounted)
     setState(() {
 
     });
-    _refreshController.loadComplete();
+    if(jumlahData < listMov.length){
+      jumlahData ++;
+      _refreshController.loadComplete();
+    }else{
+      _refreshController.loadNoData();
+    }
   }
 
   @override
@@ -100,9 +108,32 @@ class _BodyFavorite extends State<BodyFavorite>{
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SmartRefresher(
+      enablePullUp: true,
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       controller: _refreshController,
+      header: WaterDropMaterialHeader(backgroundColor: kSecondaryColor,),
+      footer: CustomFooter(
+        loadStyle: LoadStyle.ShowWhenLoading,
+        builder: (BuildContext context, LoadStatus mode){
+          Widget body;
+          if(mode==LoadStatus.idle){
+            body = Text("");
+          }else if(mode==LoadStatus.loading){
+            body = CupertinoActivityIndicator();
+          }else if(mode==LoadStatus.failed){
+            body = Text("Load Failed!Click retry!");
+          }else if(mode == LoadStatus.canLoading){
+            body = Text("Release to load more");
+          }else{
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body,),
+          );
+        },
+      ),
       child: SingleChildScrollView(
           child: _CardFavorite(context, size)
       ),

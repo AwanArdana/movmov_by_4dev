@@ -26,7 +26,7 @@ class PlayerScreen extends StatelessWidget{
           if(snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? new BodyPlayer(list: snapshot.data, listEpisode: listEpisode, ep: Episode, listGenre: listGenre != null ? listGenre : [], mov_id: mov_id,)
+              ? new BodyPlayer(list: snapshot.data,ep_id: snapshot.data[0]['episode_id'], listEpisode: listEpisode, ep: Episode, listGenre: listGenre != null ? listGenre : [], mov_id: mov_id,)
               : new Center(child: new CircularProgressIndicator(),);
         },
       )
