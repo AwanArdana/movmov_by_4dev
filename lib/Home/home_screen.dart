@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movmov/Admin/component/InputEpisode.dart';
 import 'package:movmov/Favorite/favorite_screen.dart';
 import 'package:movmov/History/history_screen.dart';
+import 'package:movmov/Setting/SettingScreen.dart';
 import 'package:movmov/constants.dart';
 import 'component/body.dart';
 import 'component/NavDrawer.dart';
@@ -41,12 +42,14 @@ class _HomeScreen extends State<HomeScreen>{
   Widget build(BuildContext context) {
 
     return Scaffold(
-      drawer: NavDrawer(),
+      // drawer: NavDrawer(),
       // appBar: buildAppBar(),
       appBar: AppBar(
         backgroundColor: kBackgroundColor,
         elevation: 0,
         title: Text(''),
+        // automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
       ),
       // body: Body(),
       body: PageView(
@@ -57,6 +60,7 @@ class _HomeScreen extends State<HomeScreen>{
           Body(),
           FavoriteScreen(),
           HistoryScreen(),
+          SettingScreen(),
         ],
         onPageChanged: (page){
           setState(() {
@@ -77,6 +81,10 @@ class _HomeScreen extends State<HomeScreen>{
           BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
             label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Setting'
           )
         ],
         currentIndex: _selectedIndex,
