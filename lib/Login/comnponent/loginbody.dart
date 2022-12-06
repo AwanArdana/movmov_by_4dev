@@ -135,7 +135,11 @@ class _LoginBody extends State<LoginBody>{
         builder: (context) => HomeScreen()
       ));
     }else{
-
+      Navigator.of(context).pop();
+      Fluttertoast.showToast(
+        msg: "Username or Password Changes",
+        toastLength: Toast.LENGTH_SHORT,
+      );
     }
   }
 
