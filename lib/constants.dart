@@ -24,5 +24,6 @@ class Holder{
   static String JenisAkun = "";
   static String namaAkun = "";
   static String id_akun = "";
+  static String kodeProfileTemplate = "";
   static String versiapk = "";
 }

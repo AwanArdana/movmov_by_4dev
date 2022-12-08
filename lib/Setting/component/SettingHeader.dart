@@ -13,6 +13,18 @@ class SettingHeader extends StatefulWidget{
 
 class _SettingHeaderState extends State<SettingHeader> with WidgetsBindingObserver{
 
+  String kodeProfileTemplate;
+
+  @override
+  void initState() {
+    if(Holder.kodeProfileTemplate != "0" && Holder.kodeProfileTemplate != null){
+      kodeProfileTemplate = "assets/profile/"+Holder.kodeProfileTemplate+"-removebg-preview.png";
+    }else{
+      kodeProfileTemplate = "0";
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,6 +36,11 @@ class _SettingHeaderState extends State<SettingHeader> with WidgetsBindingObserv
             )
         ).then((value) {
           setState(() {
+            if(Holder.kodeProfileTemplate != "0" && Holder.kodeProfileTemplate != null){
+              kodeProfileTemplate = "assets/profile/"+Holder.kodeProfileTemplate+"-removebg-preview.png";
+            }else{
+              kodeProfileTemplate = "0";
+            }
             // print("refresh page yessssssssss");
           });
         });
@@ -44,7 +61,11 @@ class _SettingHeaderState extends State<SettingHeader> with WidgetsBindingObserv
             Container(
               width: 80.0,
               height: 80.0,
-              child: Icon(Icons.person, size: 50, color: Colors.black.withOpacity(0.5),),
+              // child: Icon(Icons.person, size: 50, color: Colors.black.withOpacity(0.5),),
+              // child: Image.asset("assets/profile/6-removebg-preview.png", scale: 0.5,),
+              child: kodeProfileTemplate=="0"
+                  ? Icon(Icons.person, size: 50, color: Colors.black.withOpacity(0.5),)
+                  : Image.asset(kodeProfileTemplate, scale: 0.5,),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 color: Colors.white,

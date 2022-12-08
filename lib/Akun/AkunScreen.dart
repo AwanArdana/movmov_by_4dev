@@ -54,6 +54,8 @@ class AkunBody extends StatefulWidget{
 class _AkunBodyState extends State<AkunBody> {
   Color inputColorNickname = Colors.white;
   final storage = new FlutterSecureStorage();
+  String kodeProfileTemplate;
+  int selectedProfile;
 
   Future<void> savestatedata() async {
     showDialog(
@@ -88,8 +90,9 @@ class _AkunBodyState extends State<AkunBody> {
         List list = json.decode(response.body);
         if(list.isNotEmpty){
           if(list[0]['password'] == widget.controllerOldPass.text){
+            String qupdate = "";
             if(widget.controlerNewPass.text != ""){
-              String qupdate = "";
+              // String qupdate = "";
               if(inputColorNickname == Colors.green){
                 qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controlerNewPass.text +"' WHERE id_akun = '" +Holder.id_akun+ "'";
                 print(qupdate);
@@ -97,22 +100,41 @@ class _AkunBodyState extends State<AkunBody> {
                 qupdate = "UPDATE akun SET password = '" + widget.controlerNewPass.text + "' WHERE id_akun = '"+Holder.id_akun+"'";
               }
 
-              SQLEksekInsert(qupdate);
+              // SQLEksekInsert(qupdate);
               await storage.write(key: "Password", value: widget.controlerNewPass.text);
               if(inputColorNickname == Colors.green){
                 await storage.write(key: "Username", value: widget.controllerNickname.text);
                 Holder.namaAkun = widget.controllerNickname.text;
               }
             }else{
-              String qupdate = "";
+              // String qupdate = "";
               if(inputColorNickname == Colors.green){
                 qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' WHERE id_akun = '" +Holder.id_akun+ "'";
                 print(qupdate);
 
-                SQLEksekInsert(qupdate);
+                // SQLEksekInsert(qupdate);
                 await storage.write(key: "Username", value: widget.controllerNickname.text);
                 Holder.namaAkun = widget.controllerNickname.text;
               }
+            }
+
+            if(qupdate != ""){
+              if(selectedProfile.toString() != Holder.kodeProfileTemplate){
+                qupdate += ", kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+                Holder.kodeProfileTemplate = selectedProfile.toString();
+              }
+              qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
+            }else{
+              if(selectedProfile.toString() != Holder.kodeProfileTemplate){
+                qupdate += "UPDATE akun SET kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+                qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
+                Holder.kodeProfileTemplate = selectedProfile.toString();
+              }
+            }
+
+            if(qupdate != "") {
+              print(qupdate);
+              SQLEksekInsert(qupdate);
             }
             Navigator.of(context).pop();
             Navigator.of(context).pop();
@@ -150,6 +172,13 @@ class _AkunBodyState extends State<AkunBody> {
   void initState() {
     widget.controllerNickname = new TextEditingController(text: Holder.namaAkun);
 
+    if(Holder.kodeProfileTemplate != "0" && Holder.kodeProfileTemplate != null){
+      kodeProfileTemplate = "assets/profile/"+Holder.kodeProfileTemplate+"-removebg-preview.png";
+    }else{
+      kodeProfileTemplate = "0";
+    }
+    selectedProfile = int.parse(Holder.kodeProfileTemplate);
+    super.initState();
 
     // widget.controllerNickname.addListener(() {
     //
@@ -159,24 +188,223 @@ class _AkunBodyState extends State<AkunBody> {
     // });
   }
 
+  Future<void> selectProfile(Size size) async {
+    List<Color> colors = [Colors.transparent,Colors.transparent,Colors.transparent,Colors.transparent,Colors.transparent,Colors.transparent,];
+    final result = await showDialog<bool>(
+        context: context,
+        builder: (_){
+
+          return StatefulBuilder(
+            builder: (context, refresh){
+              return AlertDialog(
+                title: Text(
+                  "Select Profile",
+                  style: TextStyle(
+                      color: Colors.black
+                  ),
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Spacer(),
+                        GestureDetector(
+                          onTap: (){
+                            refresh(() {
+                              for(int i = 0; i < colors.length; i++){
+                                colors[i] = Colors.transparent;
+                              }
+                              colors[0] = kSecondaryColor;
+                              print("ganti warna border");
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: colors[0],
+                                      width: 5
+                                  )
+                              ),
+                              child: Image.asset("assets/profile/1-removebg-preview.png", width: (size.width / 4) * 0.7,)
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: (){
+                              refresh((){
+                                for(int i = 0; i < colors.length; i++){
+                                  colors[i] = Colors.transparent;
+                                }
+                                colors[1] = kSecondaryColor;
+                              });
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: colors[1],
+                                        width: 5
+                                    )
+                                ),
+                                child: Image.asset("assets/profile/2-removebg-preview.png", width: (size.width / 4) * 0.7,)
+                            )
+                        ),
+                        GestureDetector(
+                            onTap: (){
+                              refresh((){
+                                for(int i = 0; i < colors.length; i++){
+                                  colors[i] = Colors.transparent;
+                                }
+                                colors[2] = kSecondaryColor;
+                              });
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: colors[2],
+                                        width: 5
+                                    )
+                                ),
+                                child: Image.asset("assets/profile/3-removebg-preview.png", width: (size.width / 4) * 0.7,)
+                            )
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+
+                    Row(
+                      children: [
+                        Spacer(),
+                        GestureDetector(
+                          onTap: (){
+                            refresh(() {
+                              for(int i = 0; i < colors.length; i++){
+                                colors[i] = Colors.transparent;
+                              }
+                              colors[3] = kSecondaryColor;
+                              print("ganti warna border");
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: colors[3],
+                                      width: 5
+                                  )
+                              ),
+                              child: Image.asset("assets/profile/4-removebg-preview.png", width: (size.width / 4) * 0.7,)
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: (){
+                              refresh((){
+                                for(int i = 0; i < colors.length; i++){
+                                  colors[i] = Colors.transparent;
+                                }
+                                colors[4] = kSecondaryColor;
+                              });
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: colors[4],
+                                        width: 5
+                                    )
+                                ),
+                                child: Image.asset("assets/profile/5-removebg-preview.png", width: (size.width / 4) * 0.7,)
+                            )
+                        ),
+                        GestureDetector(
+                            onTap: (){
+                              refresh((){
+                                for(int i = 0; i < colors.length; i++){
+                                  colors[i] = Colors.transparent;
+                                }
+                                colors[5] = kSecondaryColor;
+                              });
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: colors[5],
+                                        width: 5
+                                    )
+                                ),
+                                child: Image.asset("assets/profile/6-removebg-preview.png", width: (size.width / 4) * 0.7,)
+                            )
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+
+                    TextButton(
+                      onPressed: (){
+                        // int selected = 0;
+                        for(int i = 0; i < colors.length; i++){
+                          if(colors[i] == kSecondaryColor){
+                            selectedProfile = i + 1;
+                          }
+                        }
+                        print("selected " + selectedProfile.toString());
+                        kodeProfileTemplate = "assets/profile/"+selectedProfile.toString()+"-removebg-preview.png";
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Text('OK'),
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        }
+    );
+    if(!result){
+      setState(() {
+
+      });
+    }
+    // showDialog(
+    //
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
         Center(
-          child: Container(
-            margin: EdgeInsets.only(top: kDefaultPadding),
-            width: 80.0,
-            height: 80.0,
-            child: Icon(Icons.person, size: 50, color: Colors.black.withOpacity(0.5)),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                color: Colors.white,
-                border: Border.all(
-                    color: kSecondaryColor,
-                    width: 5
-                )
+          child: GestureDetector(
+            onTap: (){
+              selectProfile(size);
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: kDefaultPadding),
+              width: 80.0,
+              height: 80.0,
+              // child: Icon(Icons.person, size: 50, color: Colors.black.withOpacity(0.5)),
+              child: kodeProfileTemplate=="0"
+                  ? Icon(Icons.person, size: 50, color: Colors.black.withOpacity(0.5),)
+                  : Image.asset(kodeProfileTemplate, scale: 0.5,),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.white,
+                  border: Border.all(
+                      color: kSecondaryColor,
+                      width: 5
+                  )
+              ),
             ),
           ),
         ),
