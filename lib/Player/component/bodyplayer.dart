@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 import '../../constants.dart';
 
 class BodyPlayer extends StatefulWidget{
-  BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.listGenre, this.mov_id, this.ep_id}):super(key: key);
+  BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.listGenre, this.mov_id, this.ep_id, this.rating}):super(key: key);
 
   final List list;
   final String ep;
@@ -24,6 +24,7 @@ class BodyPlayer extends StatefulWidget{
   final List listGenre;
   final String mov_id;
   final String ep_id;
+  final String rating;
 
   // Future<List> getGenres() async{
   //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
@@ -214,7 +215,7 @@ class _BodyPlayer extends State<BodyPlayer>{
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                      "4,5"
+                      widget.rating
                   ),
                 ),
                 Container(
@@ -310,7 +311,7 @@ class _BodyPlayer extends State<BodyPlayer>{
                         // ),
                         // color: kSecondaryColor,
                           onPressed: (){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id,)));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id, rating: widget.rating,)));
                           },
                           child: cekEpisodeSekarang(index,"${widget.list[0]["episode"]}")
                         // child: Text(

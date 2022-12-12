@@ -133,6 +133,7 @@ class _BodyHistory extends State<BodyHistory>{
             MovTitle: "${listMov[index]['mov_title']}",
             episode: "${listMov[index]['episode']}",
             MovID: "${listMov[index]['mov_id']}",
+            rating: "${listMov[index]['rating']}",
             size: size,
           );
         },

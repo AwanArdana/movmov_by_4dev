@@ -98,7 +98,7 @@ class NewUpdate extends StatelessWidget{
       if(listEpisode.isNotEmpty){
         Navigator.of(context).pop();
         Navigator.push(context, MaterialPageRoute(
-          builder: (context) => new PlayerScreen(Episode: "${list[listKe]['episode']}", mov_id: "${list[listKe]['mov_id']}", listEpisode: listEpisode, listGenre: listGenres,),
+          builder: (context) => new PlayerScreen(Episode: "${list[listKe]['episode']}", mov_id: "${list[listKe]['mov_id']}", rating: "${list[listKe]['rating']}", listEpisode: listEpisode, listGenre: listGenres,),
         ));
       }
 

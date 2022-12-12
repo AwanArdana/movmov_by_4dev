@@ -3,12 +3,13 @@ import 'package:movmov/Player/component/bodyplayer.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 
 class PlayerScreen extends StatelessWidget{
-  PlayerScreen({Key key, this.Episode, this.listEpisode, this.listGenre, this.mov_id}): super(key: key);
+  PlayerScreen({Key key, this.Episode, this.listEpisode, this.listGenre, this.mov_id, this.rating}): super(key: key);
 
   final String Episode;
   final List listEpisode;
   final List listGenre;
   final String mov_id;
+  final String rating;
 
   // Future<List> getDataPlayer() async{
   //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovplayer.php?id="+Episode));
@@ -26,7 +27,7 @@ class PlayerScreen extends StatelessWidget{
           if(snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? new BodyPlayer(list: snapshot.data,ep_id: snapshot.data[0]['episode_id'], listEpisode: listEpisode, ep: Episode, listGenre: listGenre != null ? listGenre : [], mov_id: mov_id,)
+              ? new BodyPlayer(list: snapshot.data,ep_id: snapshot.data[0]['episode_id'], listEpisode: listEpisode, ep: Episode, listGenre: listGenre != null ? listGenre : ['','',''], mov_id: mov_id, rating: rating,)
               : new Center(child: new CircularProgressIndicator(),);
         },
       )

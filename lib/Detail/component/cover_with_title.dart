@@ -9,7 +9,7 @@ import 'package:simple_shadow/simple_shadow.dart';
 
 class CoverWithTitle extends StatelessWidget{
   const CoverWithTitle({
-    Key key, this.size, this.title, this.coverId, this.listGenre, this.mov_id, this.listEpisode
+    Key key, this.size, this.title, this.coverId, this.listGenre, this.mov_id, this.listEpisode, this.rating
   }) : super(key: key);
 
   final String title, coverId;
@@ -17,6 +17,7 @@ class CoverWithTitle extends StatelessWidget{
   final List listGenre;
   final List listEpisode;
   final String mov_id;
+  final String rating;
 
 
   @override
@@ -89,10 +90,10 @@ class CoverWithTitle extends StatelessWidget{
           //     )
           // ),
           new Text(
-              "* * * * *",
+              "Rating " + rating,
               style: TextStyle(
                 color: kTextColor.withOpacity(0.8),
-                fontSize: 20,
+                fontSize: 16,
               )
           ),
 
@@ -135,7 +136,7 @@ class CoverWithTitle extends StatelessWidget{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => new PlayerScreen(Episode: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id,)
+                    builder: (context) => new PlayerScreen(Episode: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id, rating: rating,)
                   )
                 );
               },

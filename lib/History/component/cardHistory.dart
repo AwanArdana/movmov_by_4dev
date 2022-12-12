@@ -9,8 +9,9 @@ class CardHistory extends StatefulWidget{
   final String MovTitle;
   final String episode;
   final String MovID;
+  final String rating;
 
-  const CardHistory({Key key, this.size, this.coverLink, this.MovTitle, this.episode, this.MovID}) : super(key: key);
+  const CardHistory({Key key, this.size, this.coverLink, this.MovTitle, this.episode, this.MovID, this.rating}) : super(key: key);
 
   @override
   State<CardHistory> createState() => _CardHistoryState();
@@ -75,7 +76,7 @@ class _CardHistoryState extends State<CardHistory> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => new PlayerScreen(Episode: widget.episode, mov_id: widget.MovID, listEpisode: listepisode, listGenre: listGenres,)
+          builder: (context) => new PlayerScreen(Episode: widget.episode, mov_id: widget.MovID, listEpisode: listepisode, listGenre: listGenres, rating: widget.rating,)
         )
     );
   }
@@ -129,8 +130,9 @@ class _CardHistoryState extends State<CardHistory> {
                   Text(
                     "Eps. " + widget.episode
                   ),
-
-                  Spacer(),
+                  Text(
+                    "* " + widget.rating
+                  ),
 
                   _Genres(),
 

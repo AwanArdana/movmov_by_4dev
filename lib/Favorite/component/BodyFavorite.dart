@@ -90,6 +90,7 @@ class _BodyFavorite extends State<BodyFavorite>{
             MovTitle: "${listMov[index]['mov_title']}",
             year: "${listMov[index]['mov_year']}",
             MovID: "${listMov[index]['mov_id']}",
+            rating: "${listMov[index]['rating']}",
           );
         },
         //CardFavorite(

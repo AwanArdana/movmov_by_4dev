@@ -75,7 +75,7 @@ class _Body extends State<Body>{
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MoreScreen(query: "SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, e.tgl, m.mov_id from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY `e`.`tgl` DESC", type: "newupdate",)
+                        builder: (context) => MoreScreen(query: "SELECT e.episode_id, m.*, e.episode, e.tgl from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY e.tgl DESC", type: "newupdate",)
                     )
                 );
               },
@@ -83,7 +83,7 @@ class _Body extends State<Body>{
             new FutureBuilder<List>(
               // future: getDataNewUpdate(),
               // future: getDataGlobal("getmovnewupdate.php", ""),
-              future: SQLEksek("SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, e.tgl, m.mov_id from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY `e`.`tgl` DESC"),
+              future: SQLEksek("SELECT e.episode_id, m.*, e.episode, e.tgl from movie m, episode e WHERE m.mov_id=e.mov_id ORDER BY e.tgl DESC"),
               builder: (context, snapshot){
                 if(snapshot.hasError) print(snapshot.error);
 

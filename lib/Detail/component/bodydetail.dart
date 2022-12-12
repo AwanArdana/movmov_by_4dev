@@ -130,6 +130,7 @@ class _Detail extends State<Detail>{
                 listGenre: widget.listGenre,
                 mov_id: widget.Mov_id,
                 listEpisode: snapshot.data,
+                rating: widget.list[0]['rating'],
               ),
 
               DetailWithReadMore(Detail: "${widget.list[0]['mov_deskripsi']}",),
@@ -180,7 +181,7 @@ class _Detail extends State<Detail>{
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => new PlayerScreen(Episode: "${snapshot.data[index]['episode']}", listEpisode: snapshot.data, listGenre: widget.listGenre, mov_id: widget.Mov_id,),
+                                  builder: (context) => new PlayerScreen(Episode: "${snapshot.data[index]['episode']}", listEpisode: snapshot.data, listGenre: widget.listGenre, mov_id: widget.Mov_id, rating: widget.list[0]['rating'],),
                                 )
                             );
                           },

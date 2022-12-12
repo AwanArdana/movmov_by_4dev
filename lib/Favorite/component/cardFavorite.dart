@@ -9,8 +9,9 @@ class CardFavorite extends StatefulWidget{
   final String MovTitle;
   final String year;
   final String MovID;
+  final String rating;
 
-  const CardFavorite({Key key, this.size, this.coverLink, this.MovTitle, this.year, this.MovID}) : super(key: key);
+  const CardFavorite({Key key, this.size, this.coverLink, this.MovTitle, this.year, this.MovID, this.rating}) : super(key: key);
 
   @override
   State<CardFavorite> createState() => _CardFavoriteState();
@@ -98,7 +99,9 @@ class _CardFavoriteState extends State<CardFavorite> {
                   ),
                   Text(widget.year),
 
-                  Spacer(),
+                  Text(
+                    "* " + widget.rating
+                  ),
 
                   _Genres(),
 
