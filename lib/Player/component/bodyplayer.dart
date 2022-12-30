@@ -16,12 +16,12 @@ import 'package:http/http.dart' as http;
 import '../../constants.dart';
 
 class BodyPlayer extends StatefulWidget{
-  BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.listGenre, this.mov_id, this.ep_id, this.rating}):super(key: key);
+  BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.mov_id, this.ep_id, this.rating, this.genres}):super(key: key);
 
   final List list;
   final String ep;
   final List listEpisode;
-  final List listGenre;
+  final String genres;
   final String mov_id;
   final String ep_id;
   final String rating;
@@ -55,6 +55,9 @@ class _BodyPlayer extends State<BodyPlayer>{
 
   BannerAd _bannerAd;
 
+  var split;
+  List splitgenre = [];
+
   cekEpisodeSekarang(int index, String episode){
     String ep1 = widget.listEpisode[index]['episode'];
     String stxt = "Play";
@@ -67,6 +70,10 @@ class _BodyPlayer extends State<BodyPlayer>{
 
   @override
   void initState(){
+
+    split = widget.genres.split(",");
+    splitgenre = widget.genres.split(",");
+
     BannerAd(
         adUnitId: AdHelper.bannerAdUnitId,
         request: AdRequest(),
@@ -218,60 +225,143 @@ class _BodyPlayer extends State<BodyPlayer>{
                       widget.rating
                   ),
                 ),
-                Container(
-                  // alignment: Alignment.centerLeft,
-                  margin: new EdgeInsets.only(top: kDefaultPadding * 0.5),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
-                        padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
-                        decoration: BoxDecoration(
-                            color: kSecondaryColor,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1,
-                            )
-                        ),
-                        child: Text(
-                            "${widget.listGenre[0]['gen_title']}"
-                        ),
-                      ),
-                      Container(
-                        margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
-                        padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
-                        decoration: BoxDecoration(
-                            color: kSecondaryColor,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1,
-                            )
-                        ),
-                        child: Text(
-                            "${widget.listGenre[1]['gen_title']}"
-                        ),
-                      ),
-                      Container(
-                        margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
-                        padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
-                        decoration: BoxDecoration(
-                            color: kSecondaryColor,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1,
-                            )
-                        ),
-                        child: Text(
-                            "${widget.listGenre[2]['gen_title']}"
-                        ),
-                      ),
 
+                Container(
+                  margin: EdgeInsets.only(top: kDefaultPadding * 0.5),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                        padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                        decoration: BoxDecoration(
+                            color: kSecondaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 1,
+                            )
+                        ),
+                        child: Text(
+                          // "${widget.listGenre[0]['gen_title']}"
+                            splitgenre[0].toString()
+                        ),
+                      ),
+                      Container(
+                        margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                        padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                        decoration: BoxDecoration(
+                            color: kSecondaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 1,
+                            )
+                        ),
+                        child: Text(
+                          // "${widget.listGenre[0]['gen_title']}"
+                            splitgenre[1].toString()
+                        ),
+                      ),
+                      Container(
+                        margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                        padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                        decoration: BoxDecoration(
+                            color: kSecondaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 1,
+                            )
+                        ),
+                        child: Text(
+                          // "${widget.listGenre[0]['gen_title']}"
+                            splitgenre[2].toString()
+                        ),
+                      ),
                     ],
                   ),
                 )
+
+                // Container(
+                //   // alignment: Alignment.centerLeft,
+                //   margin: new EdgeInsets.only(top: kDefaultPadding * 0.5),
+                //   child: Row(
+                //     children: <Widget>[
+                //       // Text(widget.genres)
+                //       new ListView.builder(
+                //         scrollDirection: Axis.horizontal,
+                //         shrinkWrap: true,
+                //         primary: false,
+                //         itemCount: splitgenre.length,
+                //         itemBuilder: (BuildContext context, int index){
+                //           return Container(
+                //             margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                //             padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                //             decoration: BoxDecoration(
+                //                 color: kSecondaryColor,
+                //                 borderRadius: BorderRadius.circular(5),
+                //                 border: Border.all(
+                //                   color: Colors.white,
+                //                   width: 1,
+                //                 )
+                //             ),
+                //             child: Text(
+                //               // "${widget.listGenre[0]['gen_title']}"
+                //                 splitgenre[index].toString()
+                //             ),
+                //           );
+                //         },
+                //       )
+                //       // Container(
+                //       //   margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                //       //   padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                //       //   decoration: BoxDecoration(
+                //       //       color: kSecondaryColor,
+                //       //       borderRadius: BorderRadius.circular(5),
+                //       //       border: Border.all(
+                //       //         color: Colors.white,
+                //       //         width: 1,
+                //       //       )
+                //       //   ),
+                //       //   child: Text(
+                //       //       // "${widget.listGenre[0]['gen_title']}"
+                //       //     split[0].toString()
+                //       //   ),
+                //       // ),
+                //       // Container(
+                //       //   margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                //       //   padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                //       //   decoration: BoxDecoration(
+                //       //       color: kSecondaryColor,
+                //       //       borderRadius: BorderRadius.circular(5),
+                //       //       border: Border.all(
+                //       //         color: Colors.white,
+                //       //         width: 1,
+                //       //       )
+                //       //   ),
+                //       //   child: Text(
+                //       //       "${widget.listGenre[1]['gen_title']}"
+                //       //   ),
+                //       // ),
+                //       // Container(
+                //       //   margin: new EdgeInsets.only(right: kDefaultPadding * 0.2),
+                //       //   padding: new EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.2),
+                //       //   decoration: BoxDecoration(
+                //       //       color: kSecondaryColor,
+                //       //       borderRadius: BorderRadius.circular(5),
+                //       //       border: Border.all(
+                //       //         color: Colors.white,
+                //       //         width: 1,
+                //       //       )
+                //       //   ),
+                //       //   child: Text(
+                //       //       "${widget.listGenre[2]['gen_title']}"
+                //       //   ),
+                //       // ),
+                //
+                //     ],
+                //   ),
+                // )
               ],
             ),
           ),
@@ -311,7 +401,10 @@ class _BodyPlayer extends State<BodyPlayer>{
                         // ),
                         // color: kSecondaryColor,
                           onPressed: (){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id, rating: widget.rating,)));
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) => PlayerScreen(Episode: widget.listEpisode[index]['episode'], listEpisode: widget.listEpisode, genres: widget.genres, mov_id: widget.mov_id, rating: widget.rating,))
+                            );
+                            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id, rating: widget.rating,)));
                           },
                           child: cekEpisodeSekarang(index,"${widget.list[0]["episode"]}")
                         // child: Text(

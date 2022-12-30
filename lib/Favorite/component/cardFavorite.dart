@@ -10,8 +10,11 @@ class CardFavorite extends StatefulWidget{
   final String year;
   final String MovID;
   final String rating;
+  final String genres;
+  final List list;
+  final int index;
 
-  const CardFavorite({Key key, this.size, this.coverLink, this.MovTitle, this.year, this.MovID, this.rating}) : super(key: key);
+  const CardFavorite({Key key, this.size, this.coverLink, this.MovTitle, this.year, this.MovID, this.rating, this.genres, this.list, this.index}) : super(key: key);
 
   @override
   State<CardFavorite> createState() => _CardFavoriteState();
@@ -23,23 +26,25 @@ class _CardFavoriteState extends State<CardFavorite> {
   @override
   void initState() {
     super.initState();
-    getGenres();
+    // getGenres();
   }
 
-  Future<void> getGenres() async{
-    List list = [];
-    list = await SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + widget.MovID);
-    setState(() {
-      listGenres = list;
-    });
-  }
+  // Future<void> getGenres() async{
+  //   List list = [];
+  //   list = await SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + widget.MovID);
+  //   setState(() {
+  //     listGenres = list;
+  //   });
+  // }
 
   Widget _Genres(){
-    if(listGenres.isNotEmpty){
-      return Text("${listGenres[0]['gen_title']} - ${listGenres[1]['gen_title']} - ${listGenres[2]['gen_title']}");
-    }else{
-      return Text("");
-    }
+    // if(listGenres.isNotEmpty){
+    //   return Text(widget.genres);
+    //   //return Text("${listGenres[0]['gen_title']} - ${listGenres[1]['gen_title']} - ${listGenres[2]['gen_title']}");
+    // }else{
+    //   return Text("");
+    // }
+    return Text(widget.genres);
   }
 
   @override
@@ -53,7 +58,8 @@ class _CardFavoriteState extends State<CardFavorite> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailScreen(Mov_id: widget.MovID,),
+              builder: (context) => DetailScreen(Mov_id: widget.MovID, index: widget.index, listMov: widget.list,),
+              // builder: (context) => DetailScreen(Mov_id: widget.MovID,),
             )
           );
         },

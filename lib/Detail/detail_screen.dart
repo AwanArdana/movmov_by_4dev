@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -10,9 +8,11 @@ import 'package:movmov/fungsi_kirim_web_service.dart';
 import 'package:http/http.dart' as http;
 
 class DetailScreen extends StatefulWidget{
-  DetailScreen({Key key, this.Mov_id,}) : super(key: key);
+  DetailScreen({Key key, this.Mov_id, this.listMov, this.index,}) : super(key: key);
 
+  final List listMov;
   final String Mov_id;
+  final int index;
 
   @override
   _DetailScreen createState() => _DetailScreen();
@@ -100,18 +100,19 @@ class _DetailScreen extends State<DetailScreen>{
             ),
           ],
         ),
-        body: new FutureBuilder<List>(
-          // future: getData(),
-          // future: getDataGlobal("getmovdetail.php?id=", Mov_id),
-          future: SQLEksek("SELECT * from movie WHERE mov_id=" + widget.Mov_id),
-          builder: (context, snapshot){
-            if(snapshot.hasError) print(snapshot.error);
-
-            return snapshot.hasData
-                ? new BodyDetail(list: snapshot.data, Mov_id: widget.Mov_id,)
-                : new Center(child: new CircularProgressIndicator(),);
-          },
-        )
+        body: new BodyDetail(listMov: widget.listMov, Mov_id: widget.Mov_id, index: widget.index,),
+        // body: new FutureBuilder<List>(
+        //   // future: getData(),
+        //   // future: getDataGlobal("getmovdetail.php?id=", Mov_id),
+        //   future: SQLEksek("SELECT * from movie WHERE mov_id=" + widget.Mov_id),
+        //   builder: (context, snapshot){
+        //     if(snapshot.hasError) print(snapshot.error);
+        //
+        //     return snapshot.hasData
+        //         ? new BodyDetail(list: snapshot.data, Mov_id: widget.Mov_id,)
+        //         : new Center(child: new CircularProgressIndicator(),);
+        //   },
+        // )
       // BodyDetail(Mov_id: Mov_id,),
     );
   }

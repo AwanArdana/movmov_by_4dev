@@ -9,13 +9,13 @@ import 'package:simple_shadow/simple_shadow.dart';
 
 class CoverWithTitle extends StatelessWidget{
   const CoverWithTitle({
-    Key key, this.size, this.title, this.coverId, this.listGenre, this.mov_id, this.listEpisode, this.rating
+    Key key, this.size, this.title, this.coverId, this.mov_id, this.rating, this.genres, this.listEpisode
   }) : super(key: key);
 
   final String title, coverId;
   final Size size;
-  final List listGenre;
   final List listEpisode;
+  final String genres;
   final String mov_id;
   final String rating;
 
@@ -76,7 +76,8 @@ class CoverWithTitle extends StatelessWidget{
           // ),
 
           new Text(
-            cekGenre(listGenre),
+            // cekGenre("listGenre"),
+            genres,
             style: TextStyle(
               color: kTextColor.withOpacity(0.7),
               fontSize: 18,
@@ -97,80 +98,7 @@ class CoverWithTitle extends StatelessWidget{
               )
           ),
 
-          Container(
-
-            transform: Matrix4.translationValues(0.0, 25.0, 0.0),
-            // child: FlatButton(
-            //   onPressed: (){
-            //     Navigator.push(context,
-            //       MaterialPageRoute(
-            //         builder: (context) => PlayerScreen(Episode_id: "1",)
-            //       )
-            //     );
-            //   },
-            //   child: SimpleShadow(
-            //     child: SvgPicture.asset(
-            //       "assets/icons/play-button-svgrepo-com.svg",
-            //       color: Colors.white,
-            //     ),
-            //     opacity: 1,
-            //     color: Colors.white,
-            //     offset: Offset(0,0),
-            //     sigma: 10,
-            //   ),
-            // ),
-
-            child: new FloatingActionButton(
-              backgroundColor: Colors.transparent,
-              child: SimpleShadow(
-                  child: SvgPicture.asset(
-                    "assets/icons/play-button-svgrepo-com.svg",
-                    color: Colors.white,
-                  ),
-                  opacity: 1,
-                  color: Colors.white,
-                  offset: Offset(0,0),
-                  sigma: 10,
-                ),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => new PlayerScreen(Episode: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id, rating: rating,)
-                  )
-                );
-              },
-            ),
-            // child: SimpleShadow(
-            //   child: SvgPicture.asset(
-            //     "assets/icons/play-button-svgrepo-com.svg",
-            //     color: Colors.white,
-            //   ),
-            //   opacity: 1,
-            //   color: Colors.white,
-            //   offset: Offset(0,0),
-            //   sigma: 10,
-            // ),
-
-
-            // child: ClipRRect(
-            //   borderRadius: BorderRadius.circular(33),
-            //   child: BackdropFilter(
-            //     filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-            //     child: Container(
-            //       decoration: BoxDecoration(
-            //         color: Colors.black.withOpacity(0.15),
-            //       ),
-            //       child: SvgPicture.asset(
-            //         "assets/icons/play-button-svgrepo-com.svg",
-            //         color: Colors.white,
-            //       ),
-            //     ),
-            //   ),
-            // )
-
-
-          )
+          _PlayButton(context),
 
         ],
       ),
@@ -200,21 +128,104 @@ class CoverWithTitle extends StatelessWidget{
     );
   }
 
-}
+  Widget _PlayButton(BuildContext context){
+    if(listEpisode.isNotEmpty){
+      return Container(
 
-cekGenre(List list){
-  String genre = "";
-  for(int i=0; i<list.length; i++){
-    if(list[i].isEmpty){
-      print("empty " + i.toString());
-    } else {
-      if(genre == ""){
-        genre += "${list[i]['gen_title']}";
-      }else{
-        genre += ", ${list[i]['gen_title']}";
-      }
+        transform: Matrix4.translationValues(0.0, 25.0, 0.0),
+        // child: FlatButton(
+        //   onPressed: (){
+        //     Navigator.push(context,
+        //       MaterialPageRoute(
+        //         builder: (context) => PlayerScreen(Episode_id: "1",)
+        //       )
+        //     );
+        //   },
+        //   child: SimpleShadow(
+        //     child: SvgPicture.asset(
+        //       "assets/icons/play-button-svgrepo-com.svg",
+        //       color: Colors.white,
+        //     ),
+        //     opacity: 1,
+        //     color: Colors.white,
+        //     offset: Offset(0,0),
+        //     sigma: 10,
+        //   ),
+        // ),
 
+        child: new FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          child: SimpleShadow(
+            child: SvgPicture.asset(
+              "assets/icons/play-button-svgrepo-com.svg",
+              color: Colors.white,
+            ),
+            opacity: 1,
+            color: Colors.white,
+            offset: Offset(0,0),
+            sigma: 10,
+          ),
+          onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => new PlayerScreen(Episode: "1", listEpisode: listEpisode,rating: rating, mov_id: mov_id, genres: genres)
+                  // builder: (context) => new PlayerScreen(Episode: "1", listEpisode: ,)
+                  // builder: (context) => new PlayerScreen(Episode: "1", listGenre: listGenre, listEpisode: listEpisode, mov_id: mov_id, rating: rating,)
+                )
+            );
+          },
+        ),
+        // child: SimpleShadow(
+        //   child: SvgPicture.asset(
+        //     "assets/icons/play-button-svgrepo-com.svg",
+        //     color: Colors.white,
+        //   ),
+        //   opacity: 1,
+        //   color: Colors.white,
+        //   offset: Offset(0,0),
+        //   sigma: 10,
+        // ),
+
+
+        // child: ClipRRect(
+        //   borderRadius: BorderRadius.circular(33),
+        //   child: BackdropFilter(
+        //     filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+        //     child: Container(
+        //       decoration: BoxDecoration(
+        //         color: Colors.black.withOpacity(0.15),
+        //       ),
+        //       child: SvgPicture.asset(
+        //         "assets/icons/play-button-svgrepo-com.svg",
+        //         color: Colors.white,
+        //       ),
+        //     ),
+        //   ),
+        // )
+
+
+      );
+    }else{
+      return Text("");
     }
   }
-  return genre;
+
 }
+
+// cekGenre(List list){
+//   String genre = "";
+//   for(int i=0; i<list.length; i++){
+//     if(list[i].isEmpty){
+//       print("empty " + i.toString());
+//     } else {
+//       if(genre == ""){
+//         genre += "${list[i]['gen_title']}";
+//       }else{
+//         genre += ", ${list[i]['gen_title']}";
+//       }
+//
+//     }
+//   }
+//   return genre;
+// }

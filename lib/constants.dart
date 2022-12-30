@@ -26,4 +26,6 @@ class Holder{
   static String id_akun = "";
   static String kodeProfileTemplate = "";
   static String versiapk = "";
+
+  static List listGenres = [];
 }

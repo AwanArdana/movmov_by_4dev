@@ -10,37 +10,42 @@ class CardHistory extends StatefulWidget{
   final String episode;
   final String MovID;
   final String rating;
+  final String genres;
 
-  const CardHistory({Key key, this.size, this.coverLink, this.MovTitle, this.episode, this.MovID, this.rating}) : super(key: key);
+  const CardHistory({Key key, this.size, this.coverLink, this.MovTitle, this.episode, this.MovID, this.rating, this.genres}) : super(key: key);
 
   @override
   State<CardHistory> createState() => _CardHistoryState();
 }
 
 class _CardHistoryState extends State<CardHistory> {
-  List listGenres = [];
+  // List listGenres = [];
 
   @override
   void initState() {
     super.initState();
-    getGenres();
+    // getGenres();
   }
 
-  Future<void> getGenres() async{
-    List list = [];
-    list = await SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + widget.MovID);
-    setState(() {
-      listGenres = list;
-    });
-  }
+  // Future<void> getGenres() async{
+  //   // List list = [];
+  //   // list = await SQLEksek("SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + widget.MovID);
+  //   // setState(() {
+  //   //   listGenres = list;
+  //   // });
+  //   var split = widget.genres.split(" - ");
+  //   listGenres.add(split);
+  //   print(listGenres[0]);
+  // }
 
   Widget _Genres(){
-    if(listGenres.isNotEmpty){
-      return Text("${listGenres[0]['gen_title']} - ${listGenres[1]['gen_title']} - ${listGenres[2]['gen_title']}");
-      // new Text("ada");
-    }else{
-      return Text("");
-    }
+    // if(listGenres.isNotEmpty){
+    //   return Text("${listGenres[0]['gen_title']} - ${listGenres[1]['gen_title']} - ${listGenres[2]['gen_title']}");
+    //   // new Text("ada");
+    // }else{
+    //   return Text("");
+    // }
+    return Text(widget.genres);
   }
 
   Future<void> moveToPlayer(BuildContext context) async{
@@ -72,13 +77,20 @@ class _CardHistoryState extends State<CardHistory> {
     );
     String qListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + widget.MovID;
     List listepisode = await SQLEksek(qListEpisode);
-    Navigator.of(context).pop();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => new PlayerScreen(Episode: widget.episode, mov_id: widget.MovID, listEpisode: listepisode, listGenre: listGenres, rating: widget.rating,)
-        )
-    );
+    if(listepisode.isNotEmpty){
+      Navigator.of(context).pop();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+
+            // builder: (context) => new PlayerScreen(Episode: widget.episode, mov_id: widget.MovID, listEpisode: listepisode, listGenre: listGenres, rating: widget.rating, )
+              builder: (context) => new PlayerScreen(Episode: widget.episode, mov_id: widget.MovID, listEpisode: listepisode, rating: widget.rating, genres: widget.genres, )
+          )
+      );
+    }else{
+      Navigator.of(context).pop();
+    }
+
   }
 
   @override

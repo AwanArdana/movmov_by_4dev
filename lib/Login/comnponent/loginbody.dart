@@ -60,9 +60,16 @@ class _LoginBody extends State<LoginBody>{
     super.initState();
     startTimer();
     passwordVisible = false;
+    getAllGenres();
     // SQLConnBaru("");
   }
 
+  void getAllGenres() async{
+    String query = "SELECT gen_title, mg.mov_id FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id";
+    final response = await http.get(Uri.parse(webserviceGetData + query));
+
+    Holder.listGenres = jsonDecode(response.body);
+  }
 
 
   void startTimer(){

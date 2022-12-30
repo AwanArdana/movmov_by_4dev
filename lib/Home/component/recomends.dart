@@ -30,7 +30,8 @@ class RecomendsPage extends StatelessWidget{
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailScreen(Mov_id: "${list[0]['mov_id']}",),
+                  // builder: (context) => DetailScreen(Mov_id: list[0]['mov_id'], listMov: list,),
+                  builder: (context) => DetailScreen(Mov_id: list[0]['mov_id'], listMov: list, index: 0,)
                 )
               );
             },
@@ -43,7 +44,8 @@ class RecomendsPage extends StatelessWidget{
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(Mov_id: "${list[1]['mov_id']}",),
+                    builder: (context) => DetailScreen(Mov_id: list[1]['mov_id'], listMov: list, index: 1,)
+                    // builder: (context) => DetailScreen(Mov_id: "${list[1]['mov_id']}",),
                   )
               );
             },
@@ -56,7 +58,8 @@ class RecomendsPage extends StatelessWidget{
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(Mov_id: "${list[2]['mov_id']}",),
+                    builder: (context) => DetailScreen(Mov_id: list[2]['mov_id'], listMov: list, index: 2, )
+                    // builder: (context) => DetailScreen(Mov_id: "${list[2]['mov_id']}",),
                   )
               );
             },

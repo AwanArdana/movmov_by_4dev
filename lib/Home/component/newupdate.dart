@@ -88,20 +88,34 @@ class NewUpdate extends StatelessWidget{
           );
         }
     );
-    String queryListGenres = "SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + "${list[listKe]['mov_id']}";
-    final response = await http.get(Uri.parse(webserviceGetData + queryListGenres));
-    List listGenres = json.decode(response.body);
-    if(listGenres.isNotEmpty){
-      String queryListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + "${list[listKe]['mov_id']}";
-      final responseepisode = await http.get(Uri.parse(webserviceGetData + queryListEpisode));
-      List listEpisode = json.decode(responseepisode.body);
-      if(listEpisode.isNotEmpty){
-        Navigator.of(context).pop();
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => new PlayerScreen(Episode: "${list[listKe]['episode']}", mov_id: "${list[listKe]['mov_id']}", rating: "${list[listKe]['rating']}", listEpisode: listEpisode, listGenre: listGenres,),
-        ));
-      }
+    // String queryListGenres = "SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + "${list[listKe]['mov_id']}";
+    // final response = await http.get(Uri.parse(webserviceGetData + queryListGenres));
+    // List listGenres = json.decode(response.body);
+    // if(listGenres.isNotEmpty){
+    //   String queryListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + "${list[listKe]['mov_id']}";
+    //   final responseepisode = await http.get(Uri.parse(webserviceGetData + queryListEpisode));
+    //   List listEpisode = json.decode(responseepisode.body);
+    //   if(listEpisode.isNotEmpty){
+    //     Navigator.of(context).pop();
+    //     Navigator.push(context, MaterialPageRoute(
+    //       // builder: (context) => new PlayerScreen(Episode: "${list[listKe]['episode']}", mov_id: "${list[listKe]['mov_id']}", rating: "${list[listKe]['rating']}", listEpisode: listEpisode, listGenre: listGenres,),
+    //     ));
+    //   }
+    //
+    // }
 
+    //getEpisode
+    String query = "SELECT e.episode_id, e.episode from episode e WHERE e.mov_id='" + list[listKe]['mov_id'] + "'";
+    final response = await http.get(Uri.parse(webserviceGetData + query));
+
+    List listEpisode = jsonDecode(response.body);
+    if(listEpisode.isNotEmpty){
+      Navigator.of(context).pop();
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => new PlayerScreen(Episode: list[listKe]['episode'], listEpisode: listEpisode, mov_id: list[listKe]['mov_id'], rating: list[listKe]['rating'], genres: list[listKe]['all_genres'],),
+      ));
+    }else{
+      Navigator.of(context).pop();
     }
     // Navigator.of(context).pop();
 

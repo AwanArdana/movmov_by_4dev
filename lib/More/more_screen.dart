@@ -65,6 +65,7 @@ class BodyMore extends StatefulWidget{
 }
 
 class _BodyMore extends State<BodyMore>{
+
   Future<void> moveToPlayer(int listKe, BuildContext context) async {
     showDialog(
         barrierDismissible: false,
@@ -90,20 +91,29 @@ class _BodyMore extends State<BodyMore>{
           );
         }
     );
-    String queryListGenres = "SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + "${widget.list[listKe]['mov_id']}";
-    final response = await http.get(Uri.parse(webserviceGetData + queryListGenres));
-    List listGenres = json.decode(response.body);
-    if(listGenres.isNotEmpty){
-      String queryListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + "${widget.list[listKe]['mov_id']}";
-      final responseepisode = await http.get(Uri.parse(webserviceGetData + queryListEpisode));
-      List listEpisode = json.decode(responseepisode.body);
-      if(listEpisode.isNotEmpty){
-        Navigator.of(context).pop();
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => new PlayerScreen(Episode: "${widget.list[listKe]['episode']}", mov_id: "${widget.list[listKe]['mov_id']}", listEpisode: listEpisode, listGenre: listGenres,),
-        ));
-      }
-
+    // String queryListGenres = "SELECT gen_title FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id and mg.mov_id=" + "${widget.list[listKe]['mov_id']}";
+    // final response = await http.get(Uri.parse(webserviceGetData + queryListGenres));
+    // List listGenres = json.decode(response.body);
+    // if(listGenres.isNotEmpty){
+    //   String queryListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id=" + "${widget.list[listKe]['mov_id']}";
+    //   final responseepisode = await http.get(Uri.parse(webserviceGetData + queryListEpisode));
+    //   List listEpisode = json.decode(responseepisode.body);
+    //   if(listEpisode.isNotEmpty){
+    //     Navigator.of(context).pop();
+    //     Navigator.push(context, MaterialPageRoute(
+    //       // builder: (context) => new PlayerScreen(Episode: "${widget.list[listKe]['episode']}", mov_id: "${widget.list[listKe]['mov_id']}", listEpisode: listEpisode, listGenre: listGenres,),
+    //     ));
+    //   }
+    //
+    // }
+    String queryListEpisode = "SELECT e.episode_id, e.episode FROM episode e WHERE e.mov_id='" + widget.list[listKe]['mov_id'] +"'";
+    final response = await http.get(Uri.parse(webserviceGetData + queryListEpisode));
+    List listEpisode = jsonDecode(response.body);
+    if(listEpisode.isNotEmpty){
+      Navigator.of(context).pop();
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => new PlayerScreen(Episode: widget.list[listKe]['episode'], listEpisode: listEpisode, mov_id: widget.list[listKe]['mov_id'], rating: widget.list[listKe]['rating'], genres: widget.list[listKe]['all_genres'],),
+      ));
     }
     // Navigator.of(context).pop();
 
@@ -190,7 +200,8 @@ class _BodyMore extends State<BodyMore>{
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(Mov_id: "${widget.list[index]['mov_id']}",),
+                    builder: (context) => DetailScreen(index: index, Mov_id: widget.list[index]['mov_id'],listMov: widget.list,)
+                    // builder: (context) => DetailScreen(Mov_id: "${widget.list[index]['mov_id']}",),
                   )
               );
             },
@@ -220,7 +231,8 @@ class _BodyMore extends State<BodyMore>{
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(Mov_id: "${widget.list[index]['mov_id']}",),
+                      builder: (context) => DetailScreen(index: index, Mov_id: widget.list[index]['mov_id'],listMov: widget.list,)
+                    // builder: (context) => DetailScreen(Mov_id: "${widget.list[index]['mov_id']}",),
                   )
               );
             },

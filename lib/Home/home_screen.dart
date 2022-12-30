@@ -48,8 +48,7 @@ class _HomeScreen extends State<HomeScreen>{
         backgroundColor: kBackgroundColor,
         elevation: 0,
         title: Text(''),
-        // automaticallyImplyLeading: false,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
       ),
       // body: Body(),
       body: PageView(

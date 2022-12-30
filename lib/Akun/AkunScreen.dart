@@ -94,10 +94,10 @@ class _AkunBodyState extends State<AkunBody> {
             if(widget.controlerNewPass.text != ""){
               // String qupdate = "";
               if(inputColorNickname == Colors.green){
-                qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controlerNewPass.text +"' WHERE id_akun = '" +Holder.id_akun+ "'";
+                qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controlerNewPass.text +"'";
                 print(qupdate);
               }else{
-                qupdate = "UPDATE akun SET password = '" + widget.controlerNewPass.text + "' WHERE id_akun = '"+Holder.id_akun+"'";
+                qupdate = "UPDATE akun SET password = '" + widget.controlerNewPass.text + "'";
               }
 
               // SQLEksekInsert(qupdate);
@@ -109,7 +109,7 @@ class _AkunBodyState extends State<AkunBody> {
             }else{
               // String qupdate = "";
               if(inputColorNickname == Colors.green){
-                qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' WHERE id_akun = '" +Holder.id_akun+ "'";
+                qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "'";
                 print(qupdate);
 
                 // SQLEksekInsert(qupdate);
