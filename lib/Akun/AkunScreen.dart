@@ -45,7 +45,7 @@ class AkunBody extends StatefulWidget{
 
   TextEditingController controllerNickname = new TextEditingController();
   TextEditingController controllerOldPass = new TextEditingController();
-  TextEditingController controlerNewPass = new TextEditingController();
+  TextEditingController controllerNewPass = new TextEditingController();
 
   @override
   State<AkunBody> createState() => _AkunBodyState();
@@ -53,6 +53,8 @@ class AkunBody extends StatefulWidget{
 
 class _AkunBodyState extends State<AkunBody> {
   Color inputColorNickname = Colors.white;
+  Color inputColorOldPassword = Colors.white;
+  Color inputColorNewPassword = Colors.white;
   final storage = new FlutterSecureStorage();
   String kodeProfileTemplate;
   int selectedProfile;
@@ -82,62 +84,56 @@ class _AkunBodyState extends State<AkunBody> {
         );
       }
     );
-    print("harus bisa " + widget.controllerNickname.text);
+    // print("harus bisa " + widget.controllerNickname.text);
     if(inputColorNickname != Colors.red){
-      if(widget.controllerOldPass.text != ""){
-        String query = "SELECT * FROM akun WHERE id_akun = '"+Holder.id_akun+"'";
-        final response = await http.get(Uri.parse(webserviceGetData + query));
-        List list = json.decode(response.body);
-        if(list.isNotEmpty){
-          if(list[0]['password'] == widget.controllerOldPass.text){
-            String qupdate = "";
-            if(widget.controlerNewPass.text != ""){
-              // String qupdate = "";
-              if(inputColorNickname == Colors.green){
-                qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controlerNewPass.text +"'";
-                print(qupdate);
+      if(inputColorOldPassword != Colors.red){
+        if(inputColorNewPassword != Colors.red){
+          String query = "SELECT * FROM akun WHERE id_akun = '"+Holder.id_akun+"'";
+          final response = await http.get(Uri.parse(webserviceGetData + query));
+          List list = jsonDecode(response.body);
+          if(list.isNotEmpty){
+            if(list[0]['password'] == widget.controllerOldPass.text){
+              String qupdate = "";
+              if(widget.controllerNewPass.text != ""){
+                if(inputColorNickname == Colors.green){
+                  qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controllerNewPass.text +"'";
+                  await storage.write(key: "Username", value: widget.controllerNickname.text);
+                  Holder.namaAkun = widget.controllerNickname.text;
+                }else{
+                  qupdate = "UPDATE akun SET password = '" + widget.controllerNewPass.text + "'";
+                }
+                await storage.write(key: "Password", value: widget.controllerNewPass.text);
+
+
               }else{
-                qupdate = "UPDATE akun SET password = '" + widget.controlerNewPass.text + "'";
+                if(inputColorNickname == Colors.green){
+                  qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "'";
+                  await storage.write(key: "Username", value: widget.controllerNickname.text);
+                  Holder.namaAkun = widget.controllerNickname.text;
+                }
               }
 
-              // SQLEksekInsert(qupdate);
-              await storage.write(key: "Password", value: widget.controlerNewPass.text);
-              if(inputColorNickname == Colors.green){
-                await storage.write(key: "Username", value: widget.controllerNickname.text);
-                Holder.namaAkun = widget.controllerNickname.text;
-              }
-            }else{
-              // String qupdate = "";
-              if(inputColorNickname == Colors.green){
-                qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "'";
-                print(qupdate);
-
-                // SQLEksekInsert(qupdate);
-                await storage.write(key: "Username", value: widget.controllerNickname.text);
-                Holder.namaAkun = widget.controllerNickname.text;
-              }
-            }
-
-            if(qupdate != ""){
-              if(selectedProfile.toString() != Holder.kodeProfileTemplate){
-                qupdate += ", kodeProfileTemplate ='" + selectedProfile.toString() + "'";
-                Holder.kodeProfileTemplate = selectedProfile.toString();
-              }
-              qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
-            }else{
-              if(selectedProfile.toString() != Holder.kodeProfileTemplate){
-                qupdate += "UPDATE akun SET kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+              if(qupdate != ""){
+                if(selectedProfile.toString() != Holder.kodeProfileTemplate){
+                  qupdate += ", kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+                  Holder.kodeProfileTemplate = selectedProfile.toString();
+                }
                 qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
-                Holder.kodeProfileTemplate = selectedProfile.toString();
+              }else{
+                if(selectedProfile.toString() != Holder.kodeProfileTemplate){
+                  qupdate += "UPDATE akun SET kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+                  qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
+                  Holder.kodeProfileTemplate = selectedProfile.toString();
+                }
+              }
+
+              if(qupdate != ""){
+                print(qupdate);
+                SQLEksekInsert(qupdate);
+                Navigator.of(context).pop(); //nutup dialog
+                Navigator.of(context).pop(); //nutup halaman
               }
             }
-
-            if(qupdate != "") {
-              print(qupdate);
-              SQLEksekInsert(qupdate);
-            }
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
           }else{
             Fluttertoast.showToast(
               msg: "Old Password not correct",
@@ -145,6 +141,12 @@ class _AkunBodyState extends State<AkunBody> {
             );
             Navigator.of(context).pop();
           }
+        }else{
+          Fluttertoast.showToast(
+            msg: "New Password not correct",
+            toastLength: Toast.LENGTH_SHORT,
+          );
+          Navigator.of(context).pop();
         }
       }else{
         Fluttertoast.showToast(
@@ -486,7 +488,7 @@ class _AkunBodyState extends State<AkunBody> {
                       color: kBackgroundColor,
                       borderRadius: BorderRadius.circular(29),
                       border: Border.all(
-                        color: Colors.white,
+                        color: inputColorOldPassword,
                         width: 2,
                       )
                   ),
@@ -496,6 +498,17 @@ class _AkunBodyState extends State<AkunBody> {
                     decoration: InputDecoration(
                         border: InputBorder.none
                     ),
+                    onChanged: (text) {
+                      if(widget.controllerOldPass.text == ""){
+                        setState(() {
+                          inputColorOldPassword = Colors.red;
+                        });
+                      }else{
+                        setState(() {
+                          inputColorOldPassword = Colors.white;
+                        });
+                      }
+                    },
                   ),
                 ),
 
@@ -507,16 +520,34 @@ class _AkunBodyState extends State<AkunBody> {
                       color: kBackgroundColor,
                       borderRadius: BorderRadius.circular(29),
                       border: Border.all(
-                        color: Colors.white,
+                        color: inputColorNewPassword,
                         width: 2,
                       )
                   ),
                   child: TextFormField(
-                    controller: widget.controlerNewPass,
+                    controller: widget.controllerNewPass,
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
                         border: InputBorder.none
                     ),
+                    onChanged: (text) {
+                      if(widget.controllerNewPass.text.length > 30 || widget.controllerNewPass.text.length < 5){
+                        if(widget.controllerNewPass.text == ""){
+                          setState(() {
+                            inputColorNewPassword = Colors.white;
+                          });
+                        }else{
+                          setState(() {
+                            inputColorNewPassword = Colors.red;
+                          });
+                        }
+
+                      }else{
+                        setState(() {
+                          inputColorNewPassword = Colors.white;
+                        });
+                      }
+                    },
                   ),
                 ),
               ],
