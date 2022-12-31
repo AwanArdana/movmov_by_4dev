@@ -49,6 +49,7 @@ class _LoginBody extends State<LoginBody>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomInset: false,
       body: ModalProgressHUD(child: _buildWidget(context), inAsyncCall: saving,),
     );
   }
@@ -60,16 +61,16 @@ class _LoginBody extends State<LoginBody>{
     super.initState();
     startTimer();
     passwordVisible = false;
-    getAllGenres();
+    // getAllGenres();
     // SQLConnBaru("");
   }
 
-  void getAllGenres() async{
-    String query = "SELECT gen_title, mg.mov_id FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id";
-    final response = await http.get(Uri.parse(webserviceGetData + query));
-
-    Holder.listGenres = jsonDecode(response.body);
-  }
+  // void getAllGenres() async{
+  //   String query = "SELECT gen_title, mg.mov_id FROM genres g, movie_genres mg WHERE g.gen_id=mg.gen_id";
+  //   final response = await http.get(Uri.parse(webserviceGetData + query));
+  //
+  //   Holder.listGenres = jsonDecode(response.body);
+  // }
 
 
   void startTimer(){
@@ -84,7 +85,35 @@ class _LoginBody extends State<LoginBody>{
     String password = await storage.read(key: "Password");
     // print("Username " + username);
     // print("Password " + password);
-    if(username.isNotEmpty && password.isNotEmpty){
+    if(username == "GUEST" && password == "GUEST"){
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (_){
+            return Dialog(
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text("Relogin...", style: TextStyle(
+                        color: Colors.black
+                    ),)
+                  ],
+                ),
+              ),
+            );
+          }
+      );
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => HomeScreen()
+      ));
+    }else if(username.isNotEmpty && password.isNotEmpty){
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -117,17 +146,17 @@ class _LoginBody extends State<LoginBody>{
 
   }
 
-  void navigateUser() async{
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var status = preferences.getBool("isLoggedIn") ?? false;
-    print(status);
-    if(status){
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => HomeScreen(),
-      ));
-
-    }
-  }
+  // void navigateUser() async{
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   var status = preferences.getBool("isLoggedIn") ?? false;
+  //   print(status);
+  //   if(status){
+  //     Navigator.pushReplacement(context, MaterialPageRoute(
+  //       builder: (context) => HomeScreen(),
+  //     ));
+  //
+  //   }
+  // }
 
   void DownloadData(String username,String password) async{
     String query = "SELECT * FROM akun WHERE username ='"+username+"' and password = '"+password+"'";
@@ -339,6 +368,51 @@ class _LoginBody extends State<LoginBody>{
 
                   child: Text(
                     "LOGIN",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+          ),
+
+          Container(
+            //guest button
+              margin: EdgeInsets.only(top: 5),
+              child: SizedBox(
+                height: 50,
+                width: size.width * 0.8,
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                              (Set<MaterialState> states){
+                            if(states.contains(MaterialState.pressed)) return Colors.white10;
+                            return Colors.white10;
+                          }
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(29),
+                          )
+                      )
+
+                  ),
+                  onPressed: () async {
+                    await storage.write(key: "Username", value: "GUEST");
+                    await storage.write(key: "Password", value: "GUEST");
+
+                    Holder.JenisAkun = "2";
+                    Holder.namaAkun = "GUEST";
+                    Holder.id_akun = "0";
+                    Holder.kodeProfileTemplate = "0";
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen()
+                        )
+                    );
+                  },
+
+                  child: Text(
+                    "GUEST",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

@@ -48,26 +48,29 @@ class _HomeScreen extends State<HomeScreen>{
         backgroundColor: kBackgroundColor,
         elevation: 0,
         title: Text(''),
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
       ),
       // body: Body(),
-      body: PageView(
-        scrollDirection: Axis.horizontal,
-
-        controller: controllerPage,
-        children: <Widget>[
-          Body(),
-          FavoriteScreen(),
-          HistoryScreen(),
-          SettingScreen(),
-        ],
-        onPageChanged: (page){
-          setState(() {
-            _selectedIndex = page;
-          });
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
+      body: Holder.JenisAkun == "2"
+        ? Body()
+        : PageView(
+          scrollDirection: Axis.horizontal,
+          controller: controllerPage,
+          children: <Widget>[
+            Body(),
+            FavoriteScreen(),
+            HistoryScreen(),
+            SettingScreen(),
+          ],
+          onPageChanged: (page){
+            setState(() {
+              _selectedIndex = page;
+            });
+          },
+        ),
+      bottomNavigationBar:Holder.JenisAkun == "2"
+        ? SizedBox.shrink()
+        : BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -92,6 +95,47 @@ class _HomeScreen extends State<HomeScreen>{
         selectedIconTheme: IconThemeData(color: kSecondaryColor),
         onTap: _onItemTapped,
       ),
+      // body: PageView(
+      //   scrollDirection: Axis.horizontal,
+      //
+      //   controller: controllerPage,
+      //   children: <Widget>[
+      //     Body(),
+      //     FavoriteScreen(),
+      //     HistoryScreen(),
+      //     SettingScreen(),
+      //   ],
+      //   onPageChanged: (page){
+      //     setState(() {
+      //       _selectedIndex = page;
+      //     });
+      //   },
+      // ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite),
+      //       label: 'Favorite',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.access_time),
+      //       label: 'History',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings),
+      //       label: 'Setting'
+      //     )
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: kSecondaryColor,
+      //   unselectedItemColor: Colors.white,
+      //   selectedIconTheme: IconThemeData(color: kSecondaryColor),
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 

@@ -27,7 +27,10 @@ class _DetailScreen extends State<DetailScreen>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    CekFav();
+    if(Holder.JenisAkun != "2"){
+      CekFav();
+    }
+
   }
 
   void SaveFav(int proses){
@@ -83,19 +86,24 @@ class _DetailScreen extends State<DetailScreen>{
               constraints: BoxConstraints.expand(width: 80),
               icon: Icon(Icons.favorite, color: _iconColor,),
               onPressed: () {
-                setState(() {
-                  if(fav){
-                    _iconColor = Colors.white;
-                    fav = false;
-                    SaveFav(2);
-                  }else{
-                    _iconColor = Colors.red;
-                    fav = true;
-                    SaveFav(1);
-                  }
-                  // _iconColor = Colors.red;
-                  // fav = true;
-                });
+                if(Holder.JenisAkun != "2"){
+                  setState(() {
+                    if(fav){
+                      _iconColor = Colors.white;
+                      fav = false;
+                      SaveFav(2);
+                    }else{
+                      _iconColor = Colors.red;
+                      fav = true;
+                      SaveFav(1);
+                    }
+                    // _iconColor = Colors.red;
+                    // fav = true;
+                  });
+                }else{
+                  Fluttertoast.showToast(msg: "You need to Register First");
+                }
+
               },
             ),
           ],

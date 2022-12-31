@@ -21,11 +21,11 @@ const List<String> listTanggal = ['2010','2011','2012','2013','2014','2015','201
 // const String versiapk = "0.0.1";
 
 class Holder{
-  static String JenisAkun = "";
+  static String JenisAkun = ""; // 0 Admin , 1 Free registred, 2 Guest
   static String namaAkun = "";
   static String id_akun = "";
   static String kodeProfileTemplate = "";
   static String versiapk = "";
 
-  static List listGenres = [];
+  // static List listGenres = [];
 }

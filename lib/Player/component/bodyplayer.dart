@@ -169,7 +169,9 @@ class _BodyPlayer extends State<BodyPlayer>{
                     onLoadStart: (InAppWebViewController controller, Url){
                       status = false;
                       print("mainkan");
-                      SaveHistory();
+                      if(Holder.JenisAkun != "2"){
+                        SaveHistory();
+                      }
                     },
                     onLoadStop: (InAppWebViewController controller, Url){
                       status = true;
