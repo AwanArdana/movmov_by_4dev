@@ -53,7 +53,7 @@ class AkunBody extends StatefulWidget{
 
 class _AkunBodyState extends State<AkunBody> {
   Color inputColorNickname = Colors.white;
-  Color inputColorOldPassword = Colors.white;
+  Color inputColorOldPassword = Colors.red;
   Color inputColorNewPassword = Colors.white;
   final storage = new FlutterSecureStorage();
   String kodeProfileTemplate;
@@ -89,57 +89,115 @@ class _AkunBodyState extends State<AkunBody> {
       if(inputColorOldPassword != Colors.red){
         if(inputColorNewPassword != Colors.red){
           String query = "SELECT * FROM akun WHERE id_akun = '"+Holder.id_akun+"'";
-          final response = await http.get(Uri.parse(webserviceGetData + query));
-          List list = jsonDecode(response.body);
-          if(list.isNotEmpty){
-            if(list[0]['password'] == widget.controllerOldPass.text){
-              String qupdate = "";
-              if(widget.controllerNewPass.text != ""){
-                if(inputColorNickname == Colors.green){
-                  qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controllerNewPass.text +"'";
-                  await storage.write(key: "Username", value: widget.controllerNickname.text);
-                  Holder.namaAkun = widget.controllerNickname.text;
-                }else{
-                  qupdate = "UPDATE akun SET password = '" + widget.controllerNewPass.text + "'";
-                }
-                await storage.write(key: "Password", value: widget.controllerNewPass.text);
-
-
-              }else{
-                if(inputColorNickname == Colors.green){
-                  qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "'";
-                  await storage.write(key: "Username", value: widget.controllerNickname.text);
-                  Holder.namaAkun = widget.controllerNickname.text;
-                }
-              }
-
-              if(qupdate != ""){
-                if(selectedProfile.toString() != Holder.kodeProfileTemplate){
-                  qupdate += ", kodeProfileTemplate ='" + selectedProfile.toString() + "'";
-                  Holder.kodeProfileTemplate = selectedProfile.toString();
-                }
-                qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
-              }else{
-                if(selectedProfile.toString() != Holder.kodeProfileTemplate){
-                  qupdate += "UPDATE akun SET kodeProfileTemplate ='" + selectedProfile.toString() + "'";
-                  qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
-                  Holder.kodeProfileTemplate = selectedProfile.toString();
-                }
-              }
-
-              if(qupdate != ""){
-                print(qupdate);
-                SQLEksekInsert(qupdate);
-                Navigator.of(context).pop(); //nutup dialog
-                Navigator.of(context).pop(); //nutup halaman
-              }
+          final response = await http.get(Uri.parse(webserviceGetData + query)).timeout(
+            const Duration(seconds: 10),
+            onTimeout: (){
+              return http.Response('Error', 408);
             }
-          }else{
-            Fluttertoast.showToast(
-              msg: "Old Password not correct",
-              toastLength: Toast.LENGTH_SHORT,
-            );
+          );
+          if(response.statusCode == 408){
             Navigator.of(context).pop();
+            Fluttertoast.showToast(
+              msg: "Timeout 408 (Checking)"
+            );
+          }else{
+            List list = jsonDecode(response.body);
+            if(list.isNotEmpty){
+              if(list[0]['password'] == widget.controllerOldPass.text){
+                String qupdate = "";
+                if(widget.controllerNewPass.text != ""){
+                  if(inputColorNickname == Colors.green){
+                    qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controllerNewPass.text +"'";
+
+                  }else{
+                    qupdate = "UPDATE akun SET password = '" + widget.controllerNewPass.text + "'";
+                  }
+
+
+
+                }else{
+                  if(inputColorNickname == Colors.green){
+                    qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "'";
+
+
+                  }
+                }
+
+                if(qupdate != ""){
+                  if(selectedProfile.toString() != Holder.kodeProfileTemplate){
+                    qupdate += ", kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+
+                  }
+                  qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
+                }else{
+                  if(selectedProfile.toString() != Holder.kodeProfileTemplate){
+                    qupdate += "UPDATE akun SET kodeProfileTemplate ='" + selectedProfile.toString() + "'";
+                    qupdate += " WHERE id_akun ='" + Holder.id_akun +"'";
+
+                  }
+                }
+
+                if(qupdate != ""){
+                  print(qupdate);
+                  // SQLEksekInsert(qupdate);
+                  final response = await http.post(Uri.parse(webserviceGetData), body: {
+                    "query": qupdate,
+                  }).timeout(
+                    const Duration(seconds: 10),
+                    onTimeout: (){
+                      print("SET TIMEOUT");
+                      return http.Response('Error', 408);
+                    }
+                  );
+                  if(response.statusCode == 408){
+                    print("TIMEOUT");
+                    Navigator.of(context).pop(); // nutup dialog
+                    Fluttertoast.showToast(
+                      msg: "Timeout 408 (Saving)",
+                      toastLength: Toast.LENGTH_SHORT,
+                    );
+                  }else{
+                    Holder.kodeProfileTemplate = selectedProfile.toString();
+                    // Holder.kodeProfileTemplate = selectedProfile.toString();
+                    await storage.write(key: "Username", value: widget.controllerNickname.text);
+                    // await storage.write(key: "Username", value: widget.controllerNickname.text);
+                    Holder.namaAkun = widget.controllerNickname.text;
+                    // Holder.namaAkun = widget.controllerNickname.text;
+                    if(widget.controllerNewPass.text != ""){
+                      await storage.write(key: "Password", value: widget.controllerNewPass.text);
+                    }
+
+
+
+                    Navigator.of(context).pop(); //nutup dialog
+                    Navigator.of(context).pop(); //nutup halaman
+                    Fluttertoast.showToast(
+                      msg: "Success",
+                      toastLength: Toast.LENGTH_SHORT,
+                    );
+                  }
+
+                }else{
+                  Navigator.of(context).pop();
+                  Fluttertoast.showToast(
+                    msg: "Nothing Saved",
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                }
+              }else{
+                Fluttertoast.showToast(
+                  msg: "Old Password not correct",
+                  toastLength: Toast.LENGTH_SHORT,
+                );
+                Navigator.of(context).pop();
+              }
+            }else{
+              Fluttertoast.showToast(
+                msg: "Old Password not correct",
+                toastLength: Toast.LENGTH_SHORT,
+              );
+              Navigator.of(context).pop();
+            }
           }
         }else{
           Fluttertoast.showToast(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -304,47 +305,65 @@ class _LoginBody extends State<LoginBody>{
                           saving = true;
                         });
                         String query = "SELECT * FROM akun where username ='"+controllerUsername.text+"' and password = '"+controllerPassword.text+"'";
-                        final response = await http.get(Uri.parse(webserviceGetData + query));
-                        List list = json.decode(response.body);
-                        if (list.isNotEmpty){
-                          //setbool prefs
-                          // SharedPreferences prefs = await SharedPreferences.getInstance();
-                          // prefs?.setBool("isLoggedIn", true);
-
-                          //Secure Storage
-                          await storage.write(key: "Username", value: controllerUsername.text);
-                          await storage.write(key: "Password", value: controllerPassword.text);
-
-                          Holder.JenisAkun = list[0]["kodeJenisAkun"];
-                          Holder.namaAkun = list[0]["username"];
-                          Holder.id_akun = list[0]["id_akun"];
-                          Holder.kodeProfileTemplate = list[0]["kodeProfileTemplate"];
-                          new Future.delayed(new Duration(seconds: 1), (){
-                            setState(() {
-                              saving = false;
-                            });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()
-                                )
-                            );
-                          });
-
-                        }else{
-                          Fluttertoast.showToast(
-                            msg: "Username or Password not Correct",
-                            toastLength: Toast.LENGTH_SHORT,
-                          );
-
-                          // Scaffold.of(context).showSnackBar(new SnackBar(
-                          //   content: new Text("Username or Password not Correct"),
-                          // ));
+                        final client = new HttpClient();
+                        client.connectionTimeout = const Duration(seconds: 10);
+                        // final request = await client.get(host, port, path)
+                        final response = await http.get(Uri.parse(webserviceGetData + query)).timeout(
+                          const Duration(seconds: 10),
+                          onTimeout: (){
+                            return http.Response('Error', 408);
+                          }
+                        );
+                        if(response.statusCode == 408){
                           setState(() {
                             saving = false;
                           });
+                          Fluttertoast.showToast(
+                            msg: "Timeout 408",
+                            toastLength: Toast.LENGTH_SHORT,
+                          );
+                        }else{
+                          List list = json.decode(response.body);
+                          if (list.isNotEmpty){
+                            //setbool prefs
+                            // SharedPreferences prefs = await SharedPreferences.getInstance();
+                            // prefs?.setBool("isLoggedIn", true);
 
-                          // Center(child: new CircularProgressIndicator(),);
+                            //Secure Storage
+                            await storage.write(key: "Username", value: controllerUsername.text);
+                            await storage.write(key: "Password", value: controllerPassword.text);
+
+                            Holder.JenisAkun = list[0]["kodeJenisAkun"];
+                            Holder.namaAkun = list[0]["username"];
+                            Holder.id_akun = list[0]["id_akun"];
+                            Holder.kodeProfileTemplate = list[0]["kodeProfileTemplate"];
+                            new Future.delayed(new Duration(seconds: 1), (){
+                              setState(() {
+                                saving = false;
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()
+                                  )
+                              );
+                            });
+
+                          }else{
+                            Fluttertoast.showToast(
+                              msg: "Username or Password not Correct",
+                              toastLength: Toast.LENGTH_SHORT,
+                            );
+
+                            // Scaffold.of(context).showSnackBar(new SnackBar(
+                            //   content: new Text("Username or Password not Correct"),
+                            // ));
+                            setState(() {
+                              saving = false;
+                            });
+
+                            // Center(child: new CircularProgressIndicator(),);
+                          }
                         }
                       }else{
                         Fluttertoast.showToast(
