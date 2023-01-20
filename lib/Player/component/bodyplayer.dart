@@ -122,6 +122,10 @@ class _BodyPlayer extends State<BodyPlayer>{
         SQLEksekInsert(qInsertHistory);
       }
 
+      // String qWatchTime = "UPDATE movie SET watch_time = watch_time + 1 WHERE mov_id = " . $mov_id . "";
+      String qWatchTime = "UPDATE movie SET watch_time = watch_time + 1 WHERE mov_id ='" + widget.mov_id + "'";
+      SQLEksekInsert(qWatchTime);
+
 
     }on Exception catch(e){
       print("" + e.toString());

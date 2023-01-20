@@ -120,7 +120,7 @@ class CoverWithTitle extends StatelessWidget{
             fit: BoxFit.cover,
             colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
             image: new NetworkImage(
-              "https://awanapp.000webhostapp.com/cover/"+coverId,
+              "https://movmovbyfourdev.000webhostapp.com/cover/"+coverId,
             )
         ),
 

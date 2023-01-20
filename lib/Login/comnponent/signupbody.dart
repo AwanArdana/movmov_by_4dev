@@ -43,7 +43,7 @@ class _SignUpBodyState extends State<SignUpBody> {
   }
 
   void RegisterData(){
-    Uri url = Uri.parse("https://awanapp.000webhostapp.com/registerakun.php");
+    Uri url = Uri.parse("https://movmovbyfourdev.000webhostapp.com/WebServiceAPI/registerakun.php");
 
     http.post(url, body: {
       "username": controllerUsername.text,

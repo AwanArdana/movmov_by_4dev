@@ -23,7 +23,7 @@ class RecomendsPage extends StatelessWidget{
       child: Row(
         children: [
           RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${list[0]['mov_cover_id']}",
+            image:"https://movmovbyfourdev.000webhostapp.com/cover/${list[0]['mov_cover_id']}",
             title: "${list[0]['mov_title']}",
             year: "${list[0]['mov_year']}",
             press: (){
@@ -37,7 +37,7 @@ class RecomendsPage extends StatelessWidget{
             },
           ),
           RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
+            image:"https://movmovbyfourdev.000webhostapp.com/cover/${list[1]['mov_cover_id']}",
             title: "${list[1]['mov_title']}",
             year: "${list[1]['mov_year']}",
             press: (){
@@ -51,7 +51,7 @@ class RecomendsPage extends StatelessWidget{
             },
           ),
           RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
+            image:"https://movmovbyfourdev.000webhostapp.com/cover/${list[2]['mov_cover_id']}",
             title: "${list[2]['mov_title']}",
             year: "${list[2]['mov_year']}",
             press: (){

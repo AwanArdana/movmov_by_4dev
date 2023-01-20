@@ -168,7 +168,7 @@ class _BodyMore extends State<BodyMore>{
         // padding: const EdgeInsets.only(top: 10),
         itemBuilder: (BuildContext context, int index){
           return NewUpdateCard(
-            image: "https://awanapp.000webhostapp.com/cover/${widget.list[index]['mov_cover_id']}",
+            image: "https://movmovbyfourdev.000webhostapp.com/cover/${widget.list[index]['mov_cover_id']}",
             title: "${widget.list[index]['mov_title']}",
             episode: "${widget.list[index]['episode']}",
             press: (){
@@ -193,7 +193,7 @@ class _BodyMore extends State<BodyMore>{
         // padding: const EdgeInsets.only(top: 10),
         itemBuilder: (BuildContext context, int index){
           return RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${widget.list[index]['mov_cover_id']}",
+            image:"https://movmovbyfourdev.000webhostapp.com/cover/${widget.list[index]['mov_cover_id']}",
             title: "${widget.list[index]['mov_title']}",
             year: "${widget.list[index]['mov_year']}",
             press: (){
@@ -224,7 +224,7 @@ class _BodyMore extends State<BodyMore>{
         // padding: const EdgeInsets.only(top: 10),
         itemBuilder: (BuildContext context, int index){
           return RecomendCard(
-            image:"https://awanapp.000webhostapp.com/cover/${widget.list[index]['mov_cover_id']}",
+            image:"https://movmovbyfourdev.000webhostapp.com/cover/${widget.list[index]['mov_cover_id']}",
             title: "${widget.list[index]['mov_title']}",
             year: "${widget.list[index]['mov_year']}",
             press: (){

@@ -23,7 +23,7 @@ class BodyHistory extends StatelessWidget{
       itemCount: listMov.length,
       itemBuilder: (BuildContext context, int index){
         return CardHistory(
-          coverLink: "https://awanapp.000webhostapp.com/cover/${listMov[index]['mov_cover_id']}",
+          coverLink: "https://movmovbyfourdev.000webhostapp.com/cover/${listMov[index]['mov_cover_id']}",
           MovTitle: "${listMov[index]['mov_title']}",
           episode: "${listMov[index]['episode']}",
           MovID: "${listMov[index]['mov_id']}",

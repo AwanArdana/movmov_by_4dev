@@ -25,7 +25,7 @@ class BodyFavorite extends StatelessWidget {
       itemBuilder: (BuildContext context, int index){
         return CardFavorite(
           size: size,
-          coverLink: "https://awanapp.000webhostapp.com/cover/${listMov[index]['mov_cover_id']}",
+          coverLink: "https://movmovbyfourdev.000webhostapp.com/cover/${listMov[index]['mov_cover_id']}",
           MovTitle: "${listMov[index]['mov_title']}",
           year: "${listMov[index]['mov_year']}",
           MovID: "${listMov[index]['mov_id']}",
