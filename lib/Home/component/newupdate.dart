@@ -164,26 +164,43 @@ class NewUpdateCard extends StatelessWidget{
             ),
             Container(
               padding: EdgeInsets.all(kDefaultPadding / 2),
-              child: Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "$title\n".toUpperCase(),
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                        TextSpan(
-                          text: "Episode "+"$episode".toUpperCase(),
-                          style: TextStyle(
-                            color: kTextColor.withOpacity(0.5),
-                          )
-                        )
-                      ]
-                    ),
-                  )
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "$title".toUpperCase(),
+                    style: Theme.of(context).textTheme.button,
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    "Episode $episode",
+                      style: TextStyle(
+                        color: kTextColor.withOpacity(0.5),
+                      )
+                  ),
                 ],
-              ),
+              )
+              // Row(
+              //   children: <Widget>[
+              //     RichText(
+              //       text: TextSpan(
+              //         children: [
+              //           // TextSpan(
+              //           //   text: "$title\n".toUpperCase(),
+              //           //   style: Theme.of(context).textTheme.button,
+              //           // ),
+              //           TextSpan(
+              //             text: "Episode "+"$episode".toUpperCase(),
+              //             style: TextStyle(
+              //               color: kTextColor.withOpacity(0.5),
+              //             )
+              //           )
+              //         ]
+              //       ),
+              //     )
+              //   ],
+              // ),
             )
           ],
         ),

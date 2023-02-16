@@ -12,10 +12,10 @@ class SignUpBody extends StatefulWidget{
 
 class _SignUpBodyState extends State<SignUpBody> {
   // final Size size;
+
+  TextEditingController controllerEmail = new TextEditingController();
   TextEditingController controllerUsername = new TextEditingController();
-
   TextEditingController controllerPassword = new TextEditingController();
-
   TextEditingController controllerPasswordConfirm = new TextEditingController();
 
   //show or hide password
@@ -28,28 +28,59 @@ class _SignUpBodyState extends State<SignUpBody> {
   }
 
   void cekAkun(BuildContext context)async{
-    String query = "SELECT * FROM akun WHERE username='" + controllerUsername.text + "'";
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_){
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("Loading...", style: TextStyle(
+                      color: Colors.black
+                  ),)
+                ],
+              ),
+            ),
+          );
+        }
+    );
+    // String query = "SELECT * FROM akun WHERE username='" + controllerUsername.text + "'";
+    String query = "SELECT * FROM akun WHERE email='" +controllerEmail.text+"'";
     final response = await http.get(Uri.parse(webserviceGetData + query));
     List list = json.decode(response.body);
     if(list.isNotEmpty){
+      Navigator.pop(context);
       Fluttertoast.showToast(
-        msg: "Username has used.",
+        msg: "Email has used.",
         toastLength: Toast.LENGTH_SHORT,
       );
     }else{
       RegisterData();
       Navigator.pop(context);
+      Navigator.pop(context);
     }
   }
 
   void RegisterData(){
-    Uri url = Uri.parse("https://movmovbyfourdev.000webhostapp.com/WebServiceAPI/registerakun.php");
+    Uri url = Uri.parse("https://movmovbyfourdev.000webhostapp.com/WebServiceAPI/registerAkunNew.php");
 
     http.post(url, body: {
-      "username": controllerUsername.text,
-      "password": controllerPassword.text,
-      "kodeJenisAkun": "1",
-      "kodeProfileTemplate": "0"
+      // "username": controllerUsername.text,
+      // "password": controllerPassword.text,
+      // "kodeJenisAkun": "1",
+      // "kodeProfileTemplate": "0"
+      "email" : controllerEmail.text,
+      "username" : controllerUsername.text,
+      "password" : controllerPassword.text,
+      "cpassword": controllerPasswordConfirm.text
     });
   }
 
@@ -76,7 +107,35 @@ class _SignUpBodyState extends State<SignUpBody> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
               ),
-
+              Container(
+                //username
+                margin: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                // width: size.width * 0.8,
+                decoration: BoxDecoration(
+                    color: kBackgroundColor,
+                    borderRadius: BorderRadius.circular(29),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    )
+                ),
+                child: TextFormField(
+                  controller: controllerEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Icon(Icons.alternate_email, color: Colors.white,),
+                    ),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
               Container(
                 //username
                 margin: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 5),
@@ -92,7 +151,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 ),
                 child: TextFormField(
                   controller: controllerUsername,
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
@@ -220,7 +279,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                         // if(cekConfirmPassword()){
                         //   Navigator.pop(context);
                         // }
-                        if(controllerUsername.text.isNotEmpty && controllerPassword.text.isNotEmpty && controllerPasswordConfirm.text.isNotEmpty){
+                        if(controllerEmail.text.isNotEmpty && controllerUsername.text.isNotEmpty && controllerPassword.text.isNotEmpty && controllerPasswordConfirm.text.isNotEmpty){
                           if(controllerPassword.text.length > 30){
                             Fluttertoast.showToast(msg: "Password to Long");
                           }else if(controllerPassword.text.length < 5){

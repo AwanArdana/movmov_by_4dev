@@ -58,7 +58,8 @@ class _Body extends State<Body>{
     // String queryRecomends = "SELECT * FROM movie";
     // String queryRecomends = "SELECT m.*, GROUP_CONCAT(g.gen_title) as all_genres FROM movie m NATURAL JOIN movie_genres mg NATURAL JOIN genres g GROUP BY m.mov_id";
     //SELECT m.*, COUNT(f.mov_id) AS totalF, COUNT(f.mov_id) + watch_time AS total FROM movie m, fav_perakun f WHERE m.mov_id = f.mov_id GROUP BY m.mov_id ORDER BY totalF desc, watch_time DESC LIMIT 5
-    String queryRecomends = "SELECT m.*, COUNT(f.mov_id) AS totalF FROM movie m, fav_perakun f WHERE m.mov_id = f.mov_id GROUP BY m.mov_id ORDER BY totalF desc, watch_time DESC";
+    // String queryRecomends = "SELECT m.*, COUNT(f.mov_id) AS totalF FROM movie m, fav_perakun f WHERE m.mov_id = f.mov_id GROUP BY m.mov_id ORDER BY totalF desc, watch_time DESC";
+    String queryRecomends = "SELECT m.*, GROUP_CONCAT(g.gen_title) as all_genres FROM movie m NATURAL JOIN movie_genres mg NATURAL JOIN genres g GROUP BY m.mov_id ORDER BY watch_time desc";
 
     final responseRecomends = await http.get(Uri.parse(webserviceGetData + queryRecomends));
 

@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movmov/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:movmov/fungsi_kirim_web_service.dart';
+import 'package:crypto/crypto.dart';
 
 class AkunScreen extends StatefulWidget{
   @override
@@ -103,14 +104,17 @@ class _AkunBodyState extends State<AkunBody> {
           }else{
             List list = jsonDecode(response.body);
             if(list.isNotEmpty){
-              if(list[0]['password'] == widget.controllerOldPass.text){
+              String generateMd5(String a){
+                return md5.convert(utf8.encode(a)).toString();
+              }
+              if(list[0]['password'] == Holder.generateMd5(widget.controllerOldPass.text)){
                 String qupdate = "";
                 if(widget.controllerNewPass.text != ""){
                   if(inputColorNickname == Colors.green){
-                    qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + widget.controllerNewPass.text +"'";
+                    qupdate = "UPDATE akun SET username = '" + widget.controllerNickname.text + "' , password ='" + Holder.generateMd5(widget.controllerNewPass.text) +"'";
 
                   }else{
-                    qupdate = "UPDATE akun SET password = '" + widget.controllerNewPass.text + "'";
+                    qupdate = "UPDATE akun SET password = '" + Holder.generateMd5(widget.controllerNewPass.text) + "'";
                   }
 
 
@@ -140,7 +144,7 @@ class _AkunBodyState extends State<AkunBody> {
                 if(qupdate != ""){
                   print(qupdate);
                   // SQLEksekInsert(qupdate);
-                  final response = await http.post(Uri.parse(webserviceGetData), body: {
+                  final response = await http.post(Uri.parse(webservivePostData), body: {
                     "query": qupdate,
                   }).timeout(
                     const Duration(seconds: 10),
@@ -164,7 +168,7 @@ class _AkunBodyState extends State<AkunBody> {
                     Holder.namaAkun = widget.controllerNickname.text;
                     // Holder.namaAkun = widget.controllerNickname.text;
                     if(widget.controllerNewPass.text != ""){
-                      await storage.write(key: "Password", value: widget.controllerNewPass.text);
+                      await storage.write(key: "Password", value: Holder.generateMd5(widget.controllerNewPass.text));
                     }
 
 

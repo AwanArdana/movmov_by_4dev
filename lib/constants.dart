@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 
 // const kPrimaryColor = Color(0xFF002B86);
 // const kTextColor = Color(0xFFFFFFFF);
@@ -23,9 +26,13 @@ const List<String> listTanggal = ['2010','2011','2012','2013','2014','2015','201
 class Holder{
   static String JenisAkun = ""; // 0 Admin , 1 Free registred, 2 Guest
   static String namaAkun = "";
+  static String email = "";
   static String id_akun = "";
   static String kodeProfileTemplate = "";
   static String versiapk = "";
 
+  static String generateMd5(String kata){
+    return md5.convert(utf8.encode(kata)).toString();
+  }
   // static List listGenres = [];
 }

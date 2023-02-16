@@ -15,6 +15,7 @@ import 'package:movmov/fungsi_kirim_web_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:crypto/crypto.dart';
 
 class LoginBody extends StatefulWidget{
   @override
@@ -26,6 +27,7 @@ class _LoginBody extends State<LoginBody>{
 
   final storage = new FlutterSecureStorage();
 
+  TextEditingController controllerEmail = new TextEditingController();
   TextEditingController controllerUsername = new TextEditingController();
   TextEditingController controllerPassword = new TextEditingController();
 
@@ -83,7 +85,9 @@ class _LoginBody extends State<LoginBody>{
 
   void ReadData() async{
     String username = await storage.read(key: "Username");
+    String email = await storage.read(key: "Email");
     String password = await storage.read(key: "Password");
+    // Fluttertoast.showToast(msg: username + email + password);
     // print("Username " + username);
     // print("Password " + password);
     if(username == "GUEST" && password == "GUEST"){
@@ -114,7 +118,7 @@ class _LoginBody extends State<LoginBody>{
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => HomeScreen()
       ));
-    }else if(username.isNotEmpty && password.isNotEmpty){
+    }else if(email.isNotEmpty && username.isNotEmpty && password.isNotEmpty){
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -139,7 +143,7 @@ class _LoginBody extends State<LoginBody>{
           );
         }
       );
-      DownloadData(username, password);
+      DownloadData(email, password);
       print("ada data" + " sekarang download data");
     }else{
       print("data kosong");
@@ -159,13 +163,14 @@ class _LoginBody extends State<LoginBody>{
   //   }
   // }
 
-  void DownloadData(String username,String password) async{
-    String query = "SELECT * FROM akun WHERE username ='"+username+"' and password = '"+password+"'";
+  void DownloadData(String email,String password) async{
+    String query = "SELECT * FROM akun WHERE email ='"+email+"' and password = '"+password+"'";
     final response = await http.get(Uri.parse(webserviceGetData + query));
     List list = json.decode(response.body);
     if(list.isNotEmpty){
       Holder.JenisAkun = list[0]["kodeJenisAkun"];
       Holder.namaAkun = list[0]["username"];
+      Holder.email = list[0]["email"];
       Holder.id_akun = list[0]["id_akun"];
       Holder.kodeProfileTemplate = list[0]["kodeProfileTemplate"];
 
@@ -175,7 +180,7 @@ class _LoginBody extends State<LoginBody>{
     }else{
       Navigator.of(context).pop();
       Fluttertoast.showToast(
-        msg: "Username or Password Changes",
+        msg: "Email or Password Changes",
         toastLength: Toast.LENGTH_SHORT,
       );
     }
@@ -201,7 +206,7 @@ class _LoginBody extends State<LoginBody>{
           ),
 
           Container(
-            //username edittext
+            //email edittext
             // margin: EdgeInsets.only(top: 10),
             margin: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 5),
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
@@ -215,12 +220,12 @@ class _LoginBody extends State<LoginBody>{
                 )
             ),
             child: TextFormField(
-              controller: controllerUsername,
+              controller: controllerEmail,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               cursorColor: Colors.white,
               decoration: InputDecoration(
-                hintText: "Username",
+                hintText: "Email",
                 hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(0),
@@ -299,12 +304,16 @@ class _LoginBody extends State<LoginBody>{
                   // ),
                   // color: kSecondaryColor,
                   onPressed: () async {
-                    if(controllerUsername.text != ""){
+                    if(controllerEmail.text != ""){
                       if(controllerPassword.text != ""){
                         setState(() {
                           saving = true;
                         });
-                        String query = "SELECT * FROM akun where username ='"+controllerUsername.text+"' and password = '"+controllerPassword.text+"'";
+                        // String generateMd5(){
+                        //   return md5.convert(utf8.encode(controllerPassword.text)).toString();
+                        // }
+                        // print("" + generateMd5());
+                        String query = "SELECT * FROM akun where email ='"+controllerEmail.text+"' and password = '"+Holder.generateMd5(controllerPassword.text)+"'";
                         final client = new HttpClient();
                         client.connectionTimeout = const Duration(seconds: 10);
                         // final request = await client.get(host, port, path)
@@ -330,11 +339,13 @@ class _LoginBody extends State<LoginBody>{
                             // prefs?.setBool("isLoggedIn", true);
 
                             //Secure Storage
-                            await storage.write(key: "Username", value: controllerUsername.text);
-                            await storage.write(key: "Password", value: controllerPassword.text);
+                            await storage.write(key: "Username", value: list[0]['username']);
+                            await storage.write(key: "Email", value: controllerEmail.text);
+                            await storage.write(key: "Password", value: Holder.generateMd5(controllerPassword.text));
 
                             Holder.JenisAkun = list[0]["kodeJenisAkun"];
                             Holder.namaAkun = list[0]["username"];
+                            Holder.email = list[0]["email"];
                             Holder.id_akun = list[0]["id_akun"];
                             Holder.kodeProfileTemplate = list[0]["kodeProfileTemplate"];
                             new Future.delayed(new Duration(seconds: 1), (){
@@ -351,13 +362,9 @@ class _LoginBody extends State<LoginBody>{
 
                           }else{
                             Fluttertoast.showToast(
-                              msg: "Username or Password not Correct",
+                              msg: "Email or Password not Correct",
                               toastLength: Toast.LENGTH_SHORT,
                             );
-
-                            // Scaffold.of(context).showSnackBar(new SnackBar(
-                            //   content: new Text("Username or Password not Correct"),
-                            // ));
                             setState(() {
                               saving = false;
                             });
@@ -376,12 +383,9 @@ class _LoginBody extends State<LoginBody>{
                       }
                     }else{
                       Fluttertoast.showToast(
-                        msg: "Username is Empty",
+                        msg: "Email is Empty",
                         toastLength: Toast.LENGTH_SHORT,
                       );
-                      // Scaffold.of(context).showSnackBar(new SnackBar(
-                      //   content: new Text("Username is Empty"),
-                      // ));
                     }
                   },
 
@@ -415,11 +419,13 @@ class _LoginBody extends State<LoginBody>{
 
                   ),
                   onPressed: () async {
+                    await storage.write(key: "Email", value: "GUEST");
                     await storage.write(key: "Username", value: "GUEST");
                     await storage.write(key: "Password", value: "GUEST");
 
                     Holder.JenisAkun = "2";
                     Holder.namaAkun = "GUEST";
+                    Holder.email = "GUEST";
                     Holder.id_akun = "0";
                     Holder.kodeProfileTemplate = "0";
                     Navigator.push(
