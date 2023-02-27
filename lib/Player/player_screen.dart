@@ -22,7 +22,7 @@ class PlayerScreen extends StatelessWidget{
       body: new FutureBuilder<List>(
         // future: getDataPlayer(),
         // future: getDataGlobal("getmovplayer.php?id=", Episode_id),
-        future: SQLEksek("SELECT e.episode_id, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, m.mov_deskripsi, e.mov_cloud_link from movie m, episode e WHERE m.mov_id=e.mov_id and e.episode=" + Episode + " and m.mov_id = " + mov_id),
+        future: SQLEksek("SELECT e.episode_id, e.download_link1, m.mov_title, m.mov_year, m.mov_cover_id, e.episode, m.mov_deskripsi, e.mov_cloud_link from movie m, episode e WHERE m.mov_id=e.mov_id and e.episode=" + Episode + " and m.mov_id = " + mov_id),
         builder: (context, snapshot){
           if(snapshot.hasError) print(snapshot.error);
 

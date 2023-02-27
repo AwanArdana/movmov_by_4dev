@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -12,6 +13,8 @@ import 'package:movmov/constants.dart';
 import 'package:movmov/fungsiUmum.dart';
 import 'package:movmov/fungsi_kirim_web_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants.dart';
 
@@ -382,6 +385,36 @@ class _BodyPlayer extends State<BodyPlayer>{
               child: AdWidget(ad: _bannerAd,),
             ),
 
+
+          if(widget.list[0]['download_link1'] != "")
+            Container(
+              child: new RichText(
+                text: new TextSpan(
+                  children: [
+                    new TextSpan(
+                      text: "Download :\n",
+                      style: new TextStyle()
+                    ),
+                    new TextSpan(
+                      text: "Link 1",
+                      style: new TextStyle(color: Colors.blue),
+                      recognizer: new TapGestureRecognizer()..onTap = (){
+                        Uri url = Uri.parse("https://www93.zippyshare.com/v/"+widget.list[0]['download_link1']+"/file.html");
+                        launchUrl(url, mode: LaunchMode.externalApplication);
+                      }
+                    ),
+                  ]
+                ),
+              )
+              // child: Column(
+              //   children: [
+              //     Text("Download"),
+              //     // if(widget.list[0]['download_link1'] != "")
+              //     Text(widget.list[0]['download_link1']),
+              //   ],
+              // )
+            ),
+          
           new Container(
             child: new ListView.builder(
               scrollDirection: Axis.vertical,
