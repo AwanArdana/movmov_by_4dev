@@ -96,9 +96,9 @@ class _CardHistoryState extends State<CardHistory> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.size.height * 0.18,
+      height: widget.size.height * 0.15,
       width: widget.size.width,
-      padding: EdgeInsets.only(bottom: kDefaultPadding, left: kDefaultPadding),
+      padding: EdgeInsets.only(bottom: kDefaultPadding, left: kDefaultPadding, right: kDefaultPadding),
       child: GestureDetector(
         onTap: (){
           moveToPlayer(context);
@@ -106,9 +106,11 @@ class _CardHistoryState extends State<CardHistory> {
         child: Row(
           children: <Widget>[
             Container(
+
               width: widget.size.width * 0.4,
               child: AspectRatio(
-                aspectRatio: 100/80,
+                // aspectRatio: 100/60,
+                aspectRatio: 100/60,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -128,7 +130,7 @@ class _CardHistoryState extends State<CardHistory> {
             ),
 
             Container(
-              width: (widget.size.width * 0.6) - kDefaultPadding,
+              width: (widget.size.width * 0.6) - (kDefaultPadding * 2),
               padding: EdgeInsets.only(left: kDefaultPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

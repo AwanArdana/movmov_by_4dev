@@ -74,7 +74,8 @@ class _BodyDetailState extends State<BodyDetail> {
   @override
   void dispose() {
     super.dispose();
-    _bannerAd.dispose();
+    if(_bannerAd != null)
+      _bannerAd.dispose();
   }
 
   @override

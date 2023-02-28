@@ -58,7 +58,7 @@ class _HistoryScreen extends State<HistoryScreen>{
 
   Future<void> getData() async{
 
-    String query = "SELECT m.*, e.episode, GROUP_CONCAT(g.gen_title) as all_genres from movie m NATURAL JOIN episode e NATURAL JOIN history h NATURAL JOIN movie_genres mg NATURAL JOIN genres g WHERE h.akun_id = '" + Holder.id_akun + "' GROUP BY h.history_id ORDER BY h.tglNonton DESC";
+    String query = "SELECT m.*, e.thumbnail, e.episode, GROUP_CONCAT(g.gen_title) as all_genres from movie m NATURAL JOIN episode e NATURAL JOIN history h NATURAL JOIN movie_genres mg NATURAL JOIN genres g WHERE h.akun_id = '" + Holder.id_akun + "' GROUP BY h.history_id ORDER BY h.tglNonton DESC";
         // "from movie m"
         // "NATURAL JOIN episode e"
         // "NATURAL JOIN history h"

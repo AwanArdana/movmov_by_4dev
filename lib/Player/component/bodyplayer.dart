@@ -98,7 +98,8 @@ class _BodyPlayer extends State<BodyPlayer>{
   @override
   void dispose(){
     // TODO: Dispose a BannerAd object
-    _bannerAd.dispose();
+    if(_bannerAd != null)
+      _bannerAd.dispose();
 
     super.dispose();
   }

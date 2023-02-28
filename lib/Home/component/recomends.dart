@@ -64,6 +64,20 @@ class RecomendsPage extends StatelessWidget{
               );
             },
           ),
+          RecomendCard(
+            image:"https://movmovbyfourdev.000webhostapp.com/cover/${list[3]['mov_cover_id']}",
+            title: "${list[3]['mov_title']}",
+            year: "${list[3]['mov_year']}",
+            press: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailScreen(Mov_id: list[3]['mov_id'], listMov: list, index: 3, )
+                    // builder: (context) => DetailScreen(Mov_id: "${list[2]['mov_id']}",),
+                  )
+              );
+            },
+          ),
         ],
       ),
     );

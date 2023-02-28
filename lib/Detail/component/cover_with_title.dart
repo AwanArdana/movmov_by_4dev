@@ -37,8 +37,9 @@ class CoverWithTitle extends StatelessWidget{
               style: TextStyle(
                 color: kTextColor.withOpacity(0.8),
                 fontSize: 39,
-                fontWeight: FontWeight.bold
-              )
+                fontWeight: FontWeight.bold,
+              ),
+            textAlign: TextAlign.center,
           ),
           // new FutureBuilder<List>(
           //   future: getGenres(),
