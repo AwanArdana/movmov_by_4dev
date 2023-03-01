@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../constants.dart';
+// import '../../constants.dart';
 
 class BodyPlayer extends StatefulWidget{
   BodyPlayer({Key key, this.list, this.listEpisode, this.ep, this.mov_id, this.ep_id, this.rating, this.genres}):super(key: key);
@@ -33,10 +33,9 @@ class BodyPlayer extends StatefulWidget{
   //   final response = await http.get(Uri.parse("https://awanapp.000webhostapp.com/getmovgenre.php?id=" + ep_id));
   //   return json.decode(response.body);
   // }
-  Future<InitializationStatus> _initGoogleMobileAds() {
-    // TODO: Initialize Google Mobile Ads SDK
-    return MobileAds.instance.initialize();
-  }
+  // Future<InitializationStatus> _initGoogleMobileAds() {
+  //   return MobileAds.instance.initialize();
+  // }
 
   @override
   _BodyPlayer createState() => _BodyPlayer();
@@ -400,7 +399,8 @@ class _BodyPlayer extends State<BodyPlayer>{
                       text: "Link 1",
                       style: new TextStyle(color: Colors.blue),
                       recognizer: new TapGestureRecognizer()..onTap = (){
-                        Uri url = Uri.parse("https://www93.zippyshare.com/v/"+widget.list[0]['download_link1']+"/file.html");
+                        // Uri url = Uri.parse("https://www93.zippyshare.com/v/"+widget.list[0]['download_link1']+"/file.html");
+                        Uri url = Uri.parse(widget.list[0]['download_link1']);
                         launchUrl(url, mode: LaunchMode.externalApplication);
                       }
                     ),
