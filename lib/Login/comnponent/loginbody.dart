@@ -165,24 +165,33 @@ class _LoginBody extends State<LoginBody>{
 
   void DownloadData(String email,String password) async{
     String query = "SELECT * FROM akun WHERE email ='"+email+"' and password = '"+password+"'";
-    final response = await http.get(Uri.parse(webserviceGetData + query));
-    List list = json.decode(response.body);
-    if(list.isNotEmpty){
-      Holder.JenisAkun = list[0]["kodeJenisAkun"];
-      Holder.namaAkun = list[0]["username"];
-      Holder.email = list[0]["email"];
-      Holder.id_akun = list[0]["id_akun"];
-      Holder.kodeProfileTemplate = list[0]["kodeProfileTemplate"];
-
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => HomeScreen()
-      ));
+    final response = await http.get(Uri.parse(webserviceGetData + query)).timeout(
+      const Duration(seconds: 10),
+      onTimeout: (){
+        return http.Response('Error', 408);
+      }
+    );
+    if(response.statusCode == 408){
+      Fluttertoast.showToast(msg: "Timeout 408 (Relogin)");
     }else{
-      Navigator.of(context).pop();
-      Fluttertoast.showToast(
-        msg: "Email or Password Changes",
-        toastLength: Toast.LENGTH_SHORT,
-      );
+      List list = json.decode(response.body);
+      if(list.isNotEmpty){
+        Holder.JenisAkun = list[0]["kodeJenisAkun"];
+        Holder.namaAkun = list[0]["username"];
+        Holder.email = list[0]["email"];
+        Holder.id_akun = list[0]["id_akun"];
+        Holder.kodeProfileTemplate = list[0]["kodeProfileTemplate"];
+
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => HomeScreen()
+        ));
+      }else{
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(
+          msg: "Email or Password Changes",
+          toastLength: Toast.LENGTH_SHORT,
+        );
+      }
     }
   }
 
