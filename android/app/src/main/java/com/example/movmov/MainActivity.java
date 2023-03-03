@@ -1,4 +1,4 @@
-package com.example.movmov;
+package com.fourdev.movmov;
 
 import io.flutter.embedding.android.FlutterActivity;
 
