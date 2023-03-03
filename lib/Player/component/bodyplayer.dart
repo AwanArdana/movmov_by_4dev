@@ -60,6 +60,9 @@ class _BodyPlayer extends State<BodyPlayer>{
   var split;
   List splitgenre = [];
 
+  int selectedPlayer;
+  String linkPlayer = "";
+
   cekEpisodeSekarang(int index, String episode){
     String ep1 = widget.listEpisode[index]['episode'];
     String stxt = "Play";
@@ -70,8 +73,60 @@ class _BodyPlayer extends State<BodyPlayer>{
     return txt;
   }
 
+  cekPlayerSekarang(String judul, int kode){
+    if(selectedPlayer == kode){ //selected
+      return Container(
+        decoration: BoxDecoration(
+            color: kSecondaryColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: Colors.white,
+              width: 1,
+            )
+        ),
+        margin: EdgeInsets.all(kDefaultPadding * 0.2),
+        child: TextButton(
+          onPressed: (){},
+          child: Text(judul, style: TextStyle(color: Colors.white),),
+        ),
+      );
+    }else{
+      return Container(
+        decoration: BoxDecoration(
+          color: kSecondaryColor.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.white,
+            width: 1,
+          )
+        ),
+        margin: EdgeInsets.all(kDefaultPadding * 0.2),
+        child: TextButton(
+          onPressed: (){
+            setState(() {
+              selectedPlayer = kode;
+              if(selectedPlayer == 1){
+                linkPlayer = widget.list[0]["mov_cloud_link"];
+              }else if(selectedPlayer == 2){
+                linkPlayer = widget.list[0]["mov_cloud_link2"];
+              }
+              // webView.reload();
+              webView.loadUrl(urlRequest: URLRequest(url: Uri.parse(linkPlayer)));
+              print("linkplayer baru " + linkPlayer);
+
+            });
+          },
+          child: Text(judul, style: TextStyle(color: Colors.white),),
+        ),
+      );
+    }
+  }
+
   @override
   void initState(){
+    selectedPlayer = 1;
+    linkPlayer = widget.list[0]['mov_cloud_link'];
+    print("kodelinkplayer " + linkPlayer);
 
     split = widget.genres.split(",");
     splitgenre = widget.genres.split(",");
@@ -154,8 +209,8 @@ class _BodyPlayer extends State<BodyPlayer>{
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 20),
-                    blurRadius: 50,
-                    color: kPrimaryColor.withOpacity(0.33),
+                    blurRadius: 100,
+                    color: kShadowColor,
                   )
                 ]
             ),
@@ -166,7 +221,9 @@ class _BodyPlayer extends State<BodyPlayer>{
                     initialUrlRequest: URLRequest(
                       // url: Uri.parse(Url)
                       // url: Uri.parse("https://drive.google.com/file/d/"+"${list[0]["mov_cloud_link"]}"+"/preview")
-                        url: Uri.parse("https://mega.nz/embed/"+ "${widget.list[0]["mov_cloud_link"]}")
+                      //   url: Uri.parse("https://mega.nz/embed/"+ "${widget.list[0]["mov_cloud_link"]}")
+                      url: Uri.parse(linkPlayer)
+                      // url: Uri.parse("https://www.blogger.com/video.g?token=AD6v5dxLh3cYNDgKnmbNb2z4VJc1ygXreTymu7MRfDStmEOOpsmdZ46S4VTsK8rSJmv2akES_FYC4bgPb99BWHF4CcA3DdMK90glGeQ5zJh_tBg5043n4QZtGy5xcXgg35RnNwsu_1GG")
                     ),
                     initialOptions: _options,
 
@@ -207,6 +264,36 @@ class _BodyPlayer extends State<BodyPlayer>{
               ],
             ),
           ),
+
+          if(widget.list[0]['mov_cloud_link2'] != "")
+            Container(
+                margin: EdgeInsets.only(left: kDefaultPadding),
+                width: size.width,
+                child: Row(
+                  children: [
+                    Text("Player : ", style: TextStyle(fontWeight: FontWeight.bold),),
+                    cekPlayerSekarang("Mega", 1),
+                    cekPlayerSekarang("Blogspot", 2),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     color: kSecondaryColor,
+                    //     borderRadius: BorderRadius.circular(20),
+                    //   ),
+                    //   margin: EdgeInsets.all(kDefaultPadding * 0.5),
+                    //   child: TextButton(
+                    //     onPressed: (){},
+                    //     child: Text("Mega", style: TextStyle(backgroundColor: kSecondaryColor, color: Colors.white),),
+                    //   ),
+                    // ),
+                    //
+                    // TextButton(
+                    //   onPressed: (){},
+                    //   child: Text("Blogspot"),
+                    // ),
+                  ],
+                )
+            ),
+
 
           Container(
 
@@ -435,23 +522,30 @@ class _BodyPlayer extends State<BodyPlayer>{
 
                       Spacer(),
 
-                      TextButton(
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius: BorderRadius.circular(20)
-                        // ),
-                        // color: kSecondaryColor,
-                          onPressed: (){
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) => PlayerScreen(Episode: widget.listEpisode[index]['episode'], listEpisode: widget.listEpisode, genres: widget.genres, mov_id: widget.mov_id, rating: widget.rating,))
-                            );
-                            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id, rating: widget.rating,)));
-                          },
-                          child: cekEpisodeSekarang(index,"${widget.list[0]["episode"]}")
-                        // child: Text(
-                        //   "Play",
-                        //   style: TextStyle(color: Colors.white),
-                        // ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: kSecondaryColor,
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: TextButton(
+                          // shape: RoundedRectangleBorder(
+                          //   borderRadius: BorderRadius.circular(20)
+                          // ),
+                          // color: kSecondaryColor,
+                            onPressed: (){
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) => PlayerScreen(Episode: widget.listEpisode[index]['episode'], listEpisode: widget.listEpisode, genres: widget.genres, mov_id: widget.mov_id, rating: widget.rating,))
+                              );
+                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayerScreen(Episode: "${widget.listEpisode[index]['episode']}", listEpisode: widget.listEpisode, listGenre: widget.listGenre, mov_id: widget.mov_id, rating: widget.rating,)));
+                            },
+                            child: cekEpisodeSekarang(index,"${widget.list[0]["episode"]}")
+                          // child: Text(
+                          //   "Play",
+                          //   style: TextStyle(color: Colors.white),
+                          // ),
+                        ),
                       )
+
                     ],
                   ),
                 );

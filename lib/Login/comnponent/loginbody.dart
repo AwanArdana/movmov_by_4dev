@@ -106,7 +106,7 @@ class _LoginBody extends State<LoginBody>{
                     SizedBox(
                       height: 15,
                     ),
-                    Text("Relogin...", style: TextStyle(
+                    Text("GUEST Relogin...", style: TextStyle(
                         color: Colors.black
                     ),)
                   ],
